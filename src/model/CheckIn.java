@@ -6,7 +6,7 @@ import java.util.Date;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class CheckIn {
+public class CheckIn extends Model {
     int id;
     Date checkInTime, checkOutTime;
     Customer customer;

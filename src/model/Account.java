@@ -4,7 +4,7 @@ package model;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Account {
+public class Account extends Model {
     int id;
     Customer customer;
     String address, payMethod, cardNumber;

@@ -4,7 +4,7 @@ package model;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Bill {
+public class Bill extends Model {
     int id;
     Account account;
     CheckIn checkIn;

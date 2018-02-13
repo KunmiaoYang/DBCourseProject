@@ -4,7 +4,7 @@ package model;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Service {
+public class Service extends Model {
     int id;
     float price;
     String name;

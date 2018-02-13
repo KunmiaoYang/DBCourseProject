@@ -6,7 +6,7 @@ import java.util.Date;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Hotel {
+public class Hotel extends Model {
     int id;
     String name, address, phoneNumber, managerID;
 

@@ -6,7 +6,7 @@ import java.util.Date;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Person {
+public class Person extends Model {
     int ssn;
     String name, phoneNum;
     Date birth;

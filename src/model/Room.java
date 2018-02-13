@@ -4,7 +4,7 @@ package model;
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Room {
+public class Room extends Model {
     int id, number;
     Hotel hotel;
     String type;
