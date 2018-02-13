@@ -17,12 +17,12 @@ abstract public class Model {
 
     abstract boolean update();
 
-    protected String getFromDB(String name) {
+    protected String getFromDB(String ...name) {
         // TODO: get value from DB by name
         return null;
     }
 
-    protected String setToDB(String name, String value) {
+    protected String setToDB(String ...nameValue) {
         // TODO: set value in DB by name
         return null;
     }
