@@ -16,7 +16,7 @@ abstract public class Model {
     abstract boolean remove();
 
     abstract boolean update();
-    
+
     protected String getFromDB(String name) {
         // TODO: get value from DB by name
         return null;
