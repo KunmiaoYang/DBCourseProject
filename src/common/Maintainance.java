@@ -39,4 +39,13 @@ public class Maintainance {
     public static Bill checkOut(CheckIn checkIn, Account account) {
         return checkIn.checkOut(account);
     }
+    public static boolean removeService(Service service) {
+        return service.remove();
+    }
+    public static boolean removeBill(Bill bill) {
+        return bill.remove();
+    }
+    public static boolean removeCheckIn(CheckIn checkIn) {
+        return checkIn.remove();
+    }
 }
