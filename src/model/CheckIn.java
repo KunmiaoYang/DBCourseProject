@@ -13,9 +13,8 @@ public class CheckIn extends Model {
     Room room;
     Bill bill;
 
-    public CheckIn(Date checkInTime, Date checkOutTime, Customer customer, Room room) {
+    public CheckIn(Date checkInTime, Customer customer, Room room) {
         this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
         this.customer = customer;
         this.room = room;
         // TODO: create tuple in database
@@ -36,7 +35,7 @@ public class CheckIn extends Model {
         return false;
     }
 
-    public Bill checkOut() {
+    public Bill checkOut(Account account) {
         // TODO: check out and create bill
         return null;
     }

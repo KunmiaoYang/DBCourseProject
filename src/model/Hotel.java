@@ -23,16 +23,6 @@ public class Hotel extends Model {
         return null;
     }
 
-    public static float getOccupancy(Hotel hotel, String type, Date start, Date end) {
-        // TODO: query
-        return 0;
-    }
-
-    public static float getOccupancy(String city, String type, Date start, Date end) {
-        // TODO: query
-        return 0;
-    }
-
     public boolean remove() {
         // TODO: remove from DB
         return false;
