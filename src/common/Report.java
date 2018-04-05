@@ -14,11 +14,23 @@ import java.util.Map;
  * Created by Kunmiao Yang on 2/13/2018.
  */
 public class Report {
-    public static Map<String, String> getOccupancy(Map<String, String> condition, Date start, Date end) {
+    public static Map<String, String> getOccupancyByHotel() {
         // TODO: query
         return null;
     }
-    public static List<Staff> getStaffsByRole(String role){
+    public static Map<String, String> getOccupancyByRoomType() {
+        // TODO: query
+        return null;
+    }
+    public static Map<String, String> getOccupancyByCity() {
+        // TODO: query
+        return null;
+    }
+    public static Map<String, String> getOccupancyByDateRange(Date start, Date end) {
+        // TODO: query
+        return null;
+    }
+    public static List<Staff> getStaffsByRole(){
         // TODO: query
         return null;
     }

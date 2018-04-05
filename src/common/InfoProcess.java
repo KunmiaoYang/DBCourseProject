@@ -5,7 +5,10 @@ import model.Hotel;
 import model.Room;
 import model.Staff;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -77,11 +80,11 @@ public class InfoProcess {
         return false;
     }
 
-    public static Room[] getAvailableRooms(Hotel hotel, String roomType) {
+    public static Room[] getAvailableRooms(HashMap<String, String> roomInfo) {
         // TODO: query
         return null;
     }
-    public static Room assignRoom(Hotel hotel, String roomType, Customer customer) {
+    public static Room assignRoom(Room room, Customer customer, LocalDateTime dateTime) {
         // TODO: assign room
         return null;
     }

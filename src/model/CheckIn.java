@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -8,15 +8,19 @@ import java.util.Date;
  */
 public class CheckIn extends Model {
     int id;
-    Date checkInTime, checkOutTime;
+    LocalDateTime checkInTime, checkOutTime;
     Customer customer;
+    Account account;
     Room room;
-    Bill bill;
+    int numGuest;
+    float amount;
 
-    public CheckIn(Date checkInTime, Customer customer, Room room) {
+    public CheckIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) {
         this.checkInTime = checkInTime;
         this.customer = customer;
+        this.account = account;
         this.room = room;
+        this.numGuest = numGuest;
         // TODO: create tuple in database
     }
 
@@ -35,9 +39,8 @@ public class CheckIn extends Model {
         return false;
     }
 
-    public Bill checkOut(Account account) {
+    public void checkOut(Account account) {
         // TODO: check out and create bill
-        return null;
     }
 
     public Service[] getAllServices() {
@@ -49,19 +52,19 @@ public class CheckIn extends Model {
         return id;
     }
 
-    public Date getCheckInTime() {
+    public LocalDateTime getCheckInTime() {
         return checkInTime;
     }
 
-    public void setCheckInTime(Date checkInTime) {
+    public void setCheckInTime(LocalDateTime checkInTime) {
         this.checkInTime = checkInTime;
     }
 
-    public Date getCheckOutTime() {
+    public LocalDateTime getCheckOutTime() {
         return checkOutTime;
     }
 
-    public void setCheckOutTime(Date checkOutTime) {
+    public void setCheckOutTime(LocalDateTime checkOutTime) {
         this.checkOutTime = checkOutTime;
     }
 
@@ -81,7 +84,27 @@ public class CheckIn extends Model {
         this.room = room;
     }
 
-    public Bill getBill() {
-        return bill;
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public int getNumGuest() {
+        return numGuest;
+    }
+
+    public void setNumGuest(int numGuest) {
+        this.numGuest = numGuest;
     }
 }
