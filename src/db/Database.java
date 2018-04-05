@@ -1,6 +1,8 @@
 package db;
 
 import common.Constants;
+import model.Hotel;
+import model.Model;
 
 import java.sql.*;
 
@@ -86,5 +88,30 @@ public class Database {
 
     public String getJdbcURL() {
         return jdbcURL;
+    }
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Database db = new Database(Constants.DB_DRIVER, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+        db.connectToDatabase();
+        Model.setDatabase(db);
+//        Hotel h = new Hotel("javaInn", "Raleigh", "Avent very", "919000111");
+        Hotel h = Hotel.getById(5);
+        if (h != null) {
+            h.setAddress("Gorman Street");
+            h.setName("RaleighInn");
+            h.setPhoneNumber("919111000");
+            h.update();
+        }
+//        if (h != null) {
+//            h.remove();
+//        }
+//        db.statement.executeUpdate("CREATE TABLE Students (Name VARCHAR(20), "
+//                + "School VARCHAR(10), Age INTEGER, FundingReceived INTEGER, Income INTEGER, Sex CHAR(1))");
+//        ResultSet r = db.statement.executeQuery("SELECT * FROM Students;");
+//        while(r.next()) {
+//            System.out.print("Name: " + r.getString("Name"));
+//            System.out.println(" Age: " + r.getInt("Age"));
+//        }
+        db.close();
     }
 }

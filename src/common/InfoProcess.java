@@ -5,6 +5,7 @@ import model.Hotel;
 import model.Room;
 import model.Staff;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -33,9 +34,15 @@ public class InfoProcess {
         return null;
     }
 
-    public static Hotel createHotel(String name, String address, String phoneNumber, String managerID) {
-        return new Hotel(name, address, phoneNumber, managerID);
+    public static Hotel createHotel(String name, String city, String address, String phoneNumber) {
+        try {
+            return new Hotel(name, city, address, phoneNumber);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
     public static Room createRoom(Hotel hotel, int number, String type, boolean availability) {
         return new Room(hotel, number, type, availability);
     }

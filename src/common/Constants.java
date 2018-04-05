@@ -19,7 +19,6 @@ public class Constants {
     public static final String TABLE_ROOM;
     public static final String TABLE_SERVICE;
     public static final String TABLE_STAFF;
-    public static final String CLAUSE_SELECT_ALL_FROM = "SELECT * FROM ";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
