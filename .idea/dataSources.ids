@@ -11,9 +11,11 @@
       <column name="account_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="billing_address" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
       <column name="payment_method" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
-      <column name="card_num" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="ssn" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="card_num" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="customer_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="payer_ssn" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="account_id"/>
+      <foreign-key name="account_ibfk_1" columns="customer_id" ref-table="customer" ref-schema="" ref-catalog="kyang12" ref-columns="customer_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="checkin_ibfk_3" table="checkin" schema="" catalog="kyang12" columns="account_id"/>
     </table>
     <table name="checkin" schema="" catalog="kyang12" type="TABLE">
@@ -22,21 +24,26 @@
       <column name="checkout_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="hotel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="room_number" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="ssn" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="guest_num" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="customer_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="account_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="amount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="checkin_id"/>
       <foreign-key name="checkin_ibfk_1" columns="hotel_id,room_number" ref-table="room" ref-schema="" ref-catalog="kyang12" ref-columns="hotel_id,room_number" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="checkin_ibfk_2" columns="ssn" ref-table="customer" ref-schema="" ref-catalog="kyang12" ref-columns="ssn" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="checkin_ibfk_2" columns="customer_id" ref-table="customer" ref-schema="" ref-catalog="kyang12" ref-columns="customer_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="checkin_ibfk_3" columns="account_id" ref-table="account" ref-schema="" ref-catalog="kyang12" ref-columns="account_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="service_record_ibfk_1" table="service_record" schema="" catalog="kyang12" columns="checkin_id"/>
       <index name="hotel_id" unique="false" columns="hotel_id,room_number"/>
     </table>
     <table name="customer" schema="" catalog="kyang12" type="TABLE">
-      <column name="ssn" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="customerID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="ssn"/>
-      <exported-key name="checkin_ibfk_2" table="checkin" schema="" catalog="kyang12" columns="ssn"/>
+      <column name="customer_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date_of_birth" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="phone" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="customer_id"/>
+      <exported-key name="account_ibfk_1" table="account" schema="" catalog="kyang12" columns="customer_id"/>
+      <exported-key name="checkin_ibfk_2" table="checkin" schema="" catalog="kyang12" columns="customer_id"/>
     </table>
     <table name="hotel" schema="" catalog="kyang12" type="TABLE">
       <column name="hotel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -45,6 +52,7 @@
       <column name="street_address" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
       <column name="hotel_phone_number" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="hotel_id"/>
+      <exported-key name="room_ibfk_1" table="room" schema="" catalog="kyang12" columns="hotel_id"/>
       <exported-key name="staff_ibfk_1" table="staff" schema="" catalog="kyang12" columns="hotel_id"/>
     </table>
     <table name="person" schema="" catalog="kyang12" type="TABLE">
@@ -61,6 +69,8 @@
       <column name="type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="availability" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
       <primary-key name="PRIMARY" columns="hotel_id,room_number"/>
+      <foreign-key name="room_ibfk_1" columns="hotel_id" ref-table="hotel" ref-schema="" ref-catalog="kyang12" ref-columns="hotel_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="room_ibfk_2" columns="type_id" ref-table="room_type" ref-schema="" ref-catalog="kyang12" ref-columns="type_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="checkin_ibfk_1" table="checkin" schema="" catalog="kyang12" columns="hotel_id,room_number"/>
     </table>
     <table name="room_type" schema="" catalog="kyang12" type="TABLE">
@@ -69,6 +79,7 @@
       <column name="max_occupancy" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="nightly_rate" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="type_id"/>
+      <exported-key name="room_ibfk_2" table="room" schema="" catalog="kyang12" columns="type_id"/>
     </table>
     <table name="service_record" schema="" catalog="kyang12" type="TABLE">
       <column name="service_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -78,6 +89,13 @@
       <primary-key name="PRIMARY" columns="service_id"/>
       <foreign-key name="service_record_ibfk_1" columns="checkin_id" ref-table="checkin" ref-schema="" ref-catalog="kyang12" ref-columns="checkin_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="service_record_ibfk_2" columns="service_type_id" ref-table="service_type" ref-schema="" ref-catalog="kyang12" ref-columns="service_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="service_type" schema="" catalog="kyang12" type="TABLE">
+      <column name="service_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="service_name" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fee" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="service_id"/>
+      <exported-key name="service_record_ibfk_2" table="service_record" schema="" catalog="kyang12" columns="service_type_id"/>
     </table>
     <table name="staff" schema="" catalog="kyang12" type="TABLE">
       <column name="staff_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>

@@ -31,7 +31,7 @@ public class Hotel extends Model {
         try {
             ResultSet resultSet = database.getStatement().executeQuery(
                     "SELECT * FROM hotel WHERE hotel_id = " + id + ";");
-            resultSet.next();
+            if(!resultSet.next()) return null;
             hotel.name = resultSet.getString("hotel_name");
             hotel.city = resultSet.getString("city");
             hotel.address = resultSet.getString("street_address");

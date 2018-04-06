@@ -1,21 +1,35 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
 public class Room extends Model {
-    int id, number;
+    int id, number, maxOccupy;
     Hotel hotel;
     String type;
+    float nightlyRate;
     boolean availability;
 
-    public Room(Hotel hotel, int number, String type, boolean availability) {
+    public Room(Hotel hotel, int number, String type, boolean availability) throws SQLException {
         this.hotel = hotel;
         this.number = number;
         this.type = type;
         this.availability = availability;
+        // TODO: query maxOccupy and nightly rate
+        ResultSet resultSet = database.getStatement().executeQuery(
+                "SELECT * FROM room_type WHERE type = " + this.type + ";");
+        if(!resultSet.next()) throw new SQLException("Invalid room type!");
+        this.maxOccupy = resultSet.getInt("max_occupancy");
+        this.nightlyRate = resultSet.getInt("nightly_rate");
+
         // TODO: create tuple in database
+        database.getStatement().executeUpdate("INSERT INTO " +
+                "room(hotel_id, room_number, type_id, availability)" +
+                "VALUES (" + this.hotel.getId() + ", " + this.number + ", " + this.type + ", " + (availability?1:0) + ");");
     }
 
     public static Room getById(int id) {
