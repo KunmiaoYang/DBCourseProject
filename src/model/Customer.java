@@ -71,6 +71,10 @@ public class Customer extends Model {
         return true;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getEmail() {
         return email;
     }

@@ -2,6 +2,7 @@ package common;
 
 import model.*;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class Maintainance {
         // TODO: update data
         return false;
     }
-    public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) {
+    public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         return new CheckIn(checkInTime, customer, account, room, numGuest);
     }
     public static void checkOut(CheckIn checkIn, Account account) {

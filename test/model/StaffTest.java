@@ -29,6 +29,7 @@ public class StaffTest {
 
     public void initObject() {
         try {
+            Model.database.getStatement().executeUpdate("DELETE FROM staff WHERE staff_id = 123;");
             Model.database.getStatement().executeUpdate("INSERT INTO " +
                     "staff(staff_id, name, age, job_title, department, hotel_id, phone, address)" +
                     "VALUES (123, 'Java', 30, 'Front desk', 'management', 3, '919000111', 'Gorman St.');");

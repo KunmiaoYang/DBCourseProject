@@ -6,10 +6,11 @@ package model;
  */
 public class Account extends Model {
     int id;
+    Integer cardNumber;
     Customer customer;
-    String address, payMethod, cardNumber;
+    String address, payMethod;
 
-    public Account(Customer customer, String address, String payMethod, String cardNumber) {
+    public Account(Customer customer, String address, String payMethod, Integer cardNumber) {
         this.customer = customer;
         this.address = address;
         this.payMethod = payMethod;
@@ -60,11 +61,11 @@ public class Account extends Model {
         this.payMethod = payMethod;
     }
 
-    public String getCardNumber() {
+    public int getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(String cardNumber) {
+    public void setCardNumber(Integer cardNumber) {
         this.cardNumber = cardNumber;
     }
 }

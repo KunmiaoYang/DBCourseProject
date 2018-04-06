@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
@@ -21,11 +20,17 @@ public class CheckInTest {
     @Before
     public void setUp() throws Exception {
         Model.setDatabase(new Database(Constants.DB_DRIVER, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD));
+        Model.database.getStatement().executeUpdate("DELETE FROM staff WHERE staff_id = 123;");
+        new Staff(123, 30, "testStaff", "Waiter", "Catering", "919919919", "Raleigh NC 27", Hotel.getById(1));
     }
 
     @After
     public void tearDown() throws Exception {
-        Model.remove(Constants.TABLE_STAFF, "staff_id = 123");
+        Model.remove(Constants.TABLE_CHECK_IN, "checkin_id = 123");
+        Room room = Room.getById(1, 5);
+        assert room != null;
+        room.setAvailability(true);
+        room.update();
         Model.database.close();
     }
 
@@ -41,11 +46,33 @@ public class CheckInTest {
 
     @Test
     public void testConstructor() throws Exception {
-        CheckIn c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), Room.getById(1, 5), 2);
+        Room room = Room.getById(1, 5);
+        assertNotNull(room);
+        assertTrue(room.availability);
+
+        // Test normal check in
+        CheckIn c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 2);
         assertNotNull(c);
-        ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin" +
+        ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin NATURAL JOIN room" +
                 " WHERE customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
         assertTrue(resultSet.next());
+        assertEquals(0, resultSet.getInt("availability"));
+        resultSet.close();
+        Model.remove(Constants.TABLE_CHECK_IN, "customer_id = 1002");
+        room.setAvailability(true);
+        room.update();
+
+        // Test when guest number exceeds the maximum allowed guest number of the room
+        c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 3);
+        assertNotNull(c);
+        resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin NATURAL JOIN room" +
+                " WHERE customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
+        assertFalse(resultSet.next());
+        resultSet.close();
+        room = Room.getById(1, 5);
+        assertNotNull(room);
+        assertTrue(room.availability);
+        Model.remove(Constants.TABLE_CHECK_IN, "customer_id = 1002");
     }
 
     @Test

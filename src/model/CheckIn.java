@@ -17,13 +17,17 @@ public class CheckIn extends Model {
     int numGuest;
     float amount;
 
-    public CheckIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) {
+    public CheckIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         this.checkInTime = checkInTime;
         this.customer = customer;
         this.account = account;
         this.room = room;
         this.numGuest = numGuest;
         // TODO: create tuple in database
+        database.getStatement().executeUpdate("INSERT INTO " +
+                "checkin(checkin_time, hotel_id, room_number, guest_num, customer_id, account_id) " +
+                "VALUES ('" + checkInTime + "', " + room.getHotel().getId() + ", " + room.getNumber() + ", " +
+                numGuest + ", " + customer.getId() + ", " + account.getId() + ");");
     }
 
     public static CheckIn getById(int id) {
