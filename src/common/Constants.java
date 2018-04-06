@@ -21,6 +21,10 @@ public class Constants {
     public static final String TABLE_ROOM;
     public static final String TABLE_SERVICE;
     public static final String TABLE_STAFF;
+    public static final String ATTR_HOTEL_NAME;
+    public static final String ATTR_HOTEL_CITY;
+    public static final String ATTR_HOTEL_STREET;
+    public static final String ATTR_HOTEL_PHONE;
     public static final String ERROR_ACCOUNT_INVALID_CUSTOMER;
     public static final String ERROR_CHECK_IN_ROOM_UNAVAILABLE;
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
@@ -40,6 +44,10 @@ public class Constants {
         TABLE_ROOM = config.getString("db.table.room");
         TABLE_SERVICE = config.getString("db.table.service");
         TABLE_STAFF = config.getString("db.table.staff");
+        ATTR_HOTEL_NAME = config.getString("db.table.hotel.name");
+        ATTR_HOTEL_CITY = config.getString("db.table.hotel.city");
+        ATTR_HOTEL_STREET = config.getString("db.table.hotel.street");
+        ATTR_HOTEL_PHONE = config.getString("db.table.hotel.phone");
         ERROR_ACCOUNT_INVALID_CUSTOMER = config.getString("error.account.invalidCustomer");
         ERROR_CHECK_IN_ROOM_UNAVAILABLE = config.getString("error.checkIn.roomUnavailable");
         ERROR_CHECK_IN_EXCEED_OCCUPANCY = config.getString("error.checkIn.exceedOccupancy");

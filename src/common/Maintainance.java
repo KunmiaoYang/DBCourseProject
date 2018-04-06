@@ -26,9 +26,8 @@ public class Maintainance {
             return null;
         }
     }
-    public static boolean updateService(Service service, Map<String, String> data) {
-        // TODO: update data
-        return false;
+    public static boolean updateService(Service service) {
+        return service.update();
     }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         return new CheckIn(checkInTime, customer, account, room, numGuest);

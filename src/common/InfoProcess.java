@@ -18,20 +18,16 @@ import java.util.Map;
  */
 public class InfoProcess {
     public static Hotel getHotelById(int id) {
-        // TODO: query
-        return null;
+        return Hotel.getById(id);
     }
-    public static Room getRoomById(int id) {
-        // TODO: query
-        return null;
+    public static Room getRoomById(int hotelId, int roomNumber) {
+        return Room.getById(hotelId, roomNumber);
     }
-    public static Staff getStaffBySSN(int ssn) {
-        // TODO: query
-        return null;
+    public static Staff getStaffById(int id) {
+        return Staff.getById(id);
     }
-    public static Customer getCustomerBySSN(int ssn) {
-        // TODO: query
-        return null;
+    public static Customer getCustomerById(int id) {
+        return Customer.getById(id);
     }
 
     public static Hotel createHotel(String name, String city, String address, String phoneNumber) {
@@ -70,41 +66,33 @@ public class InfoProcess {
         }
     }
 
-    public static boolean updateHotel(Hotel hotel, Map<String, String> data) {
-        // TODO: update data
-        return false;
+    public static boolean updateHotel(Hotel hotel) {
+        return hotel.update();
     }
-    public static boolean updateRoom(Room room, Map<String, String> data) {
-        // TODO: update data
-        return false;
+    public static boolean updateRoom(Room room) {
+        return room.update();
     }
-    public static boolean updateStaff(Staff staff, Map<String, String> data) {
-        // TODO: update data
-        return false;
+    public static boolean updateStaff(Staff staff) {
+        return staff.update();
     }
-    public static boolean updateCustomer(Customer customer, Map<String, String> data) {
-        // TODO: update data
-        return false;
+    public static boolean updateCustomer(Customer customer) {
+        return customer.update();
     }
 
     public static boolean removeHotel(Hotel hotel) {
-        // TODO: remove data
-        return false;
+        return hotel.remove();
     }
     public static boolean removeRoom(Room room) {
-        // TODO: remove data
-        return false;
+        return room.remove();
     }
     public static boolean removeStaff(Staff staff) {
-        // TODO: remove data
-        return false;
+        return staff.remove();
     }
     public static boolean removeCustomer(Customer customer) {
-        // TODO: remove data
-        return false;
+        return customer.remove();
     }
 
-    public static Room[] getAvailableRooms(HashMap<String, String> roomInfo) {
+    public static Room[] getAvailableRooms(Hotel hotel, String room_type) {
         // TODO: query
         return null;
     }
