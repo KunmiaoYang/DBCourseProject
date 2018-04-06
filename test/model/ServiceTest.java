@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 import static common.Constants.*;
 import static org.junit.Assert.*;
 
 /**
+ *
  * Created by Kunmiao Yang on 4/6/2018.
  */
 public class ServiceTest {
@@ -73,7 +73,7 @@ public class ServiceTest {
         assertNull(resultSet.getObject("staff_id"));
 
         try {
-            s = new Service("room service", null, staff);
+            new Service("room service", null, staff);
             assertTrue(false);
         } catch (SQLException e) {
             assertEquals(e.getMessage(), ERROR_SERVICE_INVALID_CHECK_IN);

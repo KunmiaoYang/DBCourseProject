@@ -26,6 +26,7 @@ public class CheckInTest {
 
     @After
     public void tearDown() throws Exception {
+        Model.remove(TABLE_SERVICE, "checkin_id = 123");
         Model.remove(TABLE_CHECK_IN, "checkin_id = 123");
         Room room = Room.getById(1, 5);
         assert room != null;
@@ -39,6 +40,8 @@ public class CheckInTest {
             Model.database.getStatement().executeUpdate("INSERT INTO" +
                     " checkin(checkin_id, checkin_time, hotel_id, room_number, guest_num, customer_id, account_id)" +
                     " VALUES (123, '2018-04-05 13:20:36', 1, 2, 2, 1003, 3);");
+            Model.database.getStatement().executeUpdate("UPDATE room" +
+                    " SET availability = 0 WHERE hotel_id = 1 AND room_number = 2;");
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
@@ -155,7 +158,7 @@ public class CheckInTest {
         Float amount = c.getAmount();
         assertTrue(r.availability);
         assertNotNull(amount);
-        assertEquals(amount.intValue(), 451);
+        assertEquals(451, amount.intValue());
     }
 
     @Test
@@ -165,10 +168,13 @@ public class CheckInTest {
         assertNotNull(c);
         Staff staff = Staff.getById(123);
         assertNotNull(staff);
+        Service[] services = c.getAllServices();
+        assertEquals(0, services.length);
+
         new Service("gyms", c, null);
         new Service("dry cleaning", c, staff);
         new Service("special requests", c, staff);
-        Service[] services = c.getAllServices();
+        services = c.getAllServices();
         assertNotNull(services);
         assertEquals(3, services.length);
         Model.database.getStatement().executeUpdate("DELETE FROM service_record WHERE checkin_id = 123;");

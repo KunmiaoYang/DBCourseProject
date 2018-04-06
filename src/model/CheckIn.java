@@ -3,6 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 import static common.Constants.*;
 
@@ -92,39 +94,54 @@ public class CheckIn extends Model {
         return true;
     }
 
-    public void checkOut(LocalDateTime time) {
-        // TODO: check out and create bill amount
+    /**
+     * Check out and create bill amount
+     * @param checkOutTime check out time
+     */
+    public void checkOut(LocalDateTime checkOutTime) {
+        // Reset room availability
         room.setAvailability(true);
         room.update();
 
-    }
+        // Set check out time
+        this.checkOutTime = checkOutTime;
+        this.update();
 
-    public void serve(Service service) throws SQLException {
-        // TODO: create service record
-        if(room.availability) return;     // Only the rooms that are checked in could be served.
-
-        // Find the current check-in id of the room
-        int checkInId;
+        // Calculate and set the amount
         try {
-            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM checkin" +
-                    " WHERE hotel_id = " + room.hotel.getId() +
-                    " AND room_number = " + room.number +
-                    " ORDER BY checkin_time DESC");
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT R.price + S.price AS price" +
+                    " FROM (SELECT checkin_id, nightly_rate * DATEDIFF(checkout_time, checkin_time) AS price" +
+                    " FROM checkin NATURAL JOIN room NATURAL JOIN room_type" +
+                    " WHERE checkin_id = " + id + ") AS R, " +
+                    " (SELECT checkin_id, sum(fee) AS price" +
+                    " FROM service_record NATURAL JOIN service_type" +
+                    " WHERE checkin_id = " + id + ") AS S;");
             resultSet.next();
-            checkInId = resultSet.getInt("checkin_id");
+            this.amount = (float) resultSet.getInt("price");
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Corresponding check in record NOT found!");
         }
-
-        // TODO: Create service and add it to current check-in
-//        Service service = new Service();
+        update();
     }
 
     public Service[] getAllServices() {
-        // TODO: get all services created for this check in
-        return null;
+        // Get all services created for this check in
+        List<Integer> serviceIds = new LinkedList<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM service_record" +
+                    " WHERE checkin_id = " + id + ";");
+            while (resultSet.next()) serviceIds.add(resultSet.getInt("service_id"));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Service[0];
+        }
+        Service[] services = new Service[serviceIds.size()];
+        int i = 0;
+        for(Integer serviceId : serviceIds) services[i++] = Service.getById(serviceId);
+        return services;
     }
 
     public int getId() {
