@@ -160,15 +160,15 @@ INSERT INTO checkin(checkin_id, checkin_time, checkout_time, hotel_id, room_numb
 (4, '2018-05-10 14:30:01', '2018-05-12 10:00:01', 0003, 02, 2, 1004, 4, NULL);
 
 #done
-INSERT INTO service_type(service_name, fee)VALUES
+INSERT INTO service_type(service_type, fee)VALUES
 ('phone bills', 5),
 ('dry cleaning', 16),
 ('gyms', 15),
 ('room service', 10),
-('special requests', 20); 
+('special requests', 20);
 
 #done
-INSERT INTO service_record(service_id, service_type, staff_id, checkin_id)VALUES 
+INSERT INTO service_record(service_id, service_type, staff_id, checkin_id)VALUES
 (1, 'dry cleaning', 100, 1),
 (2, 'gyms', 100, 1),
 (3, 'gyms', 101, 2),
@@ -180,7 +180,7 @@ UPDATE
  INNER JOIN
   (SELECT checkin.checkin_id, room_type.nightly_rate
   FROM checkin, room, room_type
-  WHERE room.type_id = room_type.type_id
+  WHERE room.room_type = room_type.room_type
   AND checkin.hotel_id=room.hotel_id
   AND checkin.room_number=room.room_number) AS rate
   ON C.checkin_id=rate.checkin_id
@@ -189,7 +189,7 @@ UPDATE
   FROM (service_record AS SR
    INNER JOIN
    service_type AS ST
-   ON SR.service_type_id=ST.service_id)
+   ON SR.service_type=ST.service_type)
   GROUP BY checkin_id) AS service
   ON C.checkin_id=service.checkin_id
 SET C.amount=DATEDIFF(C.checkout_time, C.checkin_time)*rate.nightly_rate+service.tot_price;

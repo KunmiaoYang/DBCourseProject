@@ -74,11 +74,10 @@
       <exported-key name="checkin_ibfk_1" table="checkin" schema="" catalog="kyang12" columns="hotel_id,room_number"/>
     </table>
     <table name="room_type" schema="" catalog="kyang12" type="TABLE">
-      <column name="type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="type" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="room_type" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <column name="max_occupancy" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="nightly_rate" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="type_id"/>
+      <primary-key name="PRIMARY" columns="room_type"/>
       <exported-key name="room_ibfk_2" table="room" schema="" catalog="kyang12" columns="type_id"/>
     </table>
     <table name="service_record" schema="" catalog="kyang12" type="TABLE">
