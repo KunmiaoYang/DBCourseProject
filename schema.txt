@@ -25,32 +25,30 @@ DROP TABLE IF EXISTS room;
 CREATE TABLE room (
   hotel_id INT NOT NULL,
   room_number INT NOT NULL,
-  type_id INT NOT NULL,
+  room_type VARCHAR(45) NOT NULL,
   availability tinyint(1) NOT NULL DEFAULT 0, 
   PRIMARY KEY (hotel_id, room_number));
 
 DROP TABLE IF EXISTS room_type;
 CREATE TABLE room_type (
-  type_id INT NOT NULL,
-  type VARCHAR(45) NOT NULL,
+  room_type VARCHAR(45) NOT NULL,
   max_occupancy INT NOT NULL,
   nightly_rate INT NOT NULL,
-  PRIMARY KEY (type_id));
+  PRIMARY KEY (room_type));
 
 DROP TABLE IF EXISTS service_record ;
 CREATE TABLE service_record (
   service_id INT NOT NULL AUTO_INCREMENT,
-  service_type_id INT NOT NULL,
+  service_type VARCHAR(45) NOT NULL,
   staff_id INT NULL,
   checkin_id INT NOT NULL,
   PRIMARY KEY (service_id));
 
 DROP TABLE IF EXISTS service_type ;
 CREATE TABLE service_type (
-  service_id INT NOT NULL AUTO_INCREMENT,
-  service_name VARCHAR(45) NOT NULL,
+  service_type VARCHAR(45) NOT NULL,
   fee INT NOT NULL,
-  PRIMARY KEY (service_id));
+  PRIMARY KEY (service_type));
 
 DROP TABLE IF EXISTS checkin;
 CREATE TABLE checkin (
@@ -86,7 +84,7 @@ CREATE TABLE account (
 
 ALTER TABLE room 
 ADD FOREIGN KEY (hotel_id) REFERENCES hotel(hotel_id),
-ADD FOREIGN KEY (type_id) REFERENCES room_type(type_id);
+ADD FOREIGN KEY (room_type) REFERENCES room_type(room_type);
 
 ALTER TABLE staff 
  ADD FOREIGN KEY (hotel_id) REFERENCES hotel(hotel_id);
@@ -95,15 +93,13 @@ ALTER TABLE account
 ADD FOREIGN KEY (customer_id) REFERENCES customer(customer_id);
 
 ALTER TABLE service_record 
+ADD FOREIGN KEY (service_type) REFERENCES service_type(service_type),
 ADD FOREIGN KEY (checkin_id) REFERENCES checkin(checkin_id);
 
 ALTER TABLE checkin 
 ADD FOREIGN KEY (hotel_id, room_number) REFERENCES room(hotel_id, room_number),
 ADD FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
 ADD FOREIGN KEY (account_id) REFERENCES account(account_id);
-
-ALTER TABLE service_record 
-ADD FOREIGN KEY (service_type_id) REFERENCES service_type(service_id);
 
 
 SET foreign_key_checks=1;
@@ -134,20 +130,20 @@ INSERT INTO customer (customer_id, name, date_of_birth, phone, email) VALUES
 (1004, 'Lucy', '1985-01-30', '213', 'lucy@gmail.com');
 
 #done
-INSERT INTO room_type(type_id, type, max_occupancy, nightly_rate) VALUES
-(1, 'Economy', 1, 100),
-(2, 'Deluxe', 2, 200),
-(3, 'Executive', 3, 1000),
-(4, 'Presidential', 4, 5000);
+INSERT INTO room_type(room_type, max_occupancy, nightly_rate) VALUES
+('Economy', 1, 100),
+('Deluxe', 2, 200),
+('Executive', 3, 1000),
+('Presidential', 4, 5000);
 
 #done
-INSERT INTO room(hotel_id, room_number, type_id, availability) VALUES 
-(0001, 01, 1, 1),
-(0001, 02, 2, 1),
-(0002, 03, 1, 1),
-(0003, 02, 3, 0),
-(0004, 01, 4, 1),
-(0001, 05, 2, 1);
+INSERT INTO room(hotel_id, room_number, room_type, availability) VALUES 
+(0001, 01, 'Economy', 1),
+(0001, 02, 'Deluxe', 1),
+(0002, 03, 'Economy', 1),
+(0003, 02, 'Executive', 0),
+(0004, 01, 'Presidential', 1),
+(0001, 05, 'Deluxe', 1);
 
 #done
 INSERT INTO account(account_id, billing_address, payment_method, card_num, customer_id, payer_ssn) VALUES
@@ -164,20 +160,20 @@ INSERT INTO checkin(checkin_id, checkin_time, checkout_time, hotel_id, room_numb
 (4, '2018-05-10 14:30:01', '2018-05-12 10:00:01', 0003, 02, 2, 1004, 4, NULL);
 
 #done
-INSERT INTO service_type(service_id, service_name, fee)VALUES
-(1, 'phone bills', 5),
-(2, 'dry cleaning', 16),
-(3, 'gyms', 15),
-(4, 'room service', 10),
-(5, 'special requests', 20); 
+INSERT INTO service_type(service_name, fee)VALUES
+('phone bills', 5),
+('dry cleaning', 16),
+('gyms', 15),
+('room service', 10),
+('special requests', 20); 
 
 #done
-INSERT INTO service_record(service_id, service_type_id, staff_id, checkin_id)VALUES 
-(1, 2, 100, 1),
-(2, 3, 100, 1),
-(3, 3, 101, 2),
-(4, 4, 102, 3),
-(5, 1, 103, 4);
+INSERT INTO service_record(service_id, service_type, staff_id, checkin_id)VALUES 
+(1, 'dry cleaning', 100, 1),
+(2, 'gyms', 100, 1),
+(3, 'gyms', 101, 2),
+(4, 'room service', 102, 3),
+(5, 'phone bills', 103, 4);
 
 UPDATE
  checkin AS C
