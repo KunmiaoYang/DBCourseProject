@@ -6,7 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 
@@ -30,10 +33,19 @@ public class CheckInTest {
         try {
             Model.database.getStatement().executeUpdate("INSERT INTO" +
                     " checkin(checkin_id, checkin_time, hotel_id, room_number, guest_num, customer_id, account_id)" +
-                    " VALUES (123, '2018-4-5', 1, 2, 2, 1003, 3);");
+                    " VALUES (123, '2018-04-05 13:20:36', 1, 2, 2, 1003, 3);");
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testConstructor() throws Exception {
+        CheckIn c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), Room.getById(1, 5), 2);
+        assertNotNull(c);
+        ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin" +
+                " WHERE customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
+        assertTrue(resultSet.next());
     }
 
     @Test
@@ -41,8 +53,14 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
-        assertEquals(c.getCheckInTime().toString(), "2018-4-5");
         assertEquals(c.getCustomer().getName(), "Joseph");
+        LocalDateTime dateTime = c.getCheckInTime();
+        assertNotNull(dateTime);
+        assertEquals(dateTime.getYear(), 2018);
+        assertEquals(dateTime.getMonthValue(), 4);
+        assertEquals(dateTime.getDayOfMonth(), 5);
+        assertEquals(dateTime.getHour(), 13);
+        assertEquals(dateTime.getSecond(), 36);
     }
 
     @Test
