@@ -1,5 +1,7 @@
 package model;
 
+import common.Constants;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -24,7 +26,7 @@ public class Customer extends Model {
         this.phone = phone;
         this.email = email;
         this.birth = birth;
-        // TODO: create tuple in database
+        // Create tuple in database
         database.getStatement().executeUpdate("INSERT INTO " +
                 "customer(customer_id, name, date_of_birth, phone, email)" +
                 "VALUES (" + this.id + ", \"" + this.name + "\", \"" + this.birth.toString() + "\", \"" +
@@ -32,7 +34,7 @@ public class Customer extends Model {
     }
 
     public static Customer getById(int id) {
-        // TODO: get instance from database
+        // Get instance from database
         Customer customer = new Customer(id);
         try {
             ResultSet resultSet = database.getStatement().executeQuery(
@@ -50,13 +52,24 @@ public class Customer extends Model {
     }
 
     public boolean remove() {
-        // TODO: remove from DB
-        return false;
+        // Remove from DB
+        return remove(Constants.TABLE_CUSTOMER, "customer_id = " + this.id);
     }
 
     public boolean update() {
-        // TODO: update attributes to DB
-        return false;
+        // Update attributes to DB
+        try {
+            database.getStatement().executeUpdate("UPDATE customer" +
+                    " SET name = \"" + name + "\"" +
+                    ", date_of_birth = \"" + birth.toString() + "\"" +
+                    ", phone = \"" + phone + "\"" +
+                    ", email = \"" + email + "\"" +
+                    " WHERE customer_id = " + id + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public String getEmail() {

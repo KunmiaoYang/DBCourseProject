@@ -44,13 +44,25 @@ public class InfoProcess {
     }
 
     public static Room createRoom(Hotel hotel, int number, String type, boolean availability) {
-        return new Room(hotel, number, type, availability);
+        try {
+            return new Room(hotel, number, type, availability);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
     public static Staff createStaff(int ssn, String name, String phoneNum, Date birth, String title, String department, String address, Hotel hotel) {
         return new Staff(ssn, name, phoneNum, birth, title, department, address, hotel);
     }
-    public static Customer createCustomer(int ssn, String name, String phoneNum, Date birth, String email) {
-        return new Customer(ssn, name, phoneNum, birth, email);
+
+    public static Customer createCustomer(int id, String name, String phone, String email, LocalDate birth) {
+        try {
+            return new Customer(id, name, phone, email, birth);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static boolean updateHotel(Hotel hotel, Map<String, String> data) {
