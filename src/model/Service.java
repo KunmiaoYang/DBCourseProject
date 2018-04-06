@@ -1,5 +1,10 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static common.Constants.*;
+
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
@@ -11,26 +16,63 @@ public class Service extends Model {
     CheckIn checkIn;
     Staff staff;
 
-    public Service(String serviceType, CheckIn checkIn, Staff staff) {
+    public Service(int id) {
+        this.id = id;
+    }
+
+    public Service(String serviceType, CheckIn checkIn, Staff staff) throws SQLException {
         this.serviceType = serviceType;
         this.checkIn = checkIn;
         this.staff = staff;
-        // TODO: Create tuple in database
+        // Create tuple in database
+        if(null == checkIn) throw new SQLException(ERROR_SERVICE_INVALID_CHECK_IN);
+        database.getStatement().executeUpdate("INSERT INTO" +
+                " service_record(service_type, staff_id, checkin_id)" +
+                " VALUES ('" + serviceType + "'" +
+                ", " + (null == staff ? "NULL" : staff.getStaffId()) +
+                ", " + checkIn.getId() +
+                ")");
     }
 
     public static Service getById(int id) {
-        // TODO: get instance from database
-        return null;
+        // Get instance from database
+        Service service = new Service(id);
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM service_record WHERE service_id = " +
+                    id + ";");
+            if(!resultSet.next()) return null;
+            Integer staffId = (Integer) resultSet.getObject("staff_id");
+            int checkin_id = resultSet.getInt("checkin_id");
+            service.setServiceType(resultSet.getString("service_type"));
+            resultSet.close();
+            service.setCheckIn(CheckIn.getById(checkin_id));
+            if(null != staffId) service.setStaff(Staff.getById(staffId));
+            else service.setStaff(null);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return service;
     }
 
     public boolean remove() {
-        // TODO: remove from DB
-        return false;
+        // Remove from DB
+        return remove(TABLE_SERVICE, "service_id = " + id);
     }
 
     public boolean update() {
-        // TODO: update attributes to DB
-        return false;
+        // Update attributes to DB
+        try {
+            database.getStatement().executeUpdate("UPDATE service_record" +
+                    " SET service_type = '" + serviceType + "'" +
+                    ", checkin_id = " + checkIn.getId() +
+                    ", staff_id = " + (null == staff ? "NULL" : staff.getStaffId()) +
+                    " WHERE service_id = " + id + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public int getId() {

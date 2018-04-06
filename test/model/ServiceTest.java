@@ -21,8 +21,11 @@ public class ServiceTest {
         Model.setDatabase(new Database(DB_DRIVER, DB_URL, DB_USER, DB_PASSWORD));
         Model.database.getStatement().executeUpdate("DELETE FROM staff WHERE staff_id = 123;");
         new Staff(123, 30, "testStaff", "Waiter", "Catering", "919919919", "Raleigh NC 27", Hotel.getById(1));
-        Model.database.getStatement().executeUpdate("DELETE FROM checkin WHERE checkin_id = 123;");
-        new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), Room.getById(1, 5), 1);
+        Model.remove(TABLE_SERVICE, "checkin_id = 123");
+        Model.remove(TABLE_CHECK_IN, "checkin_id = 123");
+        Model.database.getStatement().executeUpdate("INSERT INTO" +
+                " checkin(checkin_id, checkin_time, hotel_id, room_number, guest_num, customer_id, account_id)" +
+                " VALUES (123, '2018-04-05 13:20:36', 1, 5, 1, 1002, 2);");
     }
 
     @After
@@ -53,7 +56,7 @@ public class ServiceTest {
         Staff staff = Staff.getById(123);
         assertNotNull(staff);
         CheckIn checkIn = CheckIn.getById(123);
-        assertNotNull(123);
+        assertNotNull(checkIn);
 
         Service s = new Service("dry cleaning", checkIn, staff);
         assertNotNull(s);
@@ -66,8 +69,15 @@ public class ServiceTest {
         assertNotNull(s);
         resultSet = Model.database.getStatement().executeQuery("SELECT * FROM service_record WHERE checkin_id = 123 AND ISNULL(staff_id)");
         assertTrue(resultSet.next());
-        assertEquals("dry cleaning", resultSet.getString("service_type"));
-        assertNull(resultSet.getInt("staff_id"));
+        assertEquals("gyms", resultSet.getString("service_type"));
+        assertNull(resultSet.getObject("staff_id"));
+
+        try {
+            s = new Service("room service", null, staff);
+            assertTrue(false);
+        } catch (SQLException e) {
+            assertEquals(e.getMessage(), ERROR_SERVICE_INVALID_CHECK_IN);
+        }
     }
 
     @Test
@@ -107,7 +117,7 @@ public class ServiceTest {
         ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM service_record WHERE checkin_id = 123;");
         assertTrue(resultSet.next());
         assertEquals("gyms", resultSet.getString("service_type"));
-        assertNull(resultSet.getInt("staff_id"));
+        assertNull(resultSet.getObject("staff_id"));
         resultSet.close();
     }
 }

@@ -19,7 +19,12 @@ public class Maintainance {
         return CheckIn.getById(id);
     }
     public static Service createService(String serviceType, CheckIn checkIn, Staff staff) {
-        return new Service(serviceType, checkIn, staff);
+        try {
+            return new Service(serviceType, checkIn, staff);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     public static boolean updateService(Service service, Map<String, String> data) {
         // TODO: update data
