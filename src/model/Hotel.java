@@ -13,7 +13,9 @@ public class Hotel extends Model {
     int id;
     String name, city, address, phoneNumber;
 
-    protected Hotel() {}
+    private Hotel(int id) {
+        this.id = id;
+    }
 
     public Hotel(String name, String city, String address, String phoneNumber) throws SQLException {
         this.name = name;
@@ -28,8 +30,7 @@ public class Hotel extends Model {
 
     public static Hotel getById(int id) {
         // Get instance from database
-        Hotel hotel = new Hotel();
-        hotel.id = id;
+        Hotel hotel = new Hotel(id);
         try {
             ResultSet resultSet = database.getStatement().executeQuery(
                     "SELECT * FROM hotel WHERE hotel_id = " + id + ";");
