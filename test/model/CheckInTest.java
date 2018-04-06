@@ -142,7 +142,7 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
-        Staff staff = Staff.getById(104);
+        Staff staff = Staff.getById(123);
         assertNotNull(staff);
         Room r = c.getRoom();
         assertNotNull(r);
@@ -163,7 +163,7 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
-        Staff staff = Staff.getById(104);
+        Staff staff = Staff.getById(123);
         assertNotNull(staff);
         new Service("gyms", c, null);
         new Service("dry cleaning", c, staff);
