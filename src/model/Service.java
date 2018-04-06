@@ -7,15 +7,15 @@ package model;
 public class Service extends Model {
     int id;
     float price;
-    String name;
+    String serviceType;
     CheckIn checkIn;
     Staff staff;
 
-    public Service(float price, String name, CheckIn checkIn, Staff staff) {
-        this.price = price;
-        this.name = name;
+    public Service(String serviceType, CheckIn checkIn, Staff staff) {
+        this.serviceType = serviceType;
         this.checkIn = checkIn;
         this.staff = staff;
+        // TODO: Create tuple in database
     }
 
     public static Service getById(int id) {
@@ -45,12 +45,12 @@ public class Service extends Model {
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public String getServiceType() {
+        return serviceType;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 
     public CheckIn getCheckIn() {

@@ -55,17 +55,6 @@ public class StaffTest {
     }
 
     @Test
-    public void testServe() throws Exception {
-        initObject();
-        Staff s = Staff.getById(123);
-        assertNotNull(s);
-        Service service = s.serve(Room.getById(3, 2));
-        assertNotNull(service);
-        service = s.serve(Room.getById(1, 1));
-        assertNull(service);
-    }
-
-    @Test
     public void testRemove() throws Exception {
         initObject();
         Staff s = Staff.getById(123);

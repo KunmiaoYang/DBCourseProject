@@ -17,8 +17,8 @@ public class Maintainance {
     public static CheckIn getCheckInById(int id) {
         return CheckIn.getById(id);
     }
-    public static Service createService(float price, String serviceName, CheckIn checkIn, Staff staff) {
-        return new Service(price, serviceName, checkIn, staff);
+    public static Service createService(String serviceType, CheckIn checkIn, Staff staff) {
+        return new Service(serviceType, checkIn, staff);
     }
     public static boolean updateService(Service service, Map<String, String> data) {
         // TODO: update data
@@ -29,7 +29,8 @@ public class Maintainance {
     }
     public static void checkOut(CheckIn checkIn, Account account) {
         InfoProcess.releaseRoom(checkIn.getRoom());
-        checkIn.checkOut(account);
+        if(null != account) checkIn.setAccount(account);
+        checkIn.checkOut();
     }
     public static boolean removeService(Service service) {
         return service.remove();

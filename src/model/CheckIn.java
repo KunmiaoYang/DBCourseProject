@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
@@ -39,8 +41,31 @@ public class CheckIn extends Model {
         return false;
     }
 
-    public void checkOut(Account account) {
+    public void checkOut() {
         // TODO: check out and create bill
+    }
+
+    public void serve(Service service) throws SQLException {
+        // TODO: create service record
+        if(room.availability) return;     // Only the rooms that are checked in could be served.
+
+        // Find the current check-in id of the room
+        int checkInId;
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM checkin" +
+                    " WHERE hotel_id = " + room.hotel.getId() +
+                    " AND room_number = " + room.number +
+                    " ORDER BY checkin_time DESC");
+            resultSet.next();
+            checkInId = resultSet.getInt("checkin_id");
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Corresponding check in record NOT found!");
+        }
+
+        // TODO: Create service and add it to current check-in
+//        Service service = new Service();
     }
 
     public Service[] getAllServices() {

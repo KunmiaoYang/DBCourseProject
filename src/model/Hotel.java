@@ -25,7 +25,7 @@ public class Hotel extends Model {
         // Create tuple in database
         database.getStatement().executeUpdate("INSERT INTO " +
                 "hotel(hotel_name, city, street_address, hotel_phone_number)" +
-                "VALUES (\"" + name + "\", \"" + city + "\", \"" + address + "\", \"" + phoneNumber + "\");");
+                "VALUES ('" + name + "', '" + city + "', '" + address + "', '" + phoneNumber + "');");
     }
 
     public static Hotel getById(int id) {
@@ -61,10 +61,10 @@ public class Hotel extends Model {
         // Update attributes to DB
         try {
             database.getStatement().executeUpdate("UPDATE hotel " +
-                    "SET hotel_name = \"" + name + "\"" +
-                    ", city = \"" + city + "\"" +
-                    ", street_address = \"" + address + "\"" +
-                    ", hotel_phone_number = \"" + phoneNumber + "\"" +
+                    "SET hotel_name = '" + name + "'" +
+                    ", city = '" + city + "'" +
+                    ", street_address = '" + address + "'" +
+                    ", hotel_phone_number = '" + phoneNumber + "'" +
                     " WHERE hotel_id = " + id + ";");
         } catch (SQLException e) {
             e.printStackTrace();

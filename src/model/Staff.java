@@ -1,5 +1,10 @@
 package model;
 
+import common.Constants;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
@@ -9,7 +14,11 @@ public class Staff extends Model {
     String name, title, department, phoneNum, address;
     Hotel hotel;
 
-    public Staff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) {
+    private Staff(int staffId) {
+        this.staffId = staffId;
+    }
+
+    public Staff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) throws SQLException {
         this.staffId = staffId;
         this.age = age;
         this.name = name;
@@ -18,29 +27,61 @@ public class Staff extends Model {
         this.phoneNum = phoneNum;
         this.address = address;
         this.hotel = hotel;
-        // TODO: create tuple in database
+        // Create tuple in database
+        database.getStatement().executeUpdate("INSERT INTO " +
+                "staff(staff_id, name, age, job_title, department, hotel_id, phone, address) " +
+                "VALUES (" + staffId + ", '" + name + "', " + age + ", '" + title + "', '" + department + "', " +
+                hotel.getId() + ", '" + phoneNum + "', '" + address + "');");
     }
 
     public static Staff getById(int id) {
-        // TODO: get instance from database
-        return null;
-    }
-
-    public Service serve(Room room) {
-        // TODO: create service record
-        return null;
+        // Get instance from database
+        Staff staff = new Staff(id);
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT * FROM staff WHERE staff_id = " + id + ";");
+            if(!resultSet.next()) return null;
+            staff.setName(resultSet.getString("name"));
+            staff.setAge(resultSet.getInt("age"));
+            staff.setTitle(resultSet.getString("job_title"));
+            staff.setDepartment(resultSet.getString("department"));
+            int hotelId = resultSet.getInt("hotel_id");
+            staff.setPhoneNum(resultSet.getString("phone"));
+            staff.setAddress(resultSet.getString("address"));
+            resultSet.close();
+            staff.setHotel(Hotel.getById(hotelId));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return staff;
     }
 
     @Override
     public boolean remove() {
-        // TODO: remove from DB
+        // Remove from DB
+        remove(Constants.TABLE_STAFF, "staff_id = " + staffId);
         return false;
     }
 
     @Override
     public boolean update() {
-        // TODO: update attributes to DB
-        return false;
+        // Update attributes to DB
+        try {
+            database.getStatement().executeUpdate("UPDATE staff " +
+                    "SET name = '" + name + "'" +
+                    ", age = " + age +
+                    ", job_title = '" + title + "'" +
+                    ", department = '" + department + "'" +
+                    ", hotel_id = " + hotel.getId() +
+                    ", phone = '" + phoneNum + "'" +
+                    ", address = '" + address + "'" +
+                    " WHERE staff_id = " + staffId + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public String getDepartment() {

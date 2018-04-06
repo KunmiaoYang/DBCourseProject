@@ -53,7 +53,12 @@ public class InfoProcess {
     }
 
     public static Staff createStaff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) {
-        return new Staff(staffId, age, name, title, department, phoneNum, address, hotel);
+        try {
+            return new Staff(staffId, age, name, title, department, phoneNum, address, hotel);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Customer createCustomer(int id, String name, String phoneNum, String email, LocalDate birth) {
