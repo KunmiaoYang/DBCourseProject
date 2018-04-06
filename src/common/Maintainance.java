@@ -31,7 +31,7 @@ public class Maintainance {
     public static void checkOut(CheckIn checkIn, Account account) {
         InfoProcess.releaseRoom(checkIn.getRoom());
         if(null != account) checkIn.setAccount(account);
-        checkIn.checkOut();
+        checkIn.checkOut(LocalDateTime.now());
     }
     public static boolean removeService(Service service) {
         return service.remove();

@@ -53,8 +53,7 @@ public class Hotel extends Model {
      */
     public boolean remove() {
         // Remove from DB
-        remove(Constants.TABLE_HOTEL, "hotel_id = " + id);
-        return true;
+        return remove(Constants.TABLE_HOTEL, "hotel_id = " + id);
     }
 
     public boolean update() {

@@ -1,6 +1,5 @@
 package model;
 
-import common.Constants;
 import db.Database;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
+import static common.Constants.*;
 
 /**
  *
@@ -19,14 +19,14 @@ import static org.junit.Assert.*;
 public class CheckInTest {
     @Before
     public void setUp() throws Exception {
-        Model.setDatabase(new Database(Constants.DB_DRIVER, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD));
+        Model.setDatabase(new Database(DB_DRIVER, DB_URL, DB_USER, DB_PASSWORD));
         Model.database.getStatement().executeUpdate("DELETE FROM staff WHERE staff_id = 123;");
         new Staff(123, 30, "testStaff", "Waiter", "Catering", "919919919", "Raleigh NC 27", Hotel.getById(1));
     }
 
     @After
     public void tearDown() throws Exception {
-        Model.remove(Constants.TABLE_CHECK_IN, "checkin_id = 123");
+        Model.remove(TABLE_CHECK_IN, "checkin_id = 123");
         Room room = Room.getById(1, 5);
         assert room != null;
         room.setAvailability(true);
@@ -46,11 +46,11 @@ public class CheckInTest {
 
     @Test
     public void testConstructor() throws Exception {
+
+        // Test normal check in
         Room room = Room.getById(1, 5);
         assertNotNull(room);
         assertTrue(room.availability);
-
-        // Test normal check in
         CheckIn c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 2);
         assertNotNull(c);
         ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin NATURAL JOIN room" +
@@ -58,13 +58,36 @@ public class CheckInTest {
         assertTrue(resultSet.next());
         assertEquals(0, resultSet.getInt("availability"));
         resultSet.close();
-        Model.remove(Constants.TABLE_CHECK_IN, "customer_id = 1002");
+        Model.remove(TABLE_CHECK_IN, "customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
         room.setAvailability(true);
         room.update();
 
+        // Test when the room is not available
+        room = Room.getById(3, 2);
+        assertNotNull(room);
+        assertFalse(room.availability);
+        try {
+            c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 1);
+            assertTrue(false);
+        } catch (SQLException e) {
+            assertEquals(e.getMessage(), ERROR_CHECK_IN_ROOM_UNAVAILABLE);
+        }
+        resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin NATURAL JOIN room" +
+                " WHERE customer_id = 1002 AND account_id = 2 AND hotel_id = 3 AND room_number = 2;");
+        assertFalse(resultSet.next());
+        resultSet.close();
+        Model.remove(TABLE_CHECK_IN, "customer_id = 1002 AND account_id = 2 AND hotel_id = 3 AND room_number = 2;");
+
         // Test when guest number exceeds the maximum allowed guest number of the room
-        c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 3);
-        assertNotNull(c);
+        room = Room.getById(1, 5);
+        assertNotNull(room);
+        assertTrue(room.availability);
+        try {
+            c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 3);
+            assertTrue(false);
+        } catch (SQLException e) {
+            assertEquals(e.getMessage(), ERROR_CHECK_IN_EXCEED_OCCUPANCY);
+        }
         resultSet = Model.database.getStatement().executeQuery("SELECT * FROM checkin NATURAL JOIN room" +
                 " WHERE customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
         assertFalse(resultSet.next());
@@ -72,7 +95,7 @@ public class CheckInTest {
         room = Room.getById(1, 5);
         assertNotNull(room);
         assertTrue(room.availability);
-        Model.remove(Constants.TABLE_CHECK_IN, "customer_id = 1002");
+        Model.remove(TABLE_CHECK_IN, "customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
     }
 
     @Test
@@ -95,7 +118,7 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
-        c.remove();
+        assertTrue(c.remove());
         c = CheckIn.getById(123);
         assertNull(c);
     }
@@ -105,12 +128,12 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
-        assertNotEquals((int)c.getAmount(), 12345);
+        assertNull(c.getAmount());
         assertNotEquals(c.getNumGuest(), 1);
-        c.setAmount(12345);
+        c.setAmount((float) 12345);
         c.setNumGuest(1);
         assertTrue(c.update());
-        assertEquals((int)c.getAmount(), 12345);
+        assertEquals(c.getAmount().intValue(), 12345);
         assertEquals(c.getNumGuest(), 1);
     }
 
@@ -119,14 +142,20 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
+        Staff staff = Staff.getById(104);
+        assertNotNull(staff);
         Room r = c.getRoom();
         assertNotNull(r);
         assertFalse(r.availability);
-        assertNotEquals((int) c.getAmount(), 54321);
-        c.setAmount(54321);
-        c.checkOut();
+        assertNull(c.getAmount());
+        new Service("gyms", c, null);
+        new Service("dry cleaning", c, staff);
+        new Service("special requests", c, staff);
+        c.checkOut(c.checkInTime.plusDays(2));
+        Float amount = c.getAmount();
         assertTrue(r.availability);
-        assertEquals((int) c.getAmount(), 54321);
+        assertNotNull(amount);
+        assertEquals(amount.intValue(), 451);
     }
 
     @Test
@@ -140,6 +169,8 @@ public class CheckInTest {
         new Service("dry cleaning", c, staff);
         new Service("special requests", c, staff);
         Service[] services = c.getAllServices();
+        assertNotNull(services);
         assertEquals(3, services.length);
+        Model.database.getStatement().executeUpdate("DELETE FROM service_record WHERE checkin_id = 123;");
     }
 }

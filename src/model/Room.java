@@ -43,11 +43,21 @@ public class Room extends Model {
         // Get instance from database
         Room room = new Room(Hotel.getById(hotelId), roomNumber);
         try {
+            // Query room info
             ResultSet resultSet = database.getStatement().executeQuery(
                     "SELECT * FROM room WHERE hotel_id = " + hotelId + " AND room_number = " + roomNumber + ";");
             if(!resultSet.next()) return null;
             room.setType(resultSet.getString("room_type"));
             room.setAvailability(resultSet.getInt("availability") == 1);
+            resultSet.close();
+
+            // Query room type info
+            resultSet = database.getStatement().executeQuery(
+                    "SELECT * FROM room_type WHERE room_type = '" + room.type + "';"
+            );
+            if(!resultSet.next()) return null;
+            room.setMaxOccupy(resultSet.getInt("max_occupancy"));
+            room.setNightlyRate(resultSet.getInt("nightly_rate"));
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,8 +68,7 @@ public class Room extends Model {
 
     public boolean remove() {
         // Remove from DB
-        remove(Constants.TABLE_ROOM, "hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number);
-        return false;
+        return remove(Constants.TABLE_ROOM, "hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number);
     }
 
     public boolean update() {
@@ -106,5 +115,21 @@ public class Room extends Model {
 
     public void setAvailability(boolean availability) {
         this.availability = availability;
+    }
+
+    public int getMaxOccupy() {
+        return maxOccupy;
+    }
+
+    public void setMaxOccupy(int maxOccupy) {
+        this.maxOccupy = maxOccupy;
+    }
+
+    public float getNightlyRate() {
+        return nightlyRate;
+    }
+
+    public void setNightlyRate(float nightlyRate) {
+        this.nightlyRate = nightlyRate;
     }
 }

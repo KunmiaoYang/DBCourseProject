@@ -60,7 +60,7 @@ public class StaffTest {
         initObject();
         Staff s = Staff.getById(123);
         assertNotNull(s);
-        s.remove();
+        assertTrue(s.remove());
         s = Staff.getById(123);
         assertNull(s);
     }

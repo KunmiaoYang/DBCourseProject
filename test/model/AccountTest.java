@@ -1,6 +1,5 @@
 package model;
 
-import common.Constants;
 import db.Database;
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +8,7 @@ import org.junit.Test;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static common.Constants.*;
 import static org.junit.Assert.*;
 
 /**
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class AccountTest {
     @Before
     public void setUp() throws Exception {
-        Model.setDatabase(new Database(Constants.DB_DRIVER, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD));
+        Model.setDatabase(new Database(DB_DRIVER, DB_URL, DB_USER, DB_PASSWORD));
         Model.database.getStatement().executeUpdate("DELETE FROM account WHERE account_id = 123;");
     }
 
@@ -67,10 +67,10 @@ public class AccountTest {
 
         // Test incorrect account creation
         try {
-            a = new Account(null, "Raleigh NC EBII", "cash", null, "777-8352");
+            new Account(null, "Raleigh NC EBII", "cash", null, "777-8352");
             assertTrue(false);
         } catch (SQLException e) {
-            assertEquals(e.getMessage(), "Invalid custormer!");
+            assertEquals(e.getMessage(), ERROR_ACCOUNT_INVALID_CUSTOMER);
         }
     }
 
@@ -93,7 +93,7 @@ public class AccountTest {
         initObject();
         Account a = Account.getById(123);
         assertNotNull(a);
-        a.remove();
+        assertTrue(a.remove());
         a = Account.getById(123);
         assertNull(a);
     }

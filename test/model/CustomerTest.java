@@ -62,7 +62,7 @@ public class CustomerTest {
     public void testRemove() throws Exception {
         Customer customer = Customer.getById(123);
         assertNotNull(customer);
-        customer.remove();
+        assertTrue(customer.remove());
         customer = Customer.getById(123);
         assertNull(customer);
     }

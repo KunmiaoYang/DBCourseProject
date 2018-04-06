@@ -50,6 +50,9 @@ public class RoomTest {
         initObject();
         Room r = Room.getById(1, 123);
         assertNotNull(r);
+        assertEquals(r.getType(), "Economy");
+        assertEquals(r.getMaxOccupy(), 1);
+        assertEquals((int)r.getNightlyRate(), 100);
     }
 
     @Test
@@ -57,7 +60,7 @@ public class RoomTest {
         initObject();
         Room r = Room.getById(1, 123);
         assertNotNull(r);
-        r.remove();
+        assertTrue(r.remove());
         r = Room.getById(1, 123);
         assertNull(r);
     }

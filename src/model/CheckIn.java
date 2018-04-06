@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+import static common.Constants.*;
+
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
@@ -15,7 +17,11 @@ public class CheckIn extends Model {
     Account account;
     Room room;
     int numGuest;
-    float amount;
+    Float amount;
+
+    private CheckIn(int id) {
+        this.id = id;
+    }
 
     public CheckIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         this.checkInTime = checkInTime;
@@ -23,7 +29,11 @@ public class CheckIn extends Model {
         this.account = account;
         this.room = room;
         this.numGuest = numGuest;
-        // TODO: create tuple in database
+        // Create tuple in database
+        if(!room.availability) throw new SQLException(ERROR_CHECK_IN_ROOM_UNAVAILABLE);
+        if(room.getMaxOccupy() < numGuest) throw new SQLException(ERROR_CHECK_IN_EXCEED_OCCUPANCY);
+        room.setAvailability(false);
+        room.update();
         database.getStatement().executeUpdate("INSERT INTO " +
                 "checkin(checkin_time, hotel_id, room_number, guest_num, customer_id, account_id) " +
                 "VALUES ('" + checkInTime + "', " + room.getHotel().getId() + ", " + room.getNumber() + ", " +
@@ -31,22 +41,62 @@ public class CheckIn extends Model {
     }
 
     public static CheckIn getById(int id) {
-        // TODO: get instance from database
-        return null;
+        // Get instance from database
+        CheckIn checkIn = new CheckIn(id);
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM checkin WHERE checkin_id = " + id);
+            if(!resultSet.next()) return null;
+            int hotelId = resultSet.getInt("hotel_id");
+            int roomNumber = resultSet.getInt("room_number");
+            int customerId = resultSet.getInt("customer_id");
+            int accountId = resultSet.getInt("account_id");
+            checkIn.setCheckInTime(LocalDateTime.parse(resultSet.getString("checkin_time").split("\\.")[0], DATE_TIME_FORMATTER));
+            String checkOutTime = resultSet.getString("checkout_time");
+            if(null != checkOutTime) checkIn.setCheckOutTime(LocalDateTime.parse(checkOutTime.split("\\.")[0], DATE_TIME_FORMATTER));
+            checkIn.setNumGuest(resultSet.getInt("guest_num"));
+            if(null != resultSet.getObject("amount")) checkIn.setAmount((float) resultSet.getInt("amount"));
+            else checkIn.setAmount(null);
+            resultSet.close();
+            checkIn.setRoom(Room.getById(hotelId, roomNumber));
+            checkIn.setCustomer(Customer.getById(customerId));
+            checkIn.setAccount(Account.getById(accountId));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return checkIn;
     }
 
     public boolean remove() {
-        // TODO: remove from DB
-        return false;
+        // Remove from DB
+        return remove(TABLE_CHECK_IN, "checkin_id = " + id);
     }
 
     public boolean update() {
-        // TODO: update attributes to DB
-        return false;
+        // update attributes to DB
+        try {
+            database.getStatement().executeUpdate("UPDATE checkin " +
+                    "SET checkin_time = '" + checkInTime.toString() + "'" +
+                    ", hotel_id = " + room.getHotel().getId() +
+                    ", room_number = " + room.getNumber() +
+                    ", guest_num = " + numGuest +
+                    ", customer_id = " + customer.getId() +
+                    ", account_id = " + account.getId() +
+                    ", checkout_time = "+ (null == checkOutTime ? "NULL" : ("'" + checkOutTime.toString() + "'")) +
+                    ", amount = " + (null == amount ? "NULL" : amount) +
+                    " WHERE checkin_id = " + id + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    public void checkOut() {
-        // TODO: check out and create bill
+    public void checkOut(LocalDateTime time) {
+        // TODO: check out and create bill amount
+        room.setAvailability(true);
+        room.update();
+
     }
 
     public void serve(Service service) throws SQLException {
@@ -121,11 +171,11 @@ public class CheckIn extends Model {
         this.account = account;
     }
 
-    public float getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

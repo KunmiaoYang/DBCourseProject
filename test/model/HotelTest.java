@@ -55,7 +55,7 @@ public class HotelTest {
         initObject();
         Hotel h = Hotel.getById(123);
         assertNotNull(h);
-        h.remove();
+        assertTrue(h.remove());
         h = Hotel.getById(123);
         assertNull(h);
     }

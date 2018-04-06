@@ -1,9 +1,9 @@
 package model;
 
-import common.Constants;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static common.Constants.*;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Account extends Model {
     }
 
     public Account(Customer customer, String address, String payMethod, Integer cardNumber, String ssn) throws SQLException {
-        if(null == customer) throw new SQLException("Invalid custormer!");
+        if(null == customer) throw new SQLException(ERROR_ACCOUNT_INVALID_CUSTOMER);
         this.customer = customer;
         this.address = address;
         this.payMethod = payMethod;
@@ -44,6 +44,7 @@ public class Account extends Model {
             account.setPayMethod(resultSet.getString("payment_method"));
             account.setCardNumber(resultSet.getInt("card_num"));
             account.setSsn(resultSet.getString("payer_ssn"));
+            resultSet.close();
             account.setCustomer(Customer.getById(customerId));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,8 +55,7 @@ public class Account extends Model {
 
     public boolean remove() {
         // Remove from DB
-        remove(Constants.TABLE_ACCOUNT, "account_id = " + id);
-        return false;
+        return remove(TABLE_ACCOUNT, "account_id = " + id);
     }
 
     public boolean update() {

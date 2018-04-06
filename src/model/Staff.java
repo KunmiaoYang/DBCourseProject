@@ -60,8 +60,7 @@ public class Staff extends Model {
     @Override
     public boolean remove() {
         // Remove from DB
-        remove(Constants.TABLE_STAFF, "staff_id = " + staffId);
-        return false;
+        return remove(Constants.TABLE_STAFF, "staff_id = " + staffId);
     }
 
     @Override
