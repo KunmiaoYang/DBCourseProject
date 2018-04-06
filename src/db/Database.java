@@ -1,12 +1,6 @@
 package db;
 
-import common.Constants;
-import model.Customer;
-import model.Hotel;
-import model.Model;
-
 import java.sql.*;
-import java.time.LocalDate;
 
 /**
  *
@@ -36,7 +30,7 @@ public class Database {
         statement = connection.createStatement();
     }
 
-    private void close() {
+    public void close() {
         if (connection != null) {
             try {
                 connection.close();
@@ -90,40 +84,5 @@ public class Database {
 
     public String getJdbcURL() {
         return jdbcURL;
-    }
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Database db = new Database(Constants.DB_DRIVER, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
-        db.connectToDatabase();
-        Model.setDatabase(db);
-//        Customer customer = new Customer(123, "Yang", "404372", "yang@ncsu.edu", LocalDate.parse("1997-06-02"));
-        Customer customer = Customer.getById(123);
-//        if(customer != null) {
-//            customer.setBirth(LocalDate.now());
-//            customer.setName("Kunmiao");
-//            customer.update();
-//        }
-        if (customer != null) {
-            customer.remove();
-        }
-//        Hotel h = new Hotel("javaInn", "Raleigh", "Avent very", "919000111");
-//        Hotel h = Hotel.getById(5);
-//        if (h != null) {
-//            h.setAddress("Gorman Street");
-//            h.setName("RaleighInn");
-//            h.setPhoneNumber("919111000");
-//            h.update();
-//        }
-//        if (h != null) {
-//            h.remove();
-//        }
-//        db.statement.executeUpdate("CREATE TABLE Students (Name VARCHAR(20), "
-//                + "School VARCHAR(10), Age INTEGER, FundingReceived INTEGER, Income INTEGER, Sex CHAR(1))");
-//        ResultSet r = db.statement.executeQuery("SELECT * FROM Students;");
-//        while(r.next()) {
-//            System.out.print("Name: " + r.getString("Name"));
-//            System.out.println(" Age: " + r.getInt("Age"));
-//        }
-        db.close();
     }
 }

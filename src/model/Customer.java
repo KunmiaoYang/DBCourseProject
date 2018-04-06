@@ -5,7 +5,6 @@ import common.Constants;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  *

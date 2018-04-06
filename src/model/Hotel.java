@@ -1,5 +1,7 @@
 package model;
 
+import common.Constants;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -32,10 +34,10 @@ public class Hotel extends Model {
             ResultSet resultSet = database.getStatement().executeQuery(
                     "SELECT * FROM hotel WHERE hotel_id = " + id + ";");
             if(!resultSet.next()) return null;
-            hotel.name = resultSet.getString("hotel_name");
-            hotel.city = resultSet.getString("city");
-            hotel.address = resultSet.getString("street_address");
-            hotel.phoneNumber = resultSet.getString("hotel_phone_number");
+            hotel.setName(resultSet.getString("hotel_name"));
+            hotel.setCity(resultSet.getString("city"));
+            hotel.setAddress(resultSet.getString("street_address"));
+            hotel.setPhoneNumber(resultSet.getString("hotel_phone_number"));
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,12 +52,7 @@ public class Hotel extends Model {
      */
     public boolean remove() {
         // Remove from DB
-        try {
-            database.getStatement().executeUpdate("DELETE FROM hotel WHERE hotel_id = " + id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        remove(Constants.TABLE_HOTEL, "hotel_id = " + id);
         return true;
     }
 

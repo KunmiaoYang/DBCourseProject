@@ -17,7 +17,7 @@ abstract public class Model {
 
     abstract boolean remove();
 
-    protected boolean remove(String table, String whereClause) {
+    public static boolean remove(String table, String whereClause) {
         try {
             database.getStatement().executeUpdate("DELETE FROM " + table + " WHERE " + whereClause);
         } catch (SQLException e) {
