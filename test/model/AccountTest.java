@@ -32,8 +32,8 @@ public class AccountTest {
     public void initObject() {
         try {
             Model.database.getStatement().executeUpdate("INSERT INTO" +
-                    " account(account_id, billing_address, payment_method, card_num, customer_id)" +
-                    " VALUES (123, 'Raleigh NC EBII', 'credit card', 1234567890, 1002);");
+                    " account(account_id, billing_address, payment_method, card_num, customer_id, payer_ssn)" +
+                    " VALUES (123, 'Raleigh NC EBII', 'credit card', 1234567890, 1002, '777-8352');");
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class AccountTest {
     @Test
     public void testConstructor() throws Exception {
         // Test normal account creation
-        Account a = new Account(Customer.getById(1002), "Raleigh NC EBII", "debit card", 1357924680);
+        Account a = new Account(Customer.getById(1002), "Raleigh NC EBII", "debit card", 1357924680, "777-8352");
         assertNotNull(a);
         assertNotNull(a.getCustomer());
         assertEquals(a.getCustomer().getName(), "Sarah");
@@ -54,7 +54,7 @@ public class AccountTest {
         Model.database.getStatement().executeUpdate("DELETE FROM account WHERE card_num = 1357924680;");
 
         // Test cash account creation
-        a = new Account(Customer.getById(1002), "Raleigh NC EBII", "cash", null);
+        a = new Account(Customer.getById(1002), "Raleigh NC EBII", "cash", null, "777-8352");
         assertNotNull(a);
         assertNotNull(a.getCustomer());
         assertEquals(a.getCustomer().getName(), "Sarah");
@@ -63,12 +63,15 @@ public class AccountTest {
         assertEquals("cash", resultSet.getString("payment_method"));
         assertNull(resultSet.getObject("card_num"));
         resultSet.close();
-        Model.database.getStatement().executeUpdate("DELETE FROM account WHERE ISNULL(card_num) AND payment_method = 'cash';");
+        Model.database.getStatement().executeUpdate("DELETE FROM account WHERE ISNULL(card_num) AND payment_method = 'cash' AND customer_id = 1002;");
 
         // Test incorrect account creation
-        a = new Account(null, "Raleigh NC EBII", "cash", null);
-        assertNull(a);
-        Model.database.getStatement().executeUpdate("DELETE FROM account WHERE ISNULL(card_num) AND payment_method = 'cash';");
+        try {
+            a = new Account(null, "Raleigh NC EBII", "cash", null, "777-8352");
+            assertTrue(false);
+        } catch (SQLException e) {
+            assertEquals(e.getMessage(), "Invalid custormer!");
+        }
     }
 
     @Test

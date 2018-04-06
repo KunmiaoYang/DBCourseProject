@@ -1,5 +1,10 @@
 package model;
 
+import common.Constants;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
@@ -8,29 +13,66 @@ public class Account extends Model {
     int id;
     Integer cardNumber;
     Customer customer;
-    String address, payMethod;
+    String address, payMethod, ssn;
 
-    public Account(Customer customer, String address, String payMethod, Integer cardNumber) {
+    private Account(int id) {
+        this.id = id;
+    }
+
+    public Account(Customer customer, String address, String payMethod, Integer cardNumber, String ssn) throws SQLException {
+        if(null == customer) throw new SQLException("Invalid custormer!");
         this.customer = customer;
         this.address = address;
         this.payMethod = payMethod;
         this.cardNumber = cardNumber;
-        // TODO: create tuple in database
+        this.ssn = ssn;
+        // Create tuple in database
+        database.getStatement().executeUpdate("INSERT INTO " +
+                "account(billing_address, payment_method, card_num, customer_id, payer_ssn) " +
+                "VALUES ('" + address + "', '" + payMethod + "', " + cardNumber + ", " + customer.getId() +
+                ", '" + ssn + "');");
     }
 
     public static Account getById(int id) {
-        // TODO: get instance from database
-        return null;
+        // Get instance from database
+        Account account = new Account(id);
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM account WHERE account_id = " + id);
+            if(!resultSet.next()) return null;
+            int customerId = resultSet.getInt("customer_id");
+            account.setAddress(resultSet.getString("billing_address"));
+            account.setPayMethod(resultSet.getString("payment_method"));
+            account.setCardNumber(resultSet.getInt("card_num"));
+            account.setSsn(resultSet.getString("payer_ssn"));
+            account.setCustomer(Customer.getById(customerId));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return account;
     }
 
     public boolean remove() {
-        // TODO: remove from DB
+        // Remove from DB
+        remove(Constants.TABLE_ACCOUNT, "account_id = " + id);
         return false;
     }
 
     public boolean update() {
-        // TODO: update attributes to DB
-        return false;
+        // Update attributes to DB
+        try {
+            database.getStatement().executeUpdate("UPDATE account" +
+                    " SET billing_address = '" + address + "'" +
+                    ", payment_method = '" + payMethod + "'" +
+                    ", card_num = " + cardNumber +
+                    ", customer_id = " + customer.getId() +
+                    ", payer_ssn = '" + ssn + "'" +
+                    " WHERE account_id = " + id + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public int getId() {
@@ -67,5 +109,13 @@ public class Account extends Model {
 
     public void setCardNumber(Integer cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
     }
 }
