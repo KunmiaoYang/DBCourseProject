@@ -63,7 +63,7 @@ public class Room extends Model {
     }
 
     public boolean update() {
-        // TODO: update attributes to DB
+        // Update attributes to DB
         try {
             database.getStatement().executeUpdate("UPDATE room " +
                     "SET room_type = \"" + this.type + "\"" +

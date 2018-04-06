@@ -66,11 +66,11 @@
     <table name="room" schema="" catalog="kyang12" type="TABLE">
       <column name="hotel_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="room_number" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="room_type" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <column name="availability" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
       <primary-key name="PRIMARY" columns="hotel_id,room_number"/>
       <foreign-key name="room_ibfk_1" columns="hotel_id" ref-table="hotel" ref-schema="" ref-catalog="kyang12" ref-columns="hotel_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="room_ibfk_2" columns="type_id" ref-table="room_type" ref-schema="" ref-catalog="kyang12" ref-columns="type_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="room_ibfk_2" columns="room_type" ref-table="room_type" ref-schema="" ref-catalog="kyang12" ref-columns="room_type" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="checkin_ibfk_1" table="checkin" schema="" catalog="kyang12" columns="hotel_id,room_number"/>
     </table>
     <table name="room_type" schema="" catalog="kyang12" type="TABLE">
@@ -78,7 +78,7 @@
       <column name="max_occupancy" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="nightly_rate" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="room_type"/>
-      <exported-key name="room_ibfk_2" table="room" schema="" catalog="kyang12" columns="type_id"/>
+      <exported-key name="room_ibfk_2" table="room" schema="" catalog="kyang12" columns="room_type"/>
     </table>
     <table name="service_record" schema="" catalog="kyang12" type="TABLE">
       <column name="service_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>

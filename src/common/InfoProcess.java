@@ -52,13 +52,13 @@ public class InfoProcess {
         }
     }
 
-    public static Staff createStaff(int ssn, String name, String phoneNum, Date birth, String title, String department, String address, Hotel hotel) {
-        return new Staff(ssn, name, phoneNum, birth, title, department, address, hotel);
+    public static Staff createStaff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) {
+        return new Staff(staffId, age, name, title, department, phoneNum, address, hotel);
     }
 
-    public static Customer createCustomer(int id, String name, String phone, String email, LocalDate birth) {
+    public static Customer createCustomer(int id, String name, String phoneNum, String email, LocalDate birth) {
         try {
-            return new Customer(id, name, phone, email, birth);
+            return new Customer(id, name, phoneNum, email, birth);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

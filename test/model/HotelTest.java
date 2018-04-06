@@ -31,7 +31,7 @@ public class HotelTest {
         try {
             Model.database.getStatement().executeUpdate("INSERT INTO " +
                     "hotel(hotel_id, hotel_name, city, street_address, hotel_phone_number)" +
-                    "VALUES (123, \"javaInn\", \"Raleigh\", \"Avent very\", \"919000111\");");
+                    "VALUES (123, 'javaInn', 'Raleigh', 'Avent very', '919000111');");
         } catch (SQLException e) {
 //            e.printStackTrace();
         }

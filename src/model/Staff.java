@@ -1,25 +1,27 @@
 package model;
 
-import java.util.Date;
-
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
-public class Staff extends Person {
-    String title, department, address;
+public class Staff extends Model {
+    int staffId, age;
+    String name, title, department, phoneNum, address;
     Hotel hotel;
 
-    public Staff(int ssn, String name, String phoneNum, Date birth, String title, String department, String address, Hotel hotel) {
-        super(ssn, name, phoneNum, birth);
+    public Staff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) {
+        this.staffId = staffId;
+        this.age = age;
+        this.name = name;
         this.title = title;
         this.department = department;
+        this.phoneNum = phoneNum;
         this.address = address;
         this.hotel = hotel;
         // TODO: create tuple in database
     }
 
-    public static Staff getBySSN(int ssn) {
+    public static Staff getById(int id) {
         // TODO: get instance from database
         return null;
     }
@@ -31,14 +33,12 @@ public class Staff extends Person {
 
     @Override
     public boolean remove() {
-        if(!super.remove()) return false;
         // TODO: remove from DB
         return false;
     }
 
     @Override
     public boolean update() {
-        if(!super.update()) return false;
         // TODO: update attributes to DB
         return false;
     }
@@ -81,5 +81,29 @@ public class Staff extends Person {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(int staffId) {
+        this.staffId = staffId;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
