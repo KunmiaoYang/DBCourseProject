@@ -28,10 +28,8 @@ public class CheckInTest {
     public void tearDown() throws Exception {
         Model.remove(TABLE_SERVICE, "checkin_id = 123");
         Model.remove(TABLE_CHECK_IN, "checkin_id = 123");
-        Room room = Room.getById(1, 5);
-        assert room != null;
-        room.setAvailability(true);
-        room.update();
+        Model.database.getStatement().executeUpdate("UPDATE room" +
+                " SET availability = 1 WHERE hotel_id = 1;");
         Model.database.close();
     }
 

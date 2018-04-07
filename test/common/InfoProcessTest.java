@@ -8,14 +8,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import static common.Constants.*;
 import static common.InfoProcess.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -28,6 +26,7 @@ public class InfoProcessTest {
     public void setUp() throws Exception {
         database = new Database(DB_DRIVER, DB_URL, DB_USER, DB_PASSWORD);
         Model.setDatabase(database);
+        InfoProcess.setDatabase(database);
     }
 
     @After
@@ -63,15 +62,5 @@ public class InfoProcessTest {
         rooms = getAvailableRooms(hotel, "Executive");
         assertNotNull(rooms);
         assertTrue(rooms.length == 0);
-    }
-
-    @Test
-    public void testAssignRoom() throws Exception {
-
-    }
-
-    @Test
-    public void testReleaseRoom() throws Exception {
-
     }
 }

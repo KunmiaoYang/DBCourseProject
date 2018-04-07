@@ -85,6 +85,24 @@ public class Room extends Model {
         return true;
     }
 
+    public CheckIn getCurrentCheckIn() {
+        // Get current check in
+        if(availability) return null;
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM checkin" +
+                    " WHERE hotel_id = " + hotel.getId() +
+                    " AND room_number = " + number +
+                    " ORDER BY checkin_time DESC;");
+            if(!resultSet.next()) return null;
+            int checkinId = resultSet.getInt("checkin_id");
+            resultSet.close();
+            return CheckIn.getById(checkinId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Hotel getHotel() {
         return hotel;
     }

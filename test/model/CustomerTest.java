@@ -66,4 +66,13 @@ public class CustomerTest {
         customer = Customer.getById(123);
         assertNull(customer);
     }
+
+    @Test
+    public void testGetDefaultAccount() throws Exception {
+        Customer customer = Customer.getById(1002);
+        assertNotNull(customer);
+        Account account = customer.getDefaultAccount();
+        assertNotNull(account);
+        assertEquals(2, account.getId());
+    }
 }

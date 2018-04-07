@@ -74,4 +74,19 @@ public class RoomTest {
         r.setType("Deluxe");
         assertTrue(r.update());
     }
+
+    @Test
+    public void testGetCurrentCheckIn() throws Exception {
+        Room room = Room.getById(3, 2);
+        assertNotNull(room);
+        CheckIn checkIn = room.getCurrentCheckIn();
+        assertNotNull(checkIn);
+        assertEquals(4, checkIn.getId());
+
+        room = Room.getById(1, 2);
+        assertNotNull(room);
+        checkIn = room.getCurrentCheckIn();
+        assertNull(checkIn);
+
+    }
 }

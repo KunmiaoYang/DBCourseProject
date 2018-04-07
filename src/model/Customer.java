@@ -71,6 +71,22 @@ public class Customer extends Model {
         return true;
     }
 
+    public Account getDefaultAccount() {
+        // Get default account
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM account WHERE customer_id = " + id + ";");
+            if(resultSet.next()) {
+                int accountId = resultSet.getInt("account_id");
+                resultSet.close();
+                return Account.getById(accountId);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+//            e.printStackTrace();
+        }
+        return null;
+    }
+
     public int getId() {
         return id;
     }
