@@ -1,9 +1,6 @@
 package common;
 
-import model.Customer;
-import model.Hotel;
-import model.Room;
-import model.Staff;
+import model.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -96,10 +93,11 @@ public class InfoProcess {
         // TODO: query
         return null;
     }
-    public static Room assignRoom(Room room, Customer customer, LocalDateTime dateTime) {
-        // TODO: assign room
-        return null;
+    public static CheckIn assignRoom(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
+        // TODO: Check in
+        return new CheckIn(checkInTime, customer, account, room, numGuest);
     }
+
     public static boolean releaseRoom(Room room) {
         // TODO: release room
         return false;

@@ -29,9 +29,6 @@ public class Maintainance {
     public static boolean updateService(Service service) {
         return service.update();
     }
-    public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
-        return new CheckIn(checkInTime, customer, account, room, numGuest);
-    }
     public static void checkOut(CheckIn checkIn, Account account) {
         InfoProcess.releaseRoom(checkIn.getRoom());
         if(null != account) checkIn.setAccount(account);

@@ -29,6 +29,7 @@ public class Constants {
     public static final String ERROR_CHECK_IN_ROOM_UNAVAILABLE;
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
     public static final String ERROR_SERVICE_INVALID_CHECK_IN;
+    public static final float PARAMETER_DISCOUNT;
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
@@ -52,5 +53,6 @@ public class Constants {
         ERROR_CHECK_IN_ROOM_UNAVAILABLE = config.getString("error.checkIn.roomUnavailable");
         ERROR_CHECK_IN_EXCEED_OCCUPANCY = config.getString("error.checkIn.exceedOccupancy");
         ERROR_SERVICE_INVALID_CHECK_IN = config.getString("error.service.invalidCheckIn");
+        PARAMETER_DISCOUNT = Float.parseFloat(config.getString("parameter.discount"));
     }
 }

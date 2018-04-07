@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -36,10 +37,28 @@ public class CheckIn extends Model {
         if(room.getMaxOccupy() < numGuest) throw new SQLException(ERROR_CHECK_IN_EXCEED_OCCUPANCY);
         room.setAvailability(false);
         room.update();
-        database.getStatement().executeUpdate("INSERT INTO " +
-                "checkin(checkin_time, hotel_id, room_number, guest_num, customer_id, account_id) " +
-                "VALUES ('" + checkInTime + "', " + room.getHotel().getId() + ", " + room.getNumber() + ", " +
-                numGuest + ", " + customer.getId() + ", " + account.getId() + ");");
+        Connection connection = database.getConnection();
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
+            database.getStatement().executeUpdate("INSERT INTO " +
+                    "checkin(checkin_time, hotel_id, room_number, guest_num, customer_id, account_id) " +
+                    "VALUES ('" + checkInTime + "', " + room.getHotel().getId() + ", " + room.getNumber() + ", " +
+                    numGuest + ", " + customer.getId() + ", " + account.getId() + ");");
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM checkin" +
+                    " WHERE hotel_id = " + room.getHotel().getId() +
+                    " AND room_number = " + room.getNumber() +
+                    " AND customer_id = " + customer.getId() +
+                    " ORDER BY checkin_time DESC;");
+            resultSet.next();
+            this.id = resultSet.getInt("checkin_id");
+            resultSet.close();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
     }
 
     public static CheckIn getById(int id) {
@@ -120,6 +139,8 @@ public class CheckIn extends Model {
             resultSet.next();
             this.amount = (float) resultSet.getInt("price");
             resultSet.close();
+            // Calculate discount
+            if(account.getPayMethod().equals("hotel credit")) this.amount = this.amount * (1 - PARAMETER_DISCOUNT);
         } catch (SQLException e) {
             e.printStackTrace();
         }

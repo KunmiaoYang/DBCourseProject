@@ -60,6 +60,7 @@ public class CheckInTest {
                 " WHERE customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
         assertTrue(resultSet.next());
         assertEquals(0, resultSet.getInt("availability"));
+        assertEquals(c.getId(), resultSet.getInt("checkin_id"));
         resultSet.close();
         Model.remove(TABLE_CHECK_IN, "customer_id = 1002 AND account_id = 2 AND hotel_id = 1 AND room_number = 5;");
         room.setAvailability(true);
@@ -159,6 +160,27 @@ public class CheckInTest {
         assertTrue(r.availability);
         assertNotNull(amount);
         assertEquals(451, amount.intValue());
+    }
+
+    @Test
+    public void testDiscountCheckOut() throws Exception {
+        initObject();
+        CheckIn c = CheckIn.getById(123);
+        assertNotNull(c);
+        Staff staff = Staff.getById(123);
+        assertNotNull(staff);
+        Room r = c.getRoom();
+        assertNotNull(r);
+        assertFalse(r.availability);
+        c.setAccount(Account.getById(2));
+        c.update();
+        assertNull(c.getAmount());
+        new Service("special requests", c, staff);
+        c.checkOut(c.checkInTime.plusDays(2));
+        Float amount = c.getAmount();
+        assertTrue(r.availability);
+        assertNotNull(amount);
+        assertEquals(399, amount.intValue());
     }
 
     @Test
