@@ -105,11 +105,11 @@ public class InfoProcess {
         return account.remove();
     }
 
-    public static Room[] getAvailableRooms(Hotel hotel, String room_type) {
+    public static Room[] getAvailableRooms(int numGuest, Hotel hotel, String room_type) {
         List<Integer> hotelIds = new LinkedList<>(), roomNums = new LinkedList<>();
         try {
-            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM room" +
-                    " WHERE availability = 1" +
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM room NATURAL JOIN room_type" +
+                    " WHERE availability = 1 AND max_occupancy >= " + numGuest +
                     (null == hotel ? "" : (" AND hotel_id = " + hotel.getId())) +
                     (null == room_type ? "" : (" AND room_type = '" + room_type + "'")) +
                     ";");
@@ -129,15 +129,15 @@ public class InfoProcess {
         return rooms;
     }
 
-    public static boolean assignRoom(CheckIn checkIn, Room room, int numGuest) {
+    public static boolean assignRoom(Room room, int numGuest) {
         if(!room.isAvailability() || numGuest > room.getMaxOccupy()) return false;
         room.setAvailability(false);
         room.update();
 
-        Room oldRoom = checkIn.getRoom();
-        releaseRoom(oldRoom);
-        checkIn.setRoom(room);
-        checkIn.update();
+//        Room oldRoom = checkIn.getRoom();
+//        releaseRoom(oldRoom);
+//        checkIn.setRoom(room);
+//        checkIn.update();
         return true;
     }
 

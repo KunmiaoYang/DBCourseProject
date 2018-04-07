@@ -35,8 +35,8 @@ public class CheckIn extends Model {
         // Create tuple in database
         if(!room.availability) throw new SQLException(ERROR_CHECK_IN_ROOM_UNAVAILABLE);
         if(room.getMaxOccupy() < numGuest) throw new SQLException(ERROR_CHECK_IN_EXCEED_OCCUPANCY);
-        room.setAvailability(false);
-        room.update();
+//        room.setAvailability(false);
+//        room.update();
         Connection connection = database.getConnection();
         try {
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);

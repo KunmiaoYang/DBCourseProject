@@ -30,7 +30,9 @@ public class Maintainance {
         return service.update();
     }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
-        return new CheckIn(checkInTime, customer, account, room, numGuest);
+        if(InfoProcess.assignRoom(room, numGuest))          // If successfully assign a room, check in the customer
+            return new CheckIn(checkInTime, customer, account, room, numGuest);
+        return null;
     }
     public static void checkOut(CheckIn checkIn, Account account) {
         InfoProcess.releaseRoom(checkIn.getRoom());

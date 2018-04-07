@@ -39,27 +39,27 @@ public class InfoProcessTest {
         Hotel hotel = Hotel.getById(1);
         assertNotNull(hotel);
 
-        Room[] rooms = getAvailableRooms(hotel, "Deluxe");
+        Room[] rooms = getAvailableRooms(2, hotel, "Deluxe");
         assertNotNull(rooms);
         assertTrue(rooms.length > 0);
         for(Room room: rooms) assertTrue(room.isAvailability() && room.getHotel().getId() == 1 && Objects.equals(room.getType(), "Deluxe"));
 
-        rooms = getAvailableRooms(hotel, null);
+        rooms = getAvailableRooms(2, hotel, null);
         assertNotNull(rooms);
         assertTrue(rooms.length > 0);
         for(Room room: rooms) assertTrue(room.isAvailability() && room.getHotel().getId() == 1);
 
-        rooms = getAvailableRooms(null, "Economy");
+        rooms = getAvailableRooms(1, null, "Economy");
         assertNotNull(rooms);
         assertTrue(rooms.length > 0);
         for(Room room: rooms) assertTrue(room.isAvailability() && Objects.equals(room.getType(), "Economy"));
 
-        rooms = getAvailableRooms(null, null);
+        rooms = getAvailableRooms(1, null, null);
         assertNotNull(rooms);
         assertTrue(rooms.length > 0);
         for(Room room: rooms) assertTrue(room.isAvailability());
 
-        rooms = getAvailableRooms(hotel, "Executive");
+        rooms = getAvailableRooms(1, hotel, "Executive");
         assertNotNull(rooms);
         assertTrue(rooms.length == 0);
     }
