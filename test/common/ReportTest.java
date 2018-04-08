@@ -36,20 +36,20 @@ public class ReportTest {
 
     @Test
     public void testGetOccupancyByHotel() throws Exception {
-        Map<String, Occupancy> report = getOccupancyByHotel();
+        Map<Integer, Occupancy> report = getOccupancyByHotel();
         assertNotNull(report);
-        assertTrue(report.containsKey("Hotel A"));
-        assertTrue(report.containsKey("Hotel B"));
-        assertTrue(report.containsKey("Hotel C"));
-        assertTrue(report.containsKey("Hotel D"));
-        assertEquals(0, report.get("Hotel A").percentage, 0.0001);
-        assertEquals(0, report.get("Hotel B").percentage, 0.0001);
-        assertEquals(1, report.get("Hotel C").percentage, 0.0001);
-        assertEquals(0, report.get("Hotel D").percentage, 0.0001);        
-        assertEquals(0, report.get("Hotel A").occupancy);
-        assertEquals(0, report.get("Hotel B").occupancy);
-        assertEquals(1, report.get("Hotel C").occupancy);
-        assertEquals(0, report.get("Hotel D").occupancy);
+        assertTrue(report.containsKey(1));
+        assertTrue(report.containsKey(2));
+        assertTrue(report.containsKey(3));
+        assertTrue(report.containsKey(4));
+        assertEquals(0, report.get(1).percentage, 0.0001);
+        assertEquals(0, report.get(2).percentage, 0.0001);
+        assertEquals(1, report.get(3).percentage, 0.0001);
+        assertEquals(0, report.get(4).percentage, 0.0001);        
+        assertEquals(0, report.get(1).occupancy);
+        assertEquals(0, report.get(2).occupancy);
+        assertEquals(1, report.get(3).occupancy);
+        assertEquals(0, report.get(4).occupancy);
     }
 
     @Test
@@ -92,9 +92,9 @@ public class ReportTest {
         assertTrue(report.containsKey("2016-05-10"));
         assertTrue(report.containsKey("2017-05-10"));
         assertTrue(report.containsKey("2018-05-10"));
-        assertEquals(1/6, report.get("2016-05-10").percentage, 0.0001);
-        assertEquals(1/3, report.get("2017-05-10").percentage, 0.0001);
-        assertEquals(1/6, report.get("2018-05-10").percentage, 0.0001);
+        assertEquals(1.0/6, report.get("2016-05-10").percentage, 0.0001);
+        assertEquals(1.0/3, report.get("2017-05-10").percentage, 0.0001);
+        assertEquals(1.0/6, report.get("2018-05-10").percentage, 0.0001);
         assertEquals(1, report.get("2016-05-10").occupancy);
         assertEquals(2, report.get("2017-05-10").occupancy);
         assertEquals(1, report.get("2018-05-10").occupancy);

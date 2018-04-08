@@ -6,8 +6,11 @@ import model.Hotel;
 import model.Model;
 import model.Staff;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,21 +21,80 @@ import java.util.Map;
 public class Report {
     private static Database database;
 
-    public static Map<String, Occupancy> getOccupancyByHotel() {
-        // TODO: query
-        return null;
+    public static Map<Integer, Occupancy> getOccupancyByHotel() {
+        Map<Integer, Occupancy> report = new HashMap<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT hotel_id," +
+                    " count(*) - SUM(availability) AS occupancy," +
+                    " 1 - SUM(availability)/COUNT(*) AS percentage" +
+                    " FROM room GROUP BY hotel_id;");
+            while (resultSet.next()) {
+                report.put(resultSet.getInt("hotel_id"),
+                        new Occupancy(resultSet.getInt("occupancy"), resultSet.getFloat("percentage")));
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return report;
     }
     public static Map<String, Occupancy> getOccupancyByRoomType() {
-        // TODO: query
-        return null;
+        Map<String, Occupancy> report = new HashMap<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT room_type," +
+                    " count(*) - SUM(availability) AS occupancy," +
+                    " 1 - SUM(availability)/COUNT(*) AS percentage" +
+                    " FROM room GROUP BY room_type;");
+            while (resultSet.next()) {
+                report.put(resultSet.getString("room_type"),
+                        new Occupancy(resultSet.getInt("occupancy"), resultSet.getFloat("percentage")));
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return report;
     }
     public static Map<String, Occupancy> getOccupancyByCity() {
-        // TODO: query
-        return null;
+        Map<String, Occupancy> report = new HashMap<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT city," +
+                    " count(*) - SUM(availability) AS occupancy," +
+                    " 1 - SUM(availability)/COUNT(*) AS percentage" +
+                    " FROM room NATURAL JOIN hotel GROUP BY city;");
+            while (resultSet.next()) {
+                report.put(resultSet.getString("city"),
+                        new Occupancy(resultSet.getInt("occupancy"), resultSet.getFloat("percentage")));
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return report;
     }
     public static Map<String, Occupancy> getOccupancyByDateRange() {
         // TODO: query
-        return null;
+        Map<String, Occupancy> report = new HashMap<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT DATE(checkin_time) AS date," +
+                            " COUNT(*) AS occupancy," +
+                            " COUNT(*)/total AS percentage" +
+                            " FROM checkin," +
+                            " (SELECT COUNT(*) AS total FROM room) AS roomCount" +
+                            " GROUP BY date;");
+            while (resultSet.next()) {
+                report.put(resultSet.getString("date"),
+                        new Occupancy(resultSet.getInt("occupancy"), resultSet.getFloat("percentage")));
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return report;
     }
     public static Map<String, List<Staff>> getStaffsByRole(){
         // TODO: query
@@ -65,5 +127,10 @@ public class Report {
     public static class Occupancy {
         public int occupancy;
         public float percentage;
+
+        public Occupancy(int occupancy, float percentage) {
+            this.occupancy = occupancy;
+            this.percentage = percentage;
+        }
     }
 }
