@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static common.Constants.*;
@@ -188,15 +189,15 @@ public class CheckInTest {
         assertNotNull(c);
         Staff staff = Staff.getById(123);
         assertNotNull(staff);
-        Service[] services = c.getAllServices();
-        assertEquals(0, services.length);
+        List<Service> services = c.getAllServices();
+        assertEquals(0, services.size());
 
         new Service("gyms", c, null);
         new Service("dry cleaning", c, staff);
         new Service("special requests", c, staff);
         services = c.getAllServices();
         assertNotNull(services);
-        assertEquals(3, services.length);
+        assertEquals(3, services.size());
         Model.database.getStatement().executeUpdate("DELETE FROM service_record WHERE checkin_id = 123;");
     }
 }

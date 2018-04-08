@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -147,7 +148,7 @@ public class CheckIn extends Model {
         update();
     }
 
-    public Service[] getAllServices() {
+    public List<Service> getAllServices() {
         // Get all services created for this check in
         List<Integer> serviceIds = new LinkedList<>();
         try {
@@ -157,11 +158,10 @@ public class CheckIn extends Model {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Service[0];
+            return new ArrayList<>();
         }
-        Service[] services = new Service[serviceIds.size()];
-        int i = 0;
-        for(Integer serviceId : serviceIds) services[i++] = Service.getById(serviceId);
+        List<Service> services = new ArrayList<>(serviceIds.size());
+        for(Integer serviceId : serviceIds) services.add(Service.getById(serviceId));
         return services;
     }
 

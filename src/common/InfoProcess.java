@@ -105,7 +105,7 @@ public class InfoProcess {
         return account.remove();
     }
 
-    public static Room[] getAvailableRooms(int numGuest, Hotel hotel, String room_type) {
+    public static List<Room> getAvailableRooms(int numGuest, Hotel hotel, String room_type) {
         List<Integer> hotelIds = new LinkedList<>(), roomNums = new LinkedList<>();
         try {
             ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM room NATURAL JOIN room_type" +
@@ -120,12 +120,11 @@ public class InfoProcess {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Room[0];
+            return new ArrayList<>();
         }
-        Room[] rooms = new Room[roomNums.size()];
-        int i = 0;
-        for(Iterator<Integer> itHotel = hotelIds.iterator(), itRoom = roomNums.iterator(); itHotel.hasNext() && itRoom.hasNext(); i++)
-            rooms[i] = Room.getById(itHotel.next(), itRoom.next());
+        List<Room> rooms = new ArrayList<>(roomNums.size());
+        for(Iterator<Integer> itHotel = hotelIds.iterator(), itRoom = roomNums.iterator(); itHotel.hasNext() && itRoom.hasNext(); )
+            rooms.add(Room.getById(itHotel.next(), itRoom.next()));
         return rooms;
     }
 
