@@ -40,8 +40,6 @@ public class CheckIn extends Model {
 //        room.update();
         Connection connection = database.getConnection();
         try {
-            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            connection.setAutoCommit(false);
             database.getStatement().executeUpdate("INSERT INTO " +
                     "checkin(checkin_time, hotel_id, room_number, guest_num, customer_id, account_id) " +
                     "VALUES ('" + checkInTime + "', " + room.getHotel().getId() + ", " + room.getNumber() + ", " +
@@ -55,10 +53,7 @@ public class CheckIn extends Model {
             this.id = resultSet.getInt("checkin_id");
             resultSet.close();
         } catch (SQLException e) {
-            connection.rollback();
             throw e;
-        } finally {
-            connection.setAutoCommit(true);
         }
     }
 

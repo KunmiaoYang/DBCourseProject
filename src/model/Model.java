@@ -28,4 +28,8 @@ abstract public class Model {
     }
 
     abstract boolean update();
+
+    public static Database getDatabase() {
+        return database;
+    }
 }

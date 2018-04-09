@@ -2,6 +2,7 @@ package common;
 
 import model.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -30,8 +31,19 @@ public class Maintainance {
         return service.update();
     }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
-        if(InfoProcess.assignRoom(room, numGuest))          // If successfully assign a room, check in the customer
-            return new CheckIn(checkInTime, customer, account, room, numGuest);
+        Connection connection = Model.getDatabase().getConnection();
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
+            if(InfoProcess.assignRoom(room, numGuest))          // If successfully assign a room, check in the customer
+                return new CheckIn(checkInTime, customer, account, room, numGuest);
+            else connection.rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connection.rollback();
+        } finally {
+            connection.setAutoCommit(true);
+        }
         return null;
     }
     public static void checkOut(CheckIn checkIn, Account account) {
