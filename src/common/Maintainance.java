@@ -46,11 +46,21 @@ public class Maintainance {
         }
         return null;
     }
-    public static void checkOut(CheckIn checkIn, Account account) {
-        InfoProcess.releaseRoom(checkIn.getRoom());
-        if(null != account) checkIn.setAccount(account);
-        checkIn.update();
-        checkIn.checkOut(LocalDateTime.now());
+    public static void checkOut(CheckIn checkIn, Account account) throws SQLException {
+        Connection connection = Model.getDatabase().getConnection();
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
+            InfoProcess.releaseRoom(checkIn.getRoom());
+            if(null != account) checkIn.setAccount(account);
+            checkIn.update();
+            checkIn.checkOut(LocalDateTime.now());
+        } catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+        } finally {
+            connection.setAutoCommit(true);
+        }
     }
     public static boolean removeService(Service service) {
         return service.remove();
