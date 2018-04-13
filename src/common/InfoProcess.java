@@ -32,45 +32,20 @@ public class InfoProcess {
         return Account.getById(id);
     }
 
-    public static Hotel createHotel(String name, String city, String address, String phoneNumber) {
-        try {
-            return new Hotel(name, city, address, phoneNumber);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Hotel createHotel(String name, String city, String address, String phoneNumber) throws SQLException {
+        return new Hotel(name, city, address, phoneNumber);
     }
-    public static Room createRoom(Hotel hotel, int number, String type, boolean availability) {
-        try {
-            return new Room(hotel, number, type, availability);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Room createRoom(Hotel hotel, int number, String type, boolean availability) throws SQLException {
+        return new Room(hotel, number, type, availability);
     }
-    public static Staff createStaff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) {
-        try {
-            return new Staff(staffId, age, name, title, department, phoneNum, address, hotel);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Staff createStaff(int staffId, int age, String name, String title, String department, String phoneNum, String address, Hotel hotel) throws SQLException {
+        return new Staff(staffId, age, name, title, department, phoneNum, address, hotel);
     }
-    public static Customer createCustomer(int id, String name, String phoneNum, String email, LocalDate birth) {
-        try {
-            return new Customer(id, name, phoneNum, email, birth);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Customer createCustomer(int id, String name, String phoneNum, String email, LocalDate birth) throws SQLException {
+        return new Customer(id, name, phoneNum, email, birth);
     }
-    public static Account createAccount(Customer customer, String address, String payMethod, Integer cardNumber, String ssn) {
-        try {
-            return new Account(customer, address, payMethod, cardNumber, ssn);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Account createAccount(Customer customer, String address, String payMethod, Integer cardNumber, String ssn) throws SQLException {
+        return new Account(customer, address, payMethod, cardNumber, ssn);
     }
 
     public static boolean updateHotel(Hotel hotel) {

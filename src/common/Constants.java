@@ -33,6 +33,8 @@ public class Constants {
     public static final float PARAMETER_DISCOUNT;
     public static final String CONSOLE_MARKER_COMMAND;
     public static final String CONSOLE_MARKER_PARAMETER;
+    public static final String PROMPT_STATUS_SUCCESS;
+    public static final String PROMPT_STATUS_FAIL;
     public static final String PROMPT_MENU;
     public static final String PROMPT_CREATE;
     public static final String PROMPT_READ;
@@ -41,6 +43,10 @@ public class Constants {
     public static final String PROMPT_ASSIGN;
     public static final String PROMPT_RELEASE;
     public static final String PROMPT_PARAMETER_HOTEL;
+    public static final String PROMPT_PARAMETER_ROOM;
+    public static final String PROMPT_PARAMETER_STAFF;
+    public static final String PROMPT_PARAMETER_CUSTOMER;
+    public static final String PROMPT_PARAMETER_ACCOUNT;
     public static final String CMD_MENU = "menu";
     public static final String CMD_EXIT = "exit";
     public static final String CMD_CREATE = "enter";
@@ -53,6 +59,7 @@ public class Constants {
     public static final String CMD_OBJECT_ROOM = "room";
     public static final String CMD_OBJECT_STAFF = "staff";
     public static final String CMD_OBJECT_CUSTOMER = "customer";
+    public static final String CMD_OBJECT_ACCOUNT = "account";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
@@ -80,6 +87,8 @@ public class Constants {
         PARAMETER_DISCOUNT = Float.parseFloat(config.getString("parameter.discount"));
         CONSOLE_MARKER_COMMAND = config.getString("console.marker.command");
         CONSOLE_MARKER_PARAMETER = config.getString("console.marker.parameter");
+        PROMPT_STATUS_SUCCESS = config.getString("prompt.status.success");
+        PROMPT_STATUS_FAIL = config.getString("prompt.status.fail");
         PROMPT_MENU = config.getString("prompt.menu");
         PROMPT_CREATE = config.getString("prompt.create");
         PROMPT_READ = config.getString("prompt.read");
@@ -88,5 +97,9 @@ public class Constants {
         PROMPT_ASSIGN = config.getString("prompt.assign");
         PROMPT_RELEASE = config.getString("prompt.release");
         PROMPT_PARAMETER_HOTEL = config.getString("prompt.parameter.hotel");
+        PROMPT_PARAMETER_ROOM = config.getString("prompt.parameter.room");
+        PROMPT_PARAMETER_STAFF = config.getString("prompt.parameter.staff");
+        PROMPT_PARAMETER_CUSTOMER = config.getString("prompt.parameter.customer");
+        PROMPT_PARAMETER_ACCOUNT = config.getString("prompt.parameter.account");
     }
 }
