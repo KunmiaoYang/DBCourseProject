@@ -1,11 +1,9 @@
 package ui;
 
 import common.InfoProcess;
-import common.Maintainance;
 import common.Report;
 import db.Database;
 import model.*;
-import sun.applet.Main;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -306,7 +304,73 @@ public class Console {
     }
 
     public void delete(String[] args) {
-        // TODO: Print parameter detail
+        if(args.length < 2) {
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            return;
+        }
+        out.println(PROMPT_DELETE);
+        switch (args[1].toLowerCase()) {
+            case CMD_OBJECT_HOTEL: deleteHotel(args); return;
+            case CMD_OBJECT_ROOM: updateRoom(args); return;
+            case CMD_OBJECT_STAFF: updateStaff(args); return;
+            case CMD_OBJECT_CUSTOMER: updateCustomer(args); return;
+            case CMD_OBJECT_ACCOUNT: updateAccount(args); return;
+            default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+        }
+    }
+
+    public void deleteHotel(String[] args) {
+        // TODO: Print hotels
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_HOTEL);
+
+        // TODO: accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 5);
+            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0]));
+            if(null == hotel) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            hotel.remove();
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    public void deleteRoom(String[] args) {
+        // TODO: Print hotels
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_ROOM);
+
+        // TODO: accept further parameter and execute
+    }
+
+    public void deleteStaff(String[] args) {
+        // TODO: Print hotels
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_STAFF);
+
+        // TODO: accept further parameter and execute
+    }
+
+    public void deleteCustomer(String[] args) {
+        // TODO: Print hotels
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_CUSTOMER);
+
+        // TODO: accept further parameter and execute
+    }
+
+    public void deleteAccount(String[] args) {
+        // TODO: Print hotels
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_ACCOUNT);
 
         // TODO: accept further parameter and execute
     }

@@ -53,9 +53,9 @@ public class Account extends Model {
         return account;
     }
 
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(TABLE_ACCOUNT, "account_id = " + id);
+        remove(TABLE_ACCOUNT, "account_id = " + id);
     }
 
     public void update() throws SQLException {

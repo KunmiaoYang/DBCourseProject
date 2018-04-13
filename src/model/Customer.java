@@ -50,9 +50,9 @@ public class Customer extends Model {
         return customer;
     }
 
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(Constants.TABLE_CUSTOMER, "customer_id = " + this.id);
+        remove(Constants.TABLE_CUSTOMER, "customer_id = " + this.id);
     }
 
     public void update() throws SQLException {

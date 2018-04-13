@@ -93,7 +93,12 @@ public class AccountTest {
         initObject();
         Account a = Account.getById(123);
         assertNotNull(a);
-        assertTrue(a.remove());
+        try {
+            a.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         a = Account.getById(123);
         assertNull(a);
     }

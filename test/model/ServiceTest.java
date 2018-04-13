@@ -101,7 +101,12 @@ public class ServiceTest {
         initObject();
         Service s = Service.getById(123);
         assertNotNull(s);
-        assertTrue(s.remove());
+        try {
+            s.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         s = Service.getById(123);
         assertNull(s);
     }

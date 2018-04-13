@@ -9,10 +9,12 @@ import java.util.ResourceBundle;
  */
 public class Constants {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public static final String DB_DRIVER;
     public static final String DB_URL;
     public static final String DB_USER;
     public static final String DB_PASSWORD;
+
     public static final String TABLE_ACCOUNT;
     public static final String TABLE_BILL;
     public static final String TABLE_CHECK_IN;
@@ -21,19 +23,24 @@ public class Constants {
     public static final String TABLE_ROOM;
     public static final String TABLE_SERVICE;
     public static final String TABLE_STAFF;
+
     public static final String ATTR_HOTEL_NAME;
     public static final String ATTR_HOTEL_CITY;
     public static final String ATTR_HOTEL_STREET;
     public static final String ATTR_HOTEL_PHONE;
+
     public static final String ERROR_ACCOUNT_INVALID_CUSTOMER;
     public static final String ERROR_CHECK_IN_ROOM_UNAVAILABLE;
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
     public static final String ERROR_SERVICE_INVALID_CHECK_IN;
     public static final String ERROR_CONSOLE_INVALID_PARAMETER;
     public static final String ERROR_CONSOLE_INVALID_KEY;
+
     public static final float PARAMETER_DISCOUNT;
+
     public static final String CONSOLE_MARKER_COMMAND;
     public static final String CONSOLE_MARKER_PARAMETER;
+
     public static final String PROMPT_STATUS_SUCCESS;
     public static final String PROMPT_STATUS_FAIL;
     public static final String PROMPT_MENU;
@@ -44,12 +51,16 @@ public class Constants {
     public static final String PROMPT_ASSIGN;
     public static final String PROMPT_RELEASE;
     public static final String PROMPT_PARAMETER_KEY_HOTEL;
+    public static final String PROMPT_PARAMETER_KEY_ROOM;
+    public static final String PROMPT_PARAMETER_KEY_STAFF;
+    public static final String PROMPT_PARAMETER_KEY_CUSTOMER;
     public static final String PROMPT_PARAMETER_KEY_ACCOUNT;
     public static final String PROMPT_PARAMETER_HOTEL;
     public static final String PROMPT_PARAMETER_ROOM;
     public static final String PROMPT_PARAMETER_STAFF;
     public static final String PROMPT_PARAMETER_CUSTOMER;
     public static final String PROMPT_PARAMETER_ACCOUNT;
+
     public static final String CMD_MENU = "menu";
     public static final String CMD_EXIT = "exit";
     public static final String CMD_CREATE = "enter";
@@ -101,6 +112,9 @@ public class Constants {
         PROMPT_ASSIGN = config.getString("prompt.assign");
         PROMPT_RELEASE = config.getString("prompt.release");
         PROMPT_PARAMETER_KEY_HOTEL = config.getString("prompt.parameter.key.hotel");
+        PROMPT_PARAMETER_KEY_ROOM = config.getString("prompt.parameter.key.room");
+        PROMPT_PARAMETER_KEY_STAFF = config.getString("prompt.parameter.key.staff");
+        PROMPT_PARAMETER_KEY_CUSTOMER = config.getString("prompt.parameter.key.customer");
         PROMPT_PARAMETER_KEY_ACCOUNT = config.getString("prompt.parameter.key.account");
         PROMPT_PARAMETER_HOTEL = config.getString("prompt.parameter.hotel");
         PROMPT_PARAMETER_ROOM = config.getString("prompt.parameter.room");

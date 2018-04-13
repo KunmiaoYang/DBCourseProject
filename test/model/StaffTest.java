@@ -60,7 +60,12 @@ public class StaffTest {
         initObject();
         Staff s = Staff.getById(123);
         assertNotNull(s);
-        assertTrue(s.remove());
+        try {
+            s.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         s = Staff.getById(123);
         assertNull(s);
     }

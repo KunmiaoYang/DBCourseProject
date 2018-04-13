@@ -67,7 +67,12 @@ public class CustomerTest {
     public void testRemove() throws Exception {
         Customer customer = Customer.getById(123);
         assertNotNull(customer);
-        assertTrue(customer.remove());
+        try {
+            customer.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         customer = Customer.getById(123);
         assertNull(customer);
     }

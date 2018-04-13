@@ -58,9 +58,9 @@ public class Staff extends Model {
     }
 
     @Override
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(Constants.TABLE_STAFF, "staff_id = " + staffId);
+        remove(Constants.TABLE_STAFF, "staff_id = " + staffId);
     }
 
     @Override

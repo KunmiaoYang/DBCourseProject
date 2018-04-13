@@ -66,9 +66,9 @@ public class Room extends Model {
         return room;
     }
 
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(Constants.TABLE_ROOM, "hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number);
+        remove(Constants.TABLE_ROOM, "hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number);
     }
 
     public void update() throws SQLException {

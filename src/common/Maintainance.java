@@ -5,8 +5,6 @@ import model.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Map;
 
 /**
  * 
@@ -62,10 +60,18 @@ public class Maintainance {
             connection.setAutoCommit(true);
         }
     }
-    public static boolean removeService(Service service) {
-        return service.remove();
+    public static void removeService(Service service) {
+        try {
+            service.remove();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
-    public static boolean removeCheckIn(CheckIn checkIn) {
-        return checkIn.remove();
+    public static void removeCheckIn(CheckIn checkIn) {
+        try {
+            checkIn.remove();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

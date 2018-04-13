@@ -121,7 +121,12 @@ public class CheckInTest {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
-        assertTrue(c.remove());
+        try {
+            c.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         c = CheckIn.getById(123);
         assertNull(c);
     }

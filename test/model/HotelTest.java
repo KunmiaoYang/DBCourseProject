@@ -55,7 +55,12 @@ public class HotelTest {
         initObject();
         Hotel h = Hotel.getById(123);
         assertNotNull(h);
-        assertTrue(h.remove());
+        try {
+            h.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         h = Hotel.getById(123);
         assertNull(h);
     }

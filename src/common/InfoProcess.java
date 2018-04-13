@@ -6,7 +6,6 @@ import model.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -36,8 +35,12 @@ public class InfoProcess {
         model.update();
     }
 
-    public static boolean remove(Model model) {
-        return model.remove();
+    public static void remove(Model model) {
+        try {
+            model.remove();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public static List<Room> getAvailableRooms(int numGuest, Hotel hotel, String room_type) {

@@ -51,9 +51,9 @@ public class Hotel extends Model {
      * Remove hotel from DB
      * @return true if success
      */
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(Constants.TABLE_HOTEL, "hotel_id = " + id);
+        remove(Constants.TABLE_HOTEL, "hotel_id = " + id);
     }
 
     public void update() throws SQLException {

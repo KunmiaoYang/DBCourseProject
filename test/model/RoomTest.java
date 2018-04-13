@@ -60,7 +60,12 @@ public class RoomTest {
         initObject();
         Room r = Room.getById(1, 123);
         assertNotNull(r);
-        assertTrue(r.remove());
+        try {
+            r.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         r = Room.getById(1, 123);
         assertNull(r);
     }

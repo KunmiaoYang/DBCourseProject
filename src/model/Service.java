@@ -55,9 +55,9 @@ public class Service extends Model {
         return service;
     }
 
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(TABLE_SERVICE, "service_id = " + id);
+        remove(TABLE_SERVICE, "service_id = " + id);
     }
 
     public void update() throws SQLException {

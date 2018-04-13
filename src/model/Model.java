@@ -15,16 +15,10 @@ abstract public class Model {
         Model.database = database;
     }
 
-    public abstract boolean remove();
+    public abstract void remove() throws SQLException;
 
-    public static boolean remove(String table, String whereClause) {
-        try {
-            database.getStatement().executeUpdate("DELETE FROM " + table + " WHERE " + whereClause + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    public static void remove(String table, String whereClause) throws SQLException {
+        database.getStatement().executeUpdate("DELETE FROM " + table + " WHERE " + whereClause + ";");
     }
 
     public abstract void update() throws SQLException;

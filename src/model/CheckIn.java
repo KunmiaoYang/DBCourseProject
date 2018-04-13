@@ -84,9 +84,9 @@ public class CheckIn extends Model {
         return checkIn;
     }
 
-    public boolean remove() {
+    public void remove() throws SQLException {
         // Remove from DB
-        return remove(TABLE_CHECK_IN, "checkin_id = " + id);
+        remove(TABLE_CHECK_IN, "checkin_id = " + id);
     }
 
     public void update() throws SQLException {
