@@ -5,6 +5,11 @@ import model.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static common.Constants.FORMAT_BILL_CHECK_IN;
+import static common.Constants.FORMAT_BILL_SERVICE;
+import static common.Constants.FORMAT_BILL_TOTAL;
 
 /**
  * 
@@ -23,6 +28,10 @@ public class Maintainance {
     public static void update(Model model) throws SQLException {
         model.update();
     }
+    public static Bill generateBill(CheckIn checkIn) throws SQLException {
+        checkIn.calculateBill(LocalDateTime.now());
+        return new Bill(checkIn, checkIn.getAmount(), checkIn.getAllServices());
+    }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         Connection connection = Model.getDatabase().getConnection();
         try {
@@ -38,21 +47,24 @@ public class Maintainance {
         }
         return null;
     }
-    public static void checkOut(CheckIn checkIn, Account account) throws SQLException {
+    public static Bill checkOut(CheckIn checkIn, Account account) throws SQLException {
         Connection connection = Model.getDatabase().getConnection();
+        Bill bill = null;
         try {
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
             InfoProcess.releaseRoom(checkIn.getRoom());
             if(null != account) checkIn.setAccount(account);
             checkIn.update();
-            checkIn.checkOut(LocalDateTime.now());
+            checkIn.calculateBill(LocalDateTime.now());
+            bill = generateBill(checkIn);
         } catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
         }
+        return bill;
     }
     public static void removeService(Service service) {
         try {
@@ -66,6 +78,32 @@ public class Maintainance {
             checkIn.remove();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    public static class Bill {
+        public CheckIn checkIn;
+        public float amount;
+        public List<Service> services;
+
+        public Bill(CheckIn checkIn, float amount, List<Service> services) {
+            this.checkIn = checkIn;
+            this.amount = amount;
+            this.services = services;
+        }
+
+        @Override
+        public String toString() {
+            Room room = checkIn.getRoom();
+            Hotel hotel = room.getHotel();
+            StringBuilder sb = new StringBuilder(String.format(FORMAT_BILL_CHECK_IN,
+                    hotel.getName(), room.getNumber(), room.getType(), room.getNightlyRate(),
+                    checkIn.getCheckInTime(), checkIn.getCheckOutTime()));
+            for(Service service: services)
+                sb.append(String.format(FORMAT_BILL_SERVICE,
+                        service.getServiceType(), service.getPrice()));
+            sb.append(String.format(FORMAT_BILL_TOTAL, amount));
+            return sb.toString();
         }
     }
 }

@@ -66,9 +66,12 @@ public class Constants {
     public static final String PROMPT_PARAMETER_SERVICE;
     public static final String PROMPT_PARAMETER_ASSIGN;
     public static final String PROMPT_CONDITION_ROOM;
-
     public static final String PROMPT_TABLE_HEADER_ROOM;
-    public static final String PROMPT_TABLE_FORMAT_ROOM;
+
+    public static final String FORMAT_PROMPT_TABLE_ROOM;
+    public static final String FORMAT_BILL_CHECK_IN;
+    public static final String FORMAT_BILL_SERVICE;
+    public static final String FORMAT_BILL_TOTAL;
 
     public static final String CMD_MENU = "menu";
     public static final String CMD_EXIT = "exit";
@@ -143,8 +146,11 @@ public class Constants {
         PROMPT_PARAMETER_SERVICE = config.getString("prompt.parameter.service");
         PROMPT_PARAMETER_ASSIGN = config.getString("prompt.parameter.assign");
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
-
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
-        PROMPT_TABLE_FORMAT_ROOM = config.getString("prompt.table.format.room");
+
+        FORMAT_PROMPT_TABLE_ROOM = config.getString("format.prompt.table.room");
+        FORMAT_BILL_CHECK_IN = config.getString("format.bill.checkin");
+        FORMAT_BILL_SERVICE = config.getString("format.bill.service");
+        FORMAT_BILL_TOTAL = config.getString("format.bill.total");
     }
 }

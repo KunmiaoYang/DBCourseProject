@@ -5,7 +5,6 @@ import common.Maintainance;
 import common.Report;
 import db.Database;
 import model.*;
-import sun.applet.Main;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -208,7 +207,7 @@ public class Console {
             out.println(PROMPT_TABLE_HEADER_ROOM);
             for(Room room: rooms) {
                 hotel = room.getHotel();
-                out.println(String.format(PROMPT_TABLE_FORMAT_ROOM,
+                out.println(String.format(FORMAT_PROMPT_TABLE_ROOM,
                         hotel.getId(), hotel.getName(), room.getNumber(),
                         room.getType(), room.getMaxOccupy(), room.getNightlyRate()));
             }

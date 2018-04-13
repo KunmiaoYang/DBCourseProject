@@ -107,7 +107,7 @@ public class CheckIn extends Model {
      * Check out and create bill amount
      * @param checkOutTime check out time
      */
-    public void checkOut(LocalDateTime checkOutTime) throws SQLException {
+    public void calculateBill(LocalDateTime checkOutTime) throws SQLException {
         // Reset room availability
         room.setAvailability(true);
         room.update();
