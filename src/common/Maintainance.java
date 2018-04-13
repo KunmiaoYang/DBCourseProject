@@ -33,11 +33,10 @@ public class Maintainance {
         try {
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
-            if(InfoProcess.assignRoom(room, numGuest))          // If successfully assign a room, check in the customer
-                return new CheckIn(checkInTime, customer, account, room, numGuest);
-            else connection.rollback();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            InfoProcess.assignRoom(room, numGuest);
+            return new CheckIn(checkInTime, customer, account, room, numGuest);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);

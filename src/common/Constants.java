@@ -32,6 +32,7 @@ public class Constants {
     public static final String ERROR_ACCOUNT_INVALID_CUSTOMER;
     public static final String ERROR_CHECK_IN_ROOM_UNAVAILABLE;
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
+    public static final String ERROR_RELEASE_AVAILABLE_ROOM;
     public static final String ERROR_SERVICE_INVALID_CHECK_IN;
     public static final String ERROR_CONSOLE_INVALID_PARAMETER;
     public static final String ERROR_CONSOLE_INVALID_KEY;
@@ -50,6 +51,7 @@ public class Constants {
     public static final String PROMPT_DELETE;
     public static final String PROMPT_ASSIGN;
     public static final String PROMPT_RELEASE;
+
     public static final String PROMPT_PARAMETER_KEY_HOTEL;
     public static final String PROMPT_PARAMETER_KEY_ROOM;
     public static final String PROMPT_PARAMETER_KEY_STAFF;
@@ -60,7 +62,9 @@ public class Constants {
     public static final String PROMPT_PARAMETER_STAFF;
     public static final String PROMPT_PARAMETER_CUSTOMER;
     public static final String PROMPT_PARAMETER_ACCOUNT;
+    public static final String PROMPT_PARAMETER_ASSIGN;
     public static final String PROMPT_CONDITION_ROOM;
+
     public static final String PROMPT_TABLE_HEADER_ROOM;
     public static final String PROMPT_TABLE_FORMAT_ROOM;
 
@@ -102,6 +106,7 @@ public class Constants {
         ERROR_ACCOUNT_INVALID_CUSTOMER = config.getString("error.account.invalidCustomer");
         ERROR_CHECK_IN_ROOM_UNAVAILABLE = config.getString("error.checkIn.roomUnavailable");
         ERROR_CHECK_IN_EXCEED_OCCUPANCY = config.getString("error.checkIn.exceedOccupancy");
+        ERROR_RELEASE_AVAILABLE_ROOM = config.getString("error.release.availableRoom");
         ERROR_SERVICE_INVALID_CHECK_IN = config.getString("error.service.invalidCheckIn");
         ERROR_CONSOLE_INVALID_PARAMETER = config.getString("error.console.invalidParameter");
         ERROR_CONSOLE_INVALID_KEY = config.getString("error.console.invalidObjectKey");
@@ -120,6 +125,7 @@ public class Constants {
         PROMPT_DELETE = config.getString("prompt.delete");
         PROMPT_ASSIGN = config.getString("prompt.assign");
         PROMPT_RELEASE = config.getString("prompt.release");
+
         PROMPT_PARAMETER_KEY_HOTEL = config.getString("prompt.parameter.key.hotel");
         PROMPT_PARAMETER_KEY_ROOM = config.getString("prompt.parameter.key.room");
         PROMPT_PARAMETER_KEY_STAFF = config.getString("prompt.parameter.key.staff");
@@ -130,7 +136,9 @@ public class Constants {
         PROMPT_PARAMETER_STAFF = config.getString("prompt.parameter.staff");
         PROMPT_PARAMETER_CUSTOMER = config.getString("prompt.parameter.customer");
         PROMPT_PARAMETER_ACCOUNT = config.getString("prompt.parameter.account");
+        PROMPT_PARAMETER_ASSIGN = config.getString("prompt.parameter.assign");
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
+
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
         PROMPT_TABLE_FORMAT_ROOM = config.getString("prompt.table.format.room");
     }

@@ -154,6 +154,7 @@ public class Console {
     }
     //endregion
 
+    //region Read
     private void read(String[] args) {
         if(args.length < 2) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
@@ -171,7 +172,7 @@ public class Console {
         out.println(PROMPT_CONDITION_ROOM);
         out.print(CONSOLE_MARKER_PARAMETER);
 
-        // TODO: accept further parameter and execute
+        // Accept further parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 3);
             Hotel hotel = "".equals(parameters[1].trim())?
@@ -195,6 +196,7 @@ public class Console {
         }
 
     }
+    //endregion
 
     //region Update
     public void update(String[] args) {
@@ -462,6 +464,33 @@ public class Console {
     }
     //endregion
 
+    private void assignRoom(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_ASSIGN);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 3);
+            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            InfoProcess.assignRoom(room, Integer.parseInt(parameters[2]));
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void releaseRoom(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_ROOM);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // TODO: Accept further parameter and execute
+    }
+
     private void launch() throws IOException {
         menu(new String[0]);
         out.print(CONSOLE_MARKER_COMMAND);
@@ -473,6 +502,8 @@ public class Console {
                 case CMD_READ: read(command); break;
                 case CMD_UPDATE: update(command); break;
                 case CMD_DELETE: delete(command); break;
+                case CMD_ASSIGN: assignRoom(command); break;
+                case CMD_RELEASE: releaseRoom(command); break;
                 // TODO: add commands
                 default: menu(new String[0]);
             }

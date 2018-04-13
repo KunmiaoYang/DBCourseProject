@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
+import static common.Constants.ERROR_CHECK_IN_EXCEED_OCCUPANCY;
+import static common.Constants.ERROR_CHECK_IN_ROOM_UNAVAILABLE;
+import static common.Constants.ERROR_RELEASE_AVAILABLE_ROOM;
+
 /**
  * 
  * Created by Kunmiao Yang on 2/13/2018.
@@ -62,34 +66,18 @@ public class InfoProcess {
         return rooms;
     }
 
-    public static boolean assignRoom(Room room, int numGuest) {
-        if(!room.isAvailability() || numGuest > room.getMaxOccupy()) return false;
+    public static void assignRoom(Room room, int numGuest) throws Exception {
+        if(!room.isAvailability()) throw new Exception(ERROR_CHECK_IN_ROOM_UNAVAILABLE);
+        if(numGuest > room.getMaxOccupy()) throw new Exception(ERROR_CHECK_IN_EXCEED_OCCUPANCY);
         room.setAvailability(false);
-        try {
-            room.update();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
-//        Room oldRoom = checkIn.getRoom();
-//        releaseRoom(oldRoom);
-//        checkIn.setRoom(room);
-//        checkIn.update();
-        return true;
+        room.update();
     }
 
-    public static boolean releaseRoom(Room room) {
+    public static void releaseRoom(Room room) throws Exception {
         // Release room
-        if(room.isAvailability()) return false;
+        if(room.isAvailability()) throw new Exception(ERROR_RELEASE_AVAILABLE_ROOM);
         room.setAvailability(true);
-        try {
-            room.update();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
+        room.update();
     }
 
     public static void setDatabase(Database database) {
