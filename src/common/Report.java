@@ -7,12 +7,10 @@ import model.Model;
 import model.Staff;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -76,7 +74,6 @@ public class Report {
         return report;
     }
     public static Map<String, Occupancy> getOccupancyByDateRange() {
-        // TODO: query
         Map<String, Occupancy> report = new HashMap<>();
         try {
             ResultSet resultSet = database.getStatement().executeQuery(
@@ -97,12 +94,39 @@ public class Report {
         return report;
     }
     public static Map<String, List<Staff>> getStaffsByRole(){
-        // TODO: query
-        return null;
+        Map<String, List<Integer>> table = new HashMap<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT job_title, staff_id FROM staff ORDER BY job_title;");
+            while (resultSet.next())
+                table.computeIfAbsent(resultSet.getString("job_title"), k -> new LinkedList<>()).add(resultSet.getInt("staff_id"));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        Map<String, List<Staff>> report = new HashMap<>();
+        for(String role: table.keySet()) {
+            List<Integer> ids = table.get(role);
+            List<Staff> staffs = new ArrayList<>(ids.size());
+            for(Integer id: ids) staffs.add(Staff.getById(id));
+            report.put(role, staffs);
+        }
+        return report;
     }
     public static List<Staff> getServingStaffs(CheckIn checkIn) {
-        // TODO: query
-        return null;
+        List<Integer> ids = new LinkedList<>();
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT DISTINCT staff_id" +
+                    " FROM staff NATURAL JOIN service_record WHERE checkin_id = " + checkIn.getId() + ";");
+            while (resultSet.next()) ids.add(resultSet.getInt("staff_id"));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        List<Staff> staffs = new ArrayList<>(ids.size());
+        for(Integer id: ids) staffs.add(Staff.getById(id));
+        return staffs;
     }
 
     /**
@@ -116,7 +140,16 @@ public class Report {
      * @return the revenue result
      */
     public static float getRevenue(Hotel hotel, LocalDate start, LocalDate end) {
-        // TODO: query
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT SUM(amount) AS revenue" +
+                    " FROM checkin WHERE NOT ISNULL(amount)" +
+                    " AND DATE(checkin_time) >= '" + start.toString() +"'" +
+                    " AND DATE (checkout_time) <= '" + end.toString() + "'" +
+                    " AND hotel_id = " + hotel.getId() + ";");
+            if(resultSet.next()) return resultSet.getInt("revenue");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
