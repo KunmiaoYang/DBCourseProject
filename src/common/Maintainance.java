@@ -20,8 +20,8 @@ public class Maintainance {
     public static Service createService(String serviceType, CheckIn checkIn, Staff staff) throws SQLException {
         return new Service(serviceType, checkIn, staff);
     }
-    public static void updateService(Service service) throws SQLException {
-        service.update();
+    public static void update(Model model) throws SQLException {
+        model.update();
     }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         Connection connection = Model.getDatabase().getConnection();

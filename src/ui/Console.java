@@ -235,6 +235,7 @@ public class Console {
             case CMD_OBJECT_STAFF: updateStaff(args); return;
             case CMD_OBJECT_CUSTOMER: updateCustomer(args); return;
             case CMD_OBJECT_ACCOUNT: updateAccount(args); return;
+            case CMD_OBJECT_SERVICE: updateService(args); return;
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
@@ -361,6 +362,29 @@ public class Console {
             }
             if(!"".equals(parameters[5].trim())) account.setSsn(parameters[5].trim());
             InfoProcess.update(account);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void updateService(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_SERVICE + ", " + PROMPT_PARAMETER_SERVICE);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 4);
+            Service service = Service.getById(Integer.parseInt(parameters[0]));
+            if(null == service) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            if(!"".equals(parameters[1].trim())) service.setServiceType(parameters[1].trim());
+            if(!"".equals(parameters[2].trim())) service.setCheckIn(CheckIn.getById(Integer.parseInt(parameters[2].trim())));
+            if(!"".equals(parameters[3].trim())) service.setStaff("null".equals(parameters[3].trim())?
+                    null : Staff.getById(Integer.parseInt(parameters[3].trim())));
+            Maintainance.update(service);
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -530,7 +554,7 @@ public class Console {
         menu(new String[0]);
         out.print(CONSOLE_MARKER_COMMAND);
         for(String line = br.readLine(); !CMD_EXIT.equalsIgnoreCase(line); line = br.readLine()) {
-            String[] command = line.split("\\s+");
+            String[] command = line.trim().split("\\s+");
             switch (command[0].toLowerCase()) {
                 case CMD_MENU: menu(command); break;
                 case CMD_CREATE: create(command); break;
