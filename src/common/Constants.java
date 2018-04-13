@@ -60,6 +60,9 @@ public class Constants {
     public static final String PROMPT_PARAMETER_STAFF;
     public static final String PROMPT_PARAMETER_CUSTOMER;
     public static final String PROMPT_PARAMETER_ACCOUNT;
+    public static final String PROMPT_CONDITION_ROOM;
+    public static final String PROMPT_TABLE_HEADER_ROOM;
+    public static final String PROMPT_TABLE_FORMAT_ROOM;
 
     public static final String CMD_MENU = "menu";
     public static final String CMD_EXIT = "exit";
@@ -81,6 +84,7 @@ public class Constants {
         DB_PASSWORD = account.getString("db.password");
         DB_DRIVER = config.getString("db.driver");
         DB_URL = config.getString("db.url") + DB_USER;
+
         TABLE_ACCOUNT = config.getString("db.table.account");
         TABLE_BILL = config.getString("db.table.bill");
         TABLE_CHECK_IN = config.getString("db.table.checkIn");
@@ -89,19 +93,24 @@ public class Constants {
         TABLE_ROOM = config.getString("db.table.room");
         TABLE_SERVICE = config.getString("db.table.service");
         TABLE_STAFF = config.getString("db.table.staff");
+
         ATTR_HOTEL_NAME = config.getString("db.table.hotel.name");
         ATTR_HOTEL_CITY = config.getString("db.table.hotel.city");
         ATTR_HOTEL_STREET = config.getString("db.table.hotel.street");
         ATTR_HOTEL_PHONE = config.getString("db.table.hotel.phone");
+
         ERROR_ACCOUNT_INVALID_CUSTOMER = config.getString("error.account.invalidCustomer");
         ERROR_CHECK_IN_ROOM_UNAVAILABLE = config.getString("error.checkIn.roomUnavailable");
         ERROR_CHECK_IN_EXCEED_OCCUPANCY = config.getString("error.checkIn.exceedOccupancy");
         ERROR_SERVICE_INVALID_CHECK_IN = config.getString("error.service.invalidCheckIn");
         ERROR_CONSOLE_INVALID_PARAMETER = config.getString("error.console.invalidParameter");
         ERROR_CONSOLE_INVALID_KEY = config.getString("error.console.invalidObjectKey");
+
         PARAMETER_DISCOUNT = Float.parseFloat(config.getString("parameter.discount"));
+
         CONSOLE_MARKER_COMMAND = config.getString("console.marker.command");
         CONSOLE_MARKER_PARAMETER = config.getString("console.marker.parameter");
+
         PROMPT_STATUS_SUCCESS = config.getString("prompt.status.success");
         PROMPT_STATUS_FAIL = config.getString("prompt.status.fail");
         PROMPT_MENU = config.getString("prompt.menu");
@@ -121,5 +130,8 @@ public class Constants {
         PROMPT_PARAMETER_STAFF = config.getString("prompt.parameter.staff");
         PROMPT_PARAMETER_CUSTOMER = config.getString("prompt.parameter.customer");
         PROMPT_PARAMETER_ACCOUNT = config.getString("prompt.parameter.account");
+        PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
+        PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
+        PROMPT_TABLE_FORMAT_ROOM = config.getString("prompt.table.format.room");
     }
 }

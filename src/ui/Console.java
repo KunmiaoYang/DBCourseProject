@@ -7,6 +7,7 @@ import model.*;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.List;
 
 import static common.Constants.*;
 
@@ -29,6 +30,7 @@ public class Console {
         out.println(PROMPT_MENU);
     }
 
+    //region Create
     public void create(String[] args) {
         if(args.length < 2) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
@@ -150,13 +152,51 @@ public class Console {
             out.println(PROMPT_STATUS_FAIL);
         }
     }
+    //endregion
 
     private void read(String[] args) {
-        // TODO: Print parameter detail
-
-        // TODO: accept further parameter and execute
+        if(args.length < 2) {
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            return;
+        }
+        out.println(PROMPT_CREATE);
+        switch (args[1].toLowerCase()) {
+            case CMD_OBJECT_ROOM: readRoom(args); return;
+            default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+        }
     }
 
+    private void readRoom(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_CONDITION_ROOM);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // TODO: accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 3);
+            Hotel hotel = "".equals(parameters[1].trim())?
+                    null : Hotel.getById(Integer.parseInt(parameters[1].trim()));
+            String type = "".equals(parameters[2].trim())?
+                    null : parameters[2].trim();
+            List<Room> rooms = InfoProcess.getAvailableRooms(
+                    Integer.parseInt(parameters[0].trim()), hotel, type);
+            out.println(PROMPT_TABLE_HEADER_ROOM);
+            for(Room room: rooms) {
+                hotel = room.getHotel();
+                out.println(String.format(PROMPT_TABLE_FORMAT_ROOM,
+                        hotel.getId(), hotel.getName(), room.getNumber(),
+                        room.getType(), room.getMaxOccupy(), room.getNightlyRate()));
+            }
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+
+    }
+
+    //region Update
     public void update(String[] args) {
         if(args.length < 2) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
@@ -302,7 +342,9 @@ public class Console {
             out.println(PROMPT_STATUS_FAIL);
         }
     }
+    //endregion
 
+    //region Delete
     private void delete(String[] args) {
         if(args.length < 2) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
@@ -418,6 +460,7 @@ public class Console {
             out.println(PROMPT_STATUS_FAIL);
         }
     }
+    //endregion
 
     private void launch() throws IOException {
         menu(new String[0]);
