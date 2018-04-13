@@ -30,6 +30,8 @@ public class Constants {
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
     public static final String ERROR_SERVICE_INVALID_CHECK_IN;
     public static final float PARAMETER_DISCOUNT;
+    public static final String CMD_MENU = "menu";
+    public static final String CMD_EXIT = "exit";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
