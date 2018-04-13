@@ -25,7 +25,7 @@ public class Console {
      * Print menu
      * @param args
      */
-    public void menu(String[] args) {
+    private void menu(String[] args) {
         out.println(PROMPT_MENU);
     }
 
@@ -151,7 +151,7 @@ public class Console {
         }
     }
 
-    public void read(String[] args) {
+    private void read(String[] args) {
         // TODO: Print parameter detail
 
         // TODO: accept further parameter and execute
@@ -303,7 +303,7 @@ public class Console {
         }
     }
 
-    public void delete(String[] args) {
+    private void delete(String[] args) {
         if(args.length < 2) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             return;
@@ -311,26 +311,26 @@ public class Console {
         out.println(PROMPT_DELETE);
         switch (args[1].toLowerCase()) {
             case CMD_OBJECT_HOTEL: deleteHotel(args); return;
-            case CMD_OBJECT_ROOM: updateRoom(args); return;
-            case CMD_OBJECT_STAFF: updateStaff(args); return;
-            case CMD_OBJECT_CUSTOMER: updateCustomer(args); return;
-            case CMD_OBJECT_ACCOUNT: updateAccount(args); return;
+            case CMD_OBJECT_ROOM: deleteRoom(args); return;
+            case CMD_OBJECT_STAFF: deleteStaff(args); return;
+            case CMD_OBJECT_CUSTOMER: deleteCustomer(args); return;
+            case CMD_OBJECT_ACCOUNT: deleteAccount(args); return;
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
 
-    public void deleteHotel(String[] args) {
+    private void deleteHotel(String[] args) {
         // TODO: Print hotels
 
         // Print parameter detail
         out.println(PROMPT_PARAMETER_KEY_HOTEL);
 
-        // TODO: accept further parameter and execute
+        // Accept further parameter and execute
         try {
-            String[] parameters = br.readLine().split(",", 5);
+            String[] parameters = br.readLine().split(",");
             Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0]));
             if(null == hotel) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
-            hotel.remove();
+            InfoProcess.remove(hotel);
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -339,43 +339,87 @@ public class Console {
         }
     }
 
-    public void deleteRoom(String[] args) {
+    private void deleteRoom(String[] args) {
         // TODO: Print hotels
 
         // Print parameter detail
         out.println(PROMPT_PARAMETER_KEY_ROOM);
 
-        // TODO: accept further parameter and execute
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 2);
+            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            InfoProcess.remove(room);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
-    public void deleteStaff(String[] args) {
+    private void deleteStaff(String[] args) {
         // TODO: Print hotels
 
         // Print parameter detail
         out.println(PROMPT_PARAMETER_KEY_STAFF);
 
-        // TODO: accept further parameter and execute
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",");
+            Staff staff = Staff.getById(Integer.parseInt(parameters[0]));
+            if(null == staff) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            InfoProcess.remove(staff);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
-    public void deleteCustomer(String[] args) {
+    private void deleteCustomer(String[] args) {
         // TODO: Print hotels
 
         // Print parameter detail
         out.println(PROMPT_PARAMETER_KEY_CUSTOMER);
 
-        // TODO: accept further parameter and execute
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",");
+            Customer customer = Customer.getById(Integer.parseInt(parameters[0]));
+            if(null == customer) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            InfoProcess.remove(customer);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
-    public void deleteAccount(String[] args) {
+    private void deleteAccount(String[] args) {
         // TODO: Print hotels
 
         // Print parameter detail
         out.println(PROMPT_PARAMETER_KEY_ACCOUNT);
 
-        // TODO: accept further parameter and execute
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",");
+            Account account = Account.getById(Integer.parseInt(parameters[0]));
+            if(null == account) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            InfoProcess.remove(account);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
-    public void launch() throws IOException {
+    private void launch() throws IOException {
         menu(new String[0]);
         out.print(CONSOLE_MARKER_COMMAND);
         for(String line = br.readLine(); !CMD_EXIT.equalsIgnoreCase(line); line = br.readLine()) {

@@ -35,12 +35,8 @@ public class InfoProcess {
         model.update();
     }
 
-    public static void remove(Model model) {
-        try {
-            model.remove();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
+    public static void remove(Model model) throws SQLException {
+        model.remove();
     }
 
     public static List<Room> getAvailableRooms(int numGuest, Hotel hotel, String room_type) {
