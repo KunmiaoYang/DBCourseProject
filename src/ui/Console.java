@@ -4,10 +4,7 @@ import common.InfoProcess;
 import common.Maintainance;
 import common.Report;
 import db.Database;
-import model.Customer;
-import model.Hotel;
-import model.Model;
-import model.Room;
+import model.*;
 import sun.applet.Main;
 
 import java.io.*;
@@ -61,7 +58,7 @@ public class Console {
             InfoProcess.createHotel(parameters[0].trim(), parameters[1].trim(), parameters[2].trim(), parameters[3].trim());
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -81,7 +78,7 @@ public class Console {
                     , true);
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -105,7 +102,7 @@ public class Console {
                     , Hotel.getById(Integer.parseInt(parameters[0].trim())));   // Hotel
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -126,7 +123,7 @@ public class Console {
                     , LocalDate.parse(parameters[4].trim()));                   // Birth date
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -150,7 +147,7 @@ public class Console {
                     , parameters[4].trim());                                    // SSN
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -195,8 +192,9 @@ public class Console {
             if(!"".equals(parameters[3].trim())) hotel.setAddress(parameters[3].trim());
             if(!"".equals(parameters[4].trim())) hotel.setPhoneNumber(parameters[4].trim());
             InfoProcess.update(hotel);
+            out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -209,15 +207,16 @@ public class Console {
         out.println(PROMPT_PARAMETER_ROOM);
         out.print(CONSOLE_MARKER_PARAMETER);
 
-        // TODO: Accept parameter and execute
+        // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 3);
             Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
             if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             if(!"".equals(parameters[2].trim())) room.setType(parameters[2].trim());
             InfoProcess.update(room);
+            out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
-            out.println(e.getMessage());
+            System.err.println(e.getMessage());
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             out.println(PROMPT_STATUS_FAIL);
         }
@@ -230,7 +229,25 @@ public class Console {
         out.println(PROMPT_PARAMETER_STAFF);
         out.print(CONSOLE_MARKER_PARAMETER);
 
-        // TODO: Accept parameter and execute
+        // Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 8);
+            Staff staff = Staff.getById(Integer.parseInt(parameters[1]));
+            if(null == staff) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            if(!"".equals(parameters[0].trim())) staff.setHotel(Hotel.getById(Integer.parseInt(parameters[0].trim())));
+            if(!"".equals(parameters[2].trim())) staff.setAge(Integer.parseInt(parameters[2].trim()));
+            if(!"".equals(parameters[3].trim())) staff.setName(parameters[3].trim());
+            if(!"".equals(parameters[4].trim())) staff.setTitle(parameters[4].trim());
+            if(!"".equals(parameters[5].trim())) staff.setDepartment(parameters[5].trim());
+            if(!"".equals(parameters[6].trim())) staff.setPhoneNum(parameters[6].trim());
+            if(!"".equals(parameters[7].trim())) staff.setAddress(parameters[7].trim());
+            InfoProcess.update(staff);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
     private void updateCustomer(String[] args) {
@@ -240,7 +257,22 @@ public class Console {
         out.println(PROMPT_PARAMETER_CUSTOMER);
         out.print(CONSOLE_MARKER_PARAMETER);
 
-        // TODO: Accept parameter and execute
+        // Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 5);
+            Customer customer = Customer.getById(Integer.parseInt(parameters[0]));
+            if(null == customer) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            if(!"".equals(parameters[1].trim())) customer.setName(parameters[1].trim());
+            if(!"".equals(parameters[2].trim())) customer.setPhone(parameters[2].trim());
+            if(!"".equals(parameters[3].trim())) customer.setEmail(parameters[3].trim());
+            if(!"".equals(parameters[4].trim())) customer.setBirth(LocalDate.parse(parameters[4].trim()));
+            InfoProcess.update(customer);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
     private void updateAccount(String[] args) {
@@ -250,7 +282,27 @@ public class Console {
         out.println(PROMPT_PARAMETER_KEY_ACCOUNT + ", " + PROMPT_PARAMETER_ACCOUNT);
         out.print(CONSOLE_MARKER_PARAMETER);
 
-        // TODO: Accept parameter and execute
+        // Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 6);
+            Account account = Account.getById(Integer.parseInt(parameters[0]));
+            if(null == account) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            String payMethod = parameters[3].trim().toLowerCase();
+            if(!"".equals(parameters[1].trim())) account.setCustomer(Customer.getById(Integer.parseInt(parameters[1].trim())));
+            if(!"".equals(parameters[2].trim())) account.setAddress(parameters[2].trim());
+            if(!"".equals(payMethod)) account.setPayMethod(payMethod);
+            if(!"".equals(parameters[4].trim())) {
+                if("cash".equals(payMethod)) account.setCardNumber(null);
+                else account.setCardNumber(Integer.parseInt(parameters[4].trim()));
+            }
+            if(!"".equals(parameters[5].trim())) account.setSsn(parameters[5].trim());
+            InfoProcess.update(account);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
     public void delete(String[] args) {

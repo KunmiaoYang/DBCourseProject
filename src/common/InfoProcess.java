@@ -32,12 +32,8 @@ public class InfoProcess {
         return new Account(customer, address, payMethod, cardNumber, ssn);
     }
 
-    public static void update(Model model) {
-        try {
-            model.update();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    public static void update(Model model) throws SQLException {
+        model.update();
     }
 
     public static boolean remove(Model model) {
