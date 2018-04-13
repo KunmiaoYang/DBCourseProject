@@ -57,11 +57,13 @@ public class Constants {
     public static final String PROMPT_PARAMETER_KEY_STAFF;
     public static final String PROMPT_PARAMETER_KEY_CUSTOMER;
     public static final String PROMPT_PARAMETER_KEY_ACCOUNT;
+    public static final String PROMPT_PARAMETER_KEY_SERVICE;
     public static final String PROMPT_PARAMETER_HOTEL;
     public static final String PROMPT_PARAMETER_ROOM;
     public static final String PROMPT_PARAMETER_STAFF;
     public static final String PROMPT_PARAMETER_CUSTOMER;
     public static final String PROMPT_PARAMETER_ACCOUNT;
+    public static final String PROMPT_PARAMETER_SERVICE;
     public static final String PROMPT_PARAMETER_ASSIGN;
     public static final String PROMPT_CONDITION_ROOM;
 
@@ -81,6 +83,7 @@ public class Constants {
     public static final String CMD_OBJECT_STAFF = "staff";
     public static final String CMD_OBJECT_CUSTOMER = "customer";
     public static final String CMD_OBJECT_ACCOUNT = "account";
+    public static final String CMD_OBJECT_SERVICE = "service";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
@@ -131,11 +134,13 @@ public class Constants {
         PROMPT_PARAMETER_KEY_STAFF = config.getString("prompt.parameter.key.staff");
         PROMPT_PARAMETER_KEY_CUSTOMER = config.getString("prompt.parameter.key.customer");
         PROMPT_PARAMETER_KEY_ACCOUNT = config.getString("prompt.parameter.key.account");
+        PROMPT_PARAMETER_KEY_SERVICE = config.getString("prompt.parameter.key.service");
         PROMPT_PARAMETER_HOTEL = config.getString("prompt.parameter.hotel");
         PROMPT_PARAMETER_ROOM = config.getString("prompt.parameter.room");
         PROMPT_PARAMETER_STAFF = config.getString("prompt.parameter.staff");
         PROMPT_PARAMETER_CUSTOMER = config.getString("prompt.parameter.customer");
         PROMPT_PARAMETER_ACCOUNT = config.getString("prompt.parameter.account");
+        PROMPT_PARAMETER_SERVICE = config.getString("prompt.parameter.service");
         PROMPT_PARAMETER_ASSIGN = config.getString("prompt.parameter.assign");
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
 

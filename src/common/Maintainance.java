@@ -17,13 +17,8 @@ public class Maintainance {
     public static CheckIn getCheckInById(int id) {
         return CheckIn.getById(id);
     }
-    public static Service createService(String serviceType, CheckIn checkIn, Staff staff) {
-        try {
-            return new Service(serviceType, checkIn, staff);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static Service createService(String serviceType, CheckIn checkIn, Staff staff) throws SQLException {
+        return new Service(serviceType, checkIn, staff);
     }
     public static void updateService(Service service) throws SQLException {
         service.update();

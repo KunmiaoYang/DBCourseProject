@@ -1,9 +1,11 @@
 package ui;
 
 import common.InfoProcess;
+import common.Maintainance;
 import common.Report;
 import db.Database;
 import model.*;
+import sun.applet.Main;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -43,6 +45,7 @@ public class Console {
             case CMD_OBJECT_STAFF: createStaff(args); return;
             case CMD_OBJECT_CUSTOMER: createCustomer(args); return;
             case CMD_OBJECT_ACCOUNT: createAccount(args); return;
+            case CMD_OBJECT_SERVICE: createService(args); return;
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
@@ -145,6 +148,27 @@ public class Console {
                     , "cash".equals(payMethod)? null: Integer.parseInt(parameters[3].trim())
                                                                                 // Card number
                     , parameters[4].trim());                                    // SSN
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void createService(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_SERVICE);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 3);
+            Staff staff = "".equals(parameters[2].trim())?
+                    null : Staff.getById(Integer.parseInt(parameters[2].trim()));
+            Maintainance.createService(parameters[0].trim()                     // Service Type
+                    , CheckIn.getById(Integer.parseInt(parameters[1].trim()))   // Check in
+                    , staff);                                                   // Staff
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
             System.err.println(e.getMessage());
