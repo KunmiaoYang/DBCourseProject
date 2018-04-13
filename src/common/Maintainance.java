@@ -27,8 +27,8 @@ public class Maintainance {
             return null;
         }
     }
-    public static boolean updateService(Service service) {
-        return service.update();
+    public static void updateService(Service service) throws SQLException {
+        service.update();
     }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
         Connection connection = Model.getDatabase().getConnection();

@@ -16,22 +16,6 @@ import java.util.*;
 public class InfoProcess {
     private static Database database;
 
-    public static Hotel getHotelById(int id) {
-        return Hotel.getById(id);
-    }
-    public static Room getRoomById(int hotelId, int roomNumber) {
-        return Room.getById(hotelId, roomNumber);
-    }
-    public static Staff getStaffById(int id) {
-        return Staff.getById(id);
-    }
-    public static Customer getCustomerById(int id) {
-        return Customer.getById(id);
-    }
-    public static Account getAccountById(int id) {
-        return Account.getById(id);
-    }
-
     public static Hotel createHotel(String name, String city, String address, String phoneNumber) throws SQLException {
         return new Hotel(name, city, address, phoneNumber);
     }
@@ -48,36 +32,16 @@ public class InfoProcess {
         return new Account(customer, address, payMethod, cardNumber, ssn);
     }
 
-    public static boolean updateHotel(Hotel hotel) {
-        return hotel.update();
-    }
-    public static boolean updateRoom(Room room) {
-        return room.update();
-    }
-    public static boolean updateStaff(Staff staff) {
-        return staff.update();
-    }
-    public static boolean updateCustomer(Customer customer) {
-        return customer.update();
-    }
-    public static boolean updateAccount(Account account) {
-        return account.update();
+    public static void update(Model model) {
+        try {
+            model.update();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public static boolean removeHotel(Hotel hotel) {
-        return hotel.remove();
-    }
-    public static boolean removeRoom(Room room) {
-        return room.remove();
-    }
-    public static boolean removeStaff(Staff staff) {
-        return staff.remove();
-    }
-    public static boolean removeCustomer(Customer customer) {
-        return customer.remove();
-    }
-    public static boolean removeAccount(Account account) {
-        return account.remove();
+    public static boolean remove(Model model) {
+        return model.remove();
     }
 
     public static List<Room> getAvailableRooms(int numGuest, Hotel hotel, String room_type) {
@@ -106,7 +70,12 @@ public class InfoProcess {
     public static boolean assignRoom(Room room, int numGuest) {
         if(!room.isAvailability() || numGuest > room.getMaxOccupy()) return false;
         room.setAvailability(false);
-        room.update();
+        try {
+            room.update();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
 
 //        Room oldRoom = checkIn.getRoom();
 //        releaseRoom(oldRoom);
@@ -119,11 +88,32 @@ public class InfoProcess {
         // Release room
         if(room.isAvailability()) return false;
         room.setAvailability(true);
-        room.update();
+        try {
+            room.update();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         return true;
     }
 
     public static void setDatabase(Database database) {
         InfoProcess.database = database;
     }
+
+//    public static Hotel getHotelById(int id) {
+//        return Hotel.getById(id);
+//    }
+//    public static Room getRoomById(int hotelId, int roomNumber) {
+//        return Room.getById(hotelId, roomNumber);
+//    }
+//    public static Staff getStaffById(int id) {
+//        return Staff.getById(id);
+//    }
+//    public static Customer getCustomerById(int id) {
+//        return Customer.getById(id);
+//    }
+//    public static Account getAccountById(int id) {
+//        return Account.getById(id);
+//    }
 }

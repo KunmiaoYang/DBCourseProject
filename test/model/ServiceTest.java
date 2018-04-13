@@ -113,7 +113,12 @@ public class ServiceTest {
         assertNotNull(s);
         s.setServiceType("gyms");
         s.setStaff(null);
-        assertTrue(s.update());
+        try {
+            s.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM service_record WHERE checkin_id = 123;");
         assertTrue(resultSet.next());
         assertEquals("gyms", resultSet.getString("service_type"));

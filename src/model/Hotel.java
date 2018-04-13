@@ -56,20 +56,14 @@ public class Hotel extends Model {
         return remove(Constants.TABLE_HOTEL, "hotel_id = " + id);
     }
 
-    public boolean update() {
+    public void update() throws SQLException {
         // Update attributes to DB
-        try {
-            database.getStatement().executeUpdate("UPDATE hotel " +
-                    "SET hotel_name = '" + name + "'" +
-                    ", city = '" + city + "'" +
-                    ", street_address = '" + address + "'" +
-                    ", hotel_phone_number = '" + phoneNumber + "'" +
-                    " WHERE hotel_id = " + id + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        database.getStatement().executeUpdate("UPDATE hotel " +
+                "SET hotel_name = '" + name + "'" +
+                ", city = '" + city + "'" +
+                ", street_address = '" + address + "'" +
+                ", hotel_phone_number = '" + phoneNumber + "'" +
+                " WHERE hotel_id = " + id + ";");
     }
 
     public int getId() {

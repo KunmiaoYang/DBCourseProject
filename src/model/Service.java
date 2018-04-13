@@ -60,19 +60,13 @@ public class Service extends Model {
         return remove(TABLE_SERVICE, "service_id = " + id);
     }
 
-    public boolean update() {
+    public void update() throws SQLException {
         // Update attributes to DB
-        try {
-            database.getStatement().executeUpdate("UPDATE service_record" +
-                    " SET service_type = '" + serviceType + "'" +
-                    ", checkin_id = " + checkIn.getId() +
-                    ", staff_id = " + (null == staff ? "NULL" : staff.getStaffId()) +
-                    " WHERE service_id = " + id + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        database.getStatement().executeUpdate("UPDATE service_record" +
+                " SET service_type = '" + serviceType + "'" +
+                ", checkin_id = " + checkIn.getId() +
+                ", staff_id = " + (null == staff ? "NULL" : staff.getStaffId()) +
+                " WHERE service_id = " + id + ";");
     }
 
     public int getId() {

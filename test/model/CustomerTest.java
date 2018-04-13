@@ -55,7 +55,12 @@ public class CustomerTest {
         assertNotNull(customer);
         customer.setBirth(LocalDate.now());
         customer.setName("Kunmiao");
-        assertTrue(customer.update());
+        try {
+            customer.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 
     @Test

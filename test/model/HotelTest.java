@@ -67,6 +67,11 @@ public class HotelTest {
         assertNotNull(h);
         h.setAddress("Gorman Street");
         h.setPhoneNumber("919111000");
-        assertTrue(h.update());
+        try {
+            h.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 }

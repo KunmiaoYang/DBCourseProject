@@ -105,7 +105,12 @@ public class AccountTest {
         assertNotNull(a);
         a.setAddress("Avent Very");
         a.setCardNumber(123456789);
-        assertTrue(a.update());
+        try {
+            a.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM account WHERE account_id = 123;");
         assertTrue(resultSet.next());
         assertEquals("Avent Very", resultSet.getString("billing_address"));

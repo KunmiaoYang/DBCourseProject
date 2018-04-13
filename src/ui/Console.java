@@ -7,6 +7,7 @@ import db.Database;
 import model.Customer;
 import model.Hotel;
 import model.Model;
+import model.Room;
 import sun.applet.Main;
 
 import java.io.*;
@@ -34,7 +35,10 @@ public class Console {
     }
 
     public void create(String[] args) {
-        if(args.length < 2) out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+        if(args.length < 2) {
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            return;
+        }
         out.println(PROMPT_CREATE);
         switch (args[1].toLowerCase()) {
             case CMD_OBJECT_HOTEL: createHotel(args); return;
@@ -53,7 +57,7 @@ public class Console {
 
         // Accept parameter and execute
         try {
-            String[] parameters = br.readLine().split(",");
+            String[] parameters = br.readLine().split(",", 4);
             InfoProcess.createHotel(parameters[0].trim(), parameters[1].trim(), parameters[2].trim(), parameters[3].trim());
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
@@ -70,7 +74,7 @@ public class Console {
 
         // Accept parameter and execute
         try {
-            String[] parameters = br.readLine().split(",");
+            String[] parameters = br.readLine().split(",", 3);
             InfoProcess.createRoom(Hotel.getById(Integer.parseInt(parameters[0].trim()))
                     , Integer.parseInt(parameters[1].trim())
                     , parameters[2].trim()
@@ -90,7 +94,7 @@ public class Console {
 
         // Accept parameter and execute
         try {
-            String[] parameters = br.readLine().split(",");
+            String[] parameters = br.readLine().split(",", 8);
             InfoProcess.createStaff(Integer.parseInt(parameters[1].trim())      // Staff ID
                     , Integer.parseInt(parameters[2].trim())                    // Age
                     , parameters[3].trim()                                      // Name
@@ -114,7 +118,7 @@ public class Console {
 
         // Accept parameter and execute
         try {
-            String[] parameters = br.readLine().split(",");
+            String[] parameters = br.readLine().split(",", 5);
             InfoProcess.createCustomer(Integer.parseInt(parameters[0].trim())   // Customer ID
                     , parameters[1].trim()                                      // Name
                     , parameters[2].trim()                                      // Phone number
@@ -135,7 +139,7 @@ public class Console {
 
         // Accept parameter and execute
         try {
-            String[] parameters = br.readLine().split(",");
+            String[] parameters = br.readLine().split(",", 5);
             String payMethod = parameters[2].trim().toLowerCase();
             InfoProcess.createAccount(
                     Customer.getById(Integer.parseInt(parameters[0].trim()))    // Customer ID
@@ -159,9 +163,94 @@ public class Console {
     }
 
     public void update(String[] args) {
-        // TODO: Print parameter detail
+        if(args.length < 2) {
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            return;
+        }
+        out.println(PROMPT_UPDATE);
+        switch (args[1].toLowerCase()) {
+            case CMD_OBJECT_HOTEL: updateHotel(args); return;
+            case CMD_OBJECT_ROOM: updateRoom(args); return;
+            case CMD_OBJECT_STAFF: updateStaff(args); return;
+            case CMD_OBJECT_CUSTOMER: updateCustomer(args); return;
+            case CMD_OBJECT_ACCOUNT: updateAccount(args); return;
+            default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+        }
+    }
 
-        // TODO: accept further parameter and execute
+    private void updateHotel(String[] args) {
+        // TODO: Print hotels
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_HOTEL + ", " + PROMPT_PARAMETER_HOTEL);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 5);
+            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0]));
+            if(null == hotel) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            if(!"".equals(parameters[1].trim())) hotel.setName(parameters[1].trim());
+            if(!"".equals(parameters[2].trim())) hotel.setCity(parameters[2].trim());
+            if(!"".equals(parameters[3].trim())) hotel.setAddress(parameters[3].trim());
+            if(!"".equals(parameters[4].trim())) hotel.setPhoneNumber(parameters[4].trim());
+            InfoProcess.update(hotel);
+        } catch (Exception e) {
+            out.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void updateRoom(String[] args) {
+        // TODO: Print rooms
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_ROOM);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // TODO: Accept parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 3);
+            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            if(!"".equals(parameters[2].trim())) room.setType(parameters[2].trim());
+            InfoProcess.update(room);
+        } catch (Exception e) {
+            out.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void updateStaff(String[] args) {
+        // TODO: Print staffs
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_STAFF);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // TODO: Accept parameter and execute
+    }
+
+    private void updateCustomer(String[] args) {
+        // TODO: Print customers
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_CUSTOMER);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // TODO: Accept parameter and execute
+    }
+
+    private void updateAccount(String[] args) {
+        // TODO: Print accounts
+
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_KEY_ACCOUNT + ", " + PROMPT_PARAMETER_ACCOUNT);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // TODO: Accept parameter and execute
     }
 
     public void delete(String[] args) {

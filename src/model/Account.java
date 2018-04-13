@@ -58,21 +58,15 @@ public class Account extends Model {
         return remove(TABLE_ACCOUNT, "account_id = " + id);
     }
 
-    public boolean update() {
+    public void update() throws SQLException {
         // Update attributes to DB
-        try {
-            database.getStatement().executeUpdate("UPDATE account" +
-                    " SET billing_address = '" + address + "'" +
-                    ", payment_method = '" + payMethod + "'" +
-                    ", card_num = " + cardNumber +
-                    ", customer_id = " + customer.getId() +
-                    ", payer_ssn = '" + ssn + "'" +
-                    " WHERE account_id = " + id + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        database.getStatement().executeUpdate("UPDATE account" +
+                " SET billing_address = '" + address + "'" +
+                ", payment_method = '" + payMethod + "'" +
+                ", card_num = " + cardNumber +
+                ", customer_id = " + customer.getId() +
+                ", payer_ssn = '" + ssn + "'" +
+                " WHERE account_id = " + id + ";");
     }
 
     public int getId() {

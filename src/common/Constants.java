@@ -30,6 +30,7 @@ public class Constants {
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
     public static final String ERROR_SERVICE_INVALID_CHECK_IN;
     public static final String ERROR_CONSOLE_INVALID_PARAMETER;
+    public static final String ERROR_CONSOLE_INVALID_KEY;
     public static final float PARAMETER_DISCOUNT;
     public static final String CONSOLE_MARKER_COMMAND;
     public static final String CONSOLE_MARKER_PARAMETER;
@@ -42,6 +43,8 @@ public class Constants {
     public static final String PROMPT_DELETE;
     public static final String PROMPT_ASSIGN;
     public static final String PROMPT_RELEASE;
+    public static final String PROMPT_PARAMETER_KEY_HOTEL;
+    public static final String PROMPT_PARAMETER_KEY_ACCOUNT;
     public static final String PROMPT_PARAMETER_HOTEL;
     public static final String PROMPT_PARAMETER_ROOM;
     public static final String PROMPT_PARAMETER_STAFF;
@@ -84,6 +87,7 @@ public class Constants {
         ERROR_CHECK_IN_EXCEED_OCCUPANCY = config.getString("error.checkIn.exceedOccupancy");
         ERROR_SERVICE_INVALID_CHECK_IN = config.getString("error.service.invalidCheckIn");
         ERROR_CONSOLE_INVALID_PARAMETER = config.getString("error.console.invalidParameter");
+        ERROR_CONSOLE_INVALID_KEY = config.getString("error.console.invalidObjectKey");
         PARAMETER_DISCOUNT = Float.parseFloat(config.getString("parameter.discount"));
         CONSOLE_MARKER_COMMAND = config.getString("console.marker.command");
         CONSOLE_MARKER_PARAMETER = config.getString("console.marker.parameter");
@@ -96,6 +100,8 @@ public class Constants {
         PROMPT_DELETE = config.getString("prompt.delete");
         PROMPT_ASSIGN = config.getString("prompt.assign");
         PROMPT_RELEASE = config.getString("prompt.release");
+        PROMPT_PARAMETER_KEY_HOTEL = config.getString("prompt.parameter.key.hotel");
+        PROMPT_PARAMETER_KEY_ACCOUNT = config.getString("prompt.parameter.key.account");
         PROMPT_PARAMETER_HOTEL = config.getString("prompt.parameter.hotel");
         PROMPT_PARAMETER_ROOM = config.getString("prompt.parameter.room");
         PROMPT_PARAMETER_STAFF = config.getString("prompt.parameter.staff");

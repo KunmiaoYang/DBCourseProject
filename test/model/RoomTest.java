@@ -72,7 +72,12 @@ public class RoomTest {
         assertNotNull(r);
         r.setAvailability(false);
         r.setType("Deluxe");
-        assertTrue(r.update());
+        try {
+            r.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 
     @Test

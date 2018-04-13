@@ -73,6 +73,11 @@ public class StaffTest {
         s.setTitle("Assistant Manager");
         s.setAddress("Avent Very");
         s.setPhoneNum("919111000");
-        assertTrue(s.update());
+        try {
+            s.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 }

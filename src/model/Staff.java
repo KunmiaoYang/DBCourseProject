@@ -64,23 +64,17 @@ public class Staff extends Model {
     }
 
     @Override
-    public boolean update() {
+    public void update() throws SQLException {
         // Update attributes to DB
-        try {
-            database.getStatement().executeUpdate("UPDATE staff " +
-                    "SET name = '" + name + "'" +
-                    ", age = " + age +
-                    ", job_title = '" + title + "'" +
-                    ", department = '" + department + "'" +
-                    ", hotel_id = " + hotel.getId() +
-                    ", phone = '" + phoneNum + "'" +
-                    ", address = '" + address + "'" +
-                    " WHERE staff_id = " + staffId + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        database.getStatement().executeUpdate("UPDATE staff " +
+                "SET name = '" + name + "'" +
+                ", age = " + age +
+                ", job_title = '" + title + "'" +
+                ", department = '" + department + "'" +
+                ", hotel_id = " + hotel.getId() +
+                ", phone = '" + phoneNum + "'" +
+                ", address = '" + address + "'" +
+                " WHERE staff_id = " + staffId + ";");
     }
 
     public String getDepartment() {

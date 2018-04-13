@@ -15,7 +15,7 @@ abstract public class Model {
         Model.database = database;
     }
 
-    abstract boolean remove();
+    public abstract boolean remove();
 
     public static boolean remove(String table, String whereClause) {
         try {
@@ -27,7 +27,7 @@ abstract public class Model {
         return true;
     }
 
-    abstract boolean update();
+    public abstract void update() throws SQLException;
 
     public static Database getDatabase() {
         return database;

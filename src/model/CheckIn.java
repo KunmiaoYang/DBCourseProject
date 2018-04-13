@@ -89,31 +89,25 @@ public class CheckIn extends Model {
         return remove(TABLE_CHECK_IN, "checkin_id = " + id);
     }
 
-    public boolean update() {
+    public void update() throws SQLException {
         // update attributes to DB
-        try {
-            database.getStatement().executeUpdate("UPDATE checkin " +
-                    "SET checkin_time = '" + checkInTime.toString() + "'" +
-                    ", hotel_id = " + room.getHotel().getId() +
-                    ", room_number = " + room.getNumber() +
-                    ", guest_num = " + numGuest +
-                    ", customer_id = " + customer.getId() +
-                    ", account_id = " + account.getId() +
-                    ", checkout_time = "+ (null == checkOutTime ? "NULL" : ("'" + checkOutTime.toString() + "'")) +
-                    ", amount = " + (null == amount ? "NULL" : amount) +
-                    " WHERE checkin_id = " + id + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        database.getStatement().executeUpdate("UPDATE checkin " +
+                "SET checkin_time = '" + checkInTime.toString() + "'" +
+                ", hotel_id = " + room.getHotel().getId() +
+                ", room_number = " + room.getNumber() +
+                ", guest_num = " + numGuest +
+                ", customer_id = " + customer.getId() +
+                ", account_id = " + account.getId() +
+                ", checkout_time = "+ (null == checkOutTime ? "NULL" : ("'" + checkOutTime.toString() + "'")) +
+                ", amount = " + (null == amount ? "NULL" : amount) +
+                " WHERE checkin_id = " + id + ";");
     }
 
     /**
      * Check out and create bill amount
      * @param checkOutTime check out time
      */
-    public void checkOut(LocalDateTime checkOutTime) {
+    public void checkOut(LocalDateTime checkOutTime) throws SQLException {
         // Reset room availability
         room.setAvailability(true);
         room.update();

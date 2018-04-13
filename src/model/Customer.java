@@ -55,20 +55,14 @@ public class Customer extends Model {
         return remove(Constants.TABLE_CUSTOMER, "customer_id = " + this.id);
     }
 
-    public boolean update() {
+    public void update() throws SQLException {
         // Update attributes to DB
-        try {
-            database.getStatement().executeUpdate("UPDATE customer" +
-                    " SET name = \"" + name + "\"" +
-                    ", date_of_birth = \"" + birth.toString() + "\"" +
-                    ", phone = \"" + phone + "\"" +
-                    ", email = \"" + email + "\"" +
-                    " WHERE customer_id = " + id + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        database.getStatement().executeUpdate("UPDATE customer" +
+                " SET name = \"" + name + "\"" +
+                ", date_of_birth = \"" + birth.toString() + "\"" +
+                ", phone = \"" + phone + "\"" +
+                ", email = \"" + email + "\"" +
+                " WHERE customer_id = " + id + ";");
     }
 
     public Account getDefaultAccount() {

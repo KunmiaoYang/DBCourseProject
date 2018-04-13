@@ -135,7 +135,12 @@ public class CheckInTest {
         assertNotEquals(c.getNumGuest(), 1);
         c.setAmount((float) 12345);
         c.setNumGuest(1);
-        assertTrue(c.update());
+        try {
+            c.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
         assertEquals(c.getAmount().intValue(), 12345);
         assertEquals(c.getNumGuest(), 1);
     }
