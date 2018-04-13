@@ -488,7 +488,18 @@ public class Console {
         out.println(PROMPT_PARAMETER_KEY_ROOM);
         out.print(CONSOLE_MARKER_PARAMETER);
 
-        // TODO: Accept further parameter and execute
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 2);
+            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            InfoProcess.releaseRoom(room);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
     private void launch() throws IOException {
