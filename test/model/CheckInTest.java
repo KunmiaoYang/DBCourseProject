@@ -70,8 +70,8 @@ public class CheckInTest {
         assertNotNull(room);
 //        assertFalse(room.availability);
         try {
-            c = new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 1);
-            assertTrue(false);
+            new CheckIn(LocalDateTime.of(2018, 4, 5, 13, 20, 36), Customer.getById(1002), Account.getById(2), room, 1);
+            fail();
         } catch (SQLException e) {
             assertEquals(e.getMessage(), ERROR_CHECK_IN_ROOM_UNAVAILABLE);
         }
