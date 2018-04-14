@@ -71,8 +71,16 @@ public class Constants {
     public static final String PROMPT_PARAMETER_BILL;
     public static final String PROMPT_CONDITION_ROOM;
     public static final String PROMPT_TABLE_HEADER_ROOM;
+    public static final String PROMPT_TABLE_HEADER_HOTEL_OCCUPY;
+    public static final String PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY;
+    public static final String PROMPT_TABLE_HEADER_CITY_OCCUPY;
+    public static final String PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY;
+    public static final String PROMPT_TABLE_HEADER_STAFF;
 
     public static final String FORMAT_PROMPT_TABLE_ROOM;
+    public static final String FORMAT_PROMPT_TABLE_HOTEL_OCCUPY;
+    public static final String FORMAT_PROMPT_TABLE_STRING_OCCUPY;
+    public static final String FORMAT_PROMPT_TABLE_STAFF;
     public static final String FORMAT_BILL_CHECK_IN;
     public static final String FORMAT_BILL_SERVICE;
     public static final String FORMAT_BILL_TOTAL;
@@ -155,9 +163,18 @@ public class Constants {
         PROMPT_PARAMETER_ASSIGN = config.getString("prompt.parameter.assign");
         PROMPT_PARAMETER_BILL = config.getString("prompt.parameter.bill");
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
+
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
+        PROMPT_TABLE_HEADER_HOTEL_OCCUPY = config.getString("prompt.table.header.hotelOccupy");
+        PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY = config.getString("prompt.table.header.roomTypeOccupy");
+        PROMPT_TABLE_HEADER_CITY_OCCUPY = config.getString("prompt.table.header.cityOccupy");
+        PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY = config.getString("prompt.table.header.dateRangeOccupy");
+        PROMPT_TABLE_HEADER_STAFF = config.getString("prompt.table.header.staff");
 
         FORMAT_PROMPT_TABLE_ROOM = config.getString("format.prompt.table.room");
+        FORMAT_PROMPT_TABLE_HOTEL_OCCUPY = config.getString("format.prompt.table.hotelOccupy");
+        FORMAT_PROMPT_TABLE_STRING_OCCUPY = config.getString("format.prompt.table.stringOccupy");
+        FORMAT_PROMPT_TABLE_STAFF = config.getString("format.prompt.table.staff");
         FORMAT_BILL_CHECK_IN = config.getString("format.bill.checkin");
         FORMAT_BILL_SERVICE = config.getString("format.bill.service");
         FORMAT_BILL_TOTAL = config.getString("format.bill.total");
