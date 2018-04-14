@@ -164,7 +164,9 @@ public class CheckInTest {
         new Service("gyms", c, null);
         new Service("dry cleaning", c, staff);
         new Service("special requests", c, staff);
-        c.calculateBill(c.checkInTime.plusDays(2));
+        c.setCheckOutTime(c.checkInTime.plusDays(2));
+        c.update();
+        c.calculateBill();
         Float amount = c.getAmount();
         assertTrue(r.availability);
         assertNotNull(amount);
@@ -185,7 +187,9 @@ public class CheckInTest {
         c.update();
         assertNull(c.getAmount());
         new Service("special requests", c, staff);
-        c.calculateBill(c.checkInTime.plusDays(2));
+        c.setCheckOutTime(c.checkInTime.plusDays(2));
+        c.update();
+        c.calculateBill();
         Float amount = c.getAmount();
         assertTrue(r.availability);
         assertNotNull(amount);

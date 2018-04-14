@@ -57,6 +57,21 @@ public class CheckIn extends Model {
         }
     }
 
+    public static CheckIn getByRoom(Room room) {
+        try {
+            ResultSet resultSet = database.getStatement().executeQuery(
+                    "SELECT checkin_id FROM checkin NATURAL JOIN room" +
+                    " WHERE hotel_id = " + room.getHotel().getId() +
+                    " AND room_number = " + room.getNumber() +
+                    " ORDER BY checkin_time DESC LIMIT 1;");
+            if(resultSet.next()) return getById(resultSet.getInt("checkin_id"));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static CheckIn getById(int id) {
         // Get instance from database
         CheckIn checkIn = new CheckIn(id);
@@ -104,17 +119,12 @@ public class CheckIn extends Model {
     }
 
     /**
-     * Check out and create bill amount
-     * @param checkOutTime check out time
+     * Calculate bill amount
      */
-    public void calculateBill(LocalDateTime checkOutTime) throws SQLException {
+    public void calculateBill() throws SQLException {
         // Reset room availability
         room.setAvailability(true);
         room.update();
-
-        // Set check out time
-        this.checkOutTime = checkOutTime;
-        this.update();
 
         // Calculate and set the amount
         try {

@@ -186,6 +186,7 @@ public class Console {
         out.println(PROMPT_CREATE);
         switch (args[1].toLowerCase()) {
             case CMD_OBJECT_ROOM: readRoom(args); return;
+            case CMD_OBJECT_BILL: readBill(args); return;
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
@@ -211,6 +212,29 @@ public class Console {
                         hotel.getId(), hotel.getName(), room.getNumber(),
                         room.getType(), room.getMaxOccupy(), room.getNightlyRate()));
             }
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+
+    }
+
+    private void readBill(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_BILL);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 2);
+            Room room = Room.getById(Integer.parseInt(parameters[0].trim()), Integer.parseInt(parameters[1].trim()));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            CheckIn checkIn = CheckIn.getByRoom(room);
+            if(null == checkIn) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            Maintainance.Bill bill = Maintainance.generateBill(checkIn);
+            out.println(bill);
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
             System.err.println(e.getMessage());

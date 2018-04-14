@@ -40,7 +40,7 @@ public class ServiceTest {
         Model.database.close();
     }
 
-    public void initObject() {
+    private void initObject() {
         try {
             Model.database.getStatement().executeUpdate("INSERT INTO" +
                     " service_record(service_id, service_type, staff_id, checkin_id)" +
@@ -74,30 +74,39 @@ public class ServiceTest {
 
         try {
             new Service("room service", null, staff);
-            assertTrue(false);
+            fail();
         } catch (SQLException e) {
             assertEquals(e.getMessage(), ERROR_SERVICE_INVALID_CHECK_IN);
+        }
+
+        try {
+            new Service("invalid service", checkIn, staff);
+            fail();
+        } catch (SQLException e) {
+            assertEquals(e.getMessage(), ERROR_SERVICE_INVALID_SERVICE_TYPE);
         }
     }
 
     @Test
-    public void testGetById() throws Exception {
+    public void testGetById() {
         initObject();
 
         Service s = Service.getById(123);
         assertNotNull(s);
         assertEquals("room service", s.getServiceType());
         assertEquals(123, s.getStaff().getStaffId());
+        assertEquals(10, (int) s.getPrice());
 
         s = Service.getById(124);
         assertNotNull(s);
         assertEquals("phone bills", s.getServiceType());
         assertEquals(123, s.getCheckIn().getId());
+        assertEquals(5, (int) s.getPrice());
         assertNull(s.getStaff());
     }
 
     @Test
-    public void testRemove() throws Exception {
+    public void testRemove() {
         initObject();
         Service s = Service.getById(123);
         assertNotNull(s);
@@ -105,7 +114,7 @@ public class ServiceTest {
             s.remove();
         } catch (SQLException e) {
             e.printStackTrace();
-            assertTrue(false);
+            fail();
         }
         s = Service.getById(123);
         assertNull(s);
@@ -122,7 +131,7 @@ public class ServiceTest {
             s.update();
         } catch (SQLException e) {
             e.printStackTrace();
-            assertTrue(false);
+            fail();
         }
         ResultSet resultSet = Model.database.getStatement().executeQuery("SELECT * FROM service_record WHERE checkin_id = 123;");
         assertTrue(resultSet.next());

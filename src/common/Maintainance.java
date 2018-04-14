@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static common.Constants.FORMAT_BILL_CHECK_IN;
-import static common.Constants.FORMAT_BILL_SERVICE;
-import static common.Constants.FORMAT_BILL_TOTAL;
+import static common.Constants.*;
 
 /**
  * 
@@ -29,7 +27,7 @@ public class Maintainance {
         model.update();
     }
     public static Bill generateBill(CheckIn checkIn) throws SQLException {
-        checkIn.calculateBill(LocalDateTime.now());
+        checkIn.calculateBill();
         return new Bill(checkIn, checkIn.getAmount(), checkIn.getAllServices());
     }
     public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
@@ -47,17 +45,19 @@ public class Maintainance {
         }
         return null;
     }
-    public static Bill checkOut(CheckIn checkIn, Account account) throws SQLException {
+    public static Bill checkOut(CheckIn checkIn, Account account) throws Exception {
+        if(checkIn.getRoom().isAvailability()) throw new Exception(ERROR_CHECK_OUT_AVAILABLE_ROOM);
         Connection connection = Model.getDatabase().getConnection();
         Bill bill = null;
         try {
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
-            InfoProcess.releaseRoom(checkIn.getRoom());
             if(null != account) checkIn.setAccount(account);
+            checkIn.setCheckOutTime(LocalDateTime.now());
             checkIn.update();
-            checkIn.calculateBill(LocalDateTime.now());
+            checkIn.calculateBill();
             bill = generateBill(checkIn);
+            InfoProcess.releaseRoom(checkIn.getRoom());
         } catch (Exception e) {
             e.printStackTrace();
             connection.rollback();
@@ -96,13 +96,15 @@ public class Maintainance {
         public String toString() {
             Room room = checkIn.getRoom();
             Hotel hotel = room.getHotel();
+            Account account = checkIn.getAccount();
             StringBuilder sb = new StringBuilder(String.format(FORMAT_BILL_CHECK_IN,
                     hotel.getName(), room.getNumber(), room.getType(), room.getNightlyRate(),
                     checkIn.getCheckInTime(), checkIn.getCheckOutTime()));
             for(Service service: services)
                 sb.append(String.format(FORMAT_BILL_SERVICE,
                         service.getServiceType(), service.getPrice()));
-            sb.append(String.format(FORMAT_BILL_TOTAL, amount));
+            sb.append("\r\n").append(String.format(FORMAT_BILL_TOTAL,
+                    account.getPayMethod(), amount));
             return sb.toString();
         }
     }

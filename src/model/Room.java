@@ -1,19 +1,19 @@
 package model;
 
-import common.Constants;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static common.Constants.*;
 
 /**
  *
  * Created by Kunmiao Yang on 2/12/2018.
  */
 public class Room extends Model {
-    int number, maxOccupy;
-    Hotel hotel;
-    String type;
-    float nightlyRate;
+    private int number, maxOccupy;
+    private Hotel hotel;
+    private String type;
+    private float nightlyRate;
     boolean availability;
 
     private Room(Hotel hotel, int number) {
@@ -29,7 +29,7 @@ public class Room extends Model {
         // Query maxOccupy and nightly rate
         ResultSet resultSet = database.getStatement().executeQuery(
                 "SELECT * FROM room_type WHERE room_type = '" + this.type + "';");
-        if(!resultSet.next()) throw new SQLException("Invalid room type!");
+        if(!resultSet.next()) throw new SQLException(ERROR_ROOM_INVALID_ROOM_TYPE);
         this.maxOccupy = resultSet.getInt("max_occupancy");
         this.nightlyRate = resultSet.getInt("nightly_rate");
 
@@ -68,13 +68,13 @@ public class Room extends Model {
 
     public void remove() throws SQLException {
         // Remove from DB
-        remove(Constants.TABLE_ROOM, "hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number);
+        remove(TABLE_ROOM, "hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number);
     }
 
     public void update() throws SQLException {
         // Update attributes to DB
         database.getStatement().executeUpdate("UPDATE room " +
-                "SET room_type = \"" + this.type + "\"" +
+                "SET room_type = '" + this.type + "'" +
                 ", availability = " + (this.availability?1:0) +
                 " WHERE hotel_id = " + this.hotel.getId() + " AND room_number = " + this.number + ";");
     }

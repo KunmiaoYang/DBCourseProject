@@ -24,6 +24,13 @@ public class Service extends Model {
         this.serviceType = serviceType;
         this.checkIn = checkIn;
         this.staff = staff;
+        // Query service type
+        ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM service_type" +
+                " WHERE service_type = '" + this.serviceType +"';");
+        if(!resultSet.next()) throw new SQLException(ERROR_SERVICE_INVALID_SERVICE_TYPE);
+        this.setPrice(resultSet.getFloat("fee"));
+        resultSet.close();
+
         // Create tuple in database
         if(null == checkIn) throw new SQLException(ERROR_SERVICE_INVALID_CHECK_IN);
         database.getStatement().executeUpdate("INSERT INTO" +
@@ -38,12 +45,14 @@ public class Service extends Model {
         // Get instance from database
         Service service = new Service(id);
         try {
-            ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM service_record WHERE service_id = " +
-                    id + ";");
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT *" +
+                    " FROM service_record NATURAL JOIN service_type" +
+                    " WHERE service_record.service_id = " + id + ";");
             if(!resultSet.next()) return null;
             Integer staffId = (Integer) resultSet.getObject("staff_id");
             int checkin_id = resultSet.getInt("checkin_id");
             service.setServiceType(resultSet.getString("service_type"));
+            service.setPrice(resultSet.getFloat("fee"));
             resultSet.close();
             service.setCheckIn(CheckIn.getById(checkin_id));
             if(null != staffId) service.setStaff(Staff.getById(staffId));
@@ -77,7 +86,7 @@ public class Service extends Model {
         return price;
     }
 
-    public void setPrice(float price) {
+    private void setPrice(float price) {
         this.price = price;
     }
 

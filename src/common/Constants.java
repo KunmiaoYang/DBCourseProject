@@ -32,7 +32,10 @@ public class Constants {
     public static final String ERROR_ACCOUNT_INVALID_CUSTOMER;
     public static final String ERROR_CHECK_IN_ROOM_UNAVAILABLE;
     public static final String ERROR_CHECK_IN_EXCEED_OCCUPANCY;
+    public static final String ERROR_CHECK_OUT_AVAILABLE_ROOM;
     public static final String ERROR_RELEASE_AVAILABLE_ROOM;
+    public static final String ERROR_ROOM_INVALID_ROOM_TYPE;
+    public static final String ERROR_SERVICE_INVALID_SERVICE_TYPE;
     public static final String ERROR_SERVICE_INVALID_CHECK_IN;
     public static final String ERROR_CONSOLE_INVALID_PARAMETER;
     public static final String ERROR_CONSOLE_INVALID_KEY;
@@ -65,6 +68,7 @@ public class Constants {
     public static final String PROMPT_PARAMETER_ACCOUNT;
     public static final String PROMPT_PARAMETER_SERVICE;
     public static final String PROMPT_PARAMETER_ASSIGN;
+    public static final String PROMPT_PARAMETER_BILL;
     public static final String PROMPT_CONDITION_ROOM;
     public static final String PROMPT_TABLE_HEADER_ROOM;
 
@@ -87,6 +91,7 @@ public class Constants {
     public static final String CMD_OBJECT_CUSTOMER = "customer";
     public static final String CMD_OBJECT_ACCOUNT = "account";
     public static final String CMD_OBJECT_SERVICE = "service";
+    public static final String CMD_OBJECT_BILL = "bill";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
@@ -112,7 +117,10 @@ public class Constants {
         ERROR_ACCOUNT_INVALID_CUSTOMER = config.getString("error.account.invalidCustomer");
         ERROR_CHECK_IN_ROOM_UNAVAILABLE = config.getString("error.checkIn.roomUnavailable");
         ERROR_CHECK_IN_EXCEED_OCCUPANCY = config.getString("error.checkIn.exceedOccupancy");
+        ERROR_CHECK_OUT_AVAILABLE_ROOM = config.getString("error.checkOut.availableRoom");
         ERROR_RELEASE_AVAILABLE_ROOM = config.getString("error.release.availableRoom");
+        ERROR_ROOM_INVALID_ROOM_TYPE = config.getString("error.room.invalidRoomType");
+        ERROR_SERVICE_INVALID_SERVICE_TYPE = config.getString("error.service.invalidServiceType");
         ERROR_SERVICE_INVALID_CHECK_IN = config.getString("error.service.invalidCheckIn");
         ERROR_CONSOLE_INVALID_PARAMETER = config.getString("error.console.invalidParameter");
         ERROR_CONSOLE_INVALID_KEY = config.getString("error.console.invalidObjectKey");
@@ -145,6 +153,7 @@ public class Constants {
         PROMPT_PARAMETER_ACCOUNT = config.getString("prompt.parameter.account");
         PROMPT_PARAMETER_SERVICE = config.getString("prompt.parameter.service");
         PROMPT_PARAMETER_ASSIGN = config.getString("prompt.parameter.assign");
+        PROMPT_PARAMETER_BILL = config.getString("prompt.parameter.bill");
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
 
