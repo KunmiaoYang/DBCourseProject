@@ -60,6 +60,7 @@ public class Constants {
     public static final String PROMPT_PARAMETER_KEY_CUSTOMER;
     public static final String PROMPT_PARAMETER_KEY_ACCOUNT;
     public static final String PROMPT_PARAMETER_KEY_SERVICE;
+    public static final String PROMPT_PARAMETER_KEY_CHECK_IN;
     public static final String PROMPT_PARAMETER_HOTEL;
     public static final String PROMPT_PARAMETER_ROOM;
     public static final String PROMPT_PARAMETER_STAFF;
@@ -70,16 +71,19 @@ public class Constants {
     public static final String PROMPT_PARAMETER_BILL;
     public static final String PROMPT_CONDITION_ROOM;
     public static final String PROMPT_TABLE_HEADER_ROOM;
+    public static final String PROMPT_TABLE_HEADER_SERVICE;
     public static final String PROMPT_TABLE_HEADER_HOTEL_OCCUPY;
     public static final String PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY;
     public static final String PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY;
     public static final String PROMPT_TABLE_HEADER_CITY_OCCUPY;
-    public static final String PROMPT_TABLE_HEADER_STAFF;
+    public static final String PROMPT_TABLE_HEADER_STAFF_BY_ROLE;
+    public static final String PROMPT_TABLE_HEADER_STAFF_BY_STAY;
 
     public static final String FORMAT_PROMPT_TABLE_ROOM;
     public static final String FORMAT_PROMPT_TABLE_HOTEL_OCCUPY;
     public static final String FORMAT_PROMPT_TABLE_STRING_OCCUPY;
-    public static final String FORMAT_PROMPT_TABLE_STAFF;
+    public static final String FORMAT_PROMPT_TABLE_STAFF_BY_ROLE;
+    public static final String FORMAT_PROMPT_TABLE_STAFF_BY_STAY;
     public static final String FORMAT_BILL_CHECK_IN;
     public static final String FORMAT_BILL_SERVICE;
     public static final String FORMAT_BILL_TOTAL;
@@ -162,6 +166,7 @@ public class Constants {
         PROMPT_PARAMETER_KEY_CUSTOMER = config.getString("prompt.parameter.key.customer");
         PROMPT_PARAMETER_KEY_ACCOUNT = config.getString("prompt.parameter.key.account");
         PROMPT_PARAMETER_KEY_SERVICE = config.getString("prompt.parameter.key.service");
+        PROMPT_PARAMETER_KEY_CHECK_IN = config.getString("prompt.parameter.key.checkIn");
         PROMPT_PARAMETER_HOTEL = config.getString("prompt.parameter.hotel");
         PROMPT_PARAMETER_ROOM = config.getString("prompt.parameter.room");
         PROMPT_PARAMETER_STAFF = config.getString("prompt.parameter.staff");
@@ -173,16 +178,19 @@ public class Constants {
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
 
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
+        PROMPT_TABLE_HEADER_SERVICE = config.getString("prompt.table.header.service");
         PROMPT_TABLE_HEADER_HOTEL_OCCUPY = config.getString("prompt.table.header.hotelOccupy");
         PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY = config.getString("prompt.table.header.roomTypeOccupy");
         PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY = config.getString("prompt.table.header.dateRangeOccupy");
         PROMPT_TABLE_HEADER_CITY_OCCUPY = config.getString("prompt.table.header.cityOccupy");
-        PROMPT_TABLE_HEADER_STAFF = config.getString("prompt.table.header.staff");
+        PROMPT_TABLE_HEADER_STAFF_BY_ROLE = config.getString("prompt.table.header.staff.role");
+        PROMPT_TABLE_HEADER_STAFF_BY_STAY = config.getString("prompt.table.header.staff.stay");
 
         FORMAT_PROMPT_TABLE_ROOM = config.getString("format.prompt.table.room");
         FORMAT_PROMPT_TABLE_HOTEL_OCCUPY = config.getString("format.prompt.table.hotelOccupy");
         FORMAT_PROMPT_TABLE_STRING_OCCUPY = config.getString("format.prompt.table.stringOccupy");
-        FORMAT_PROMPT_TABLE_STAFF = config.getString("format.prompt.table.staff");
+        FORMAT_PROMPT_TABLE_STAFF_BY_ROLE = config.getString("format.prompt.table.staff.role");
+        FORMAT_PROMPT_TABLE_STAFF_BY_STAY = config.getString("format.prompt.table.staff.stay");
         FORMAT_BILL_CHECK_IN = config.getString("format.bill.checkin");
         FORMAT_BILL_SERVICE = config.getString("format.bill.service");
         FORMAT_BILL_TOTAL = config.getString("format.bill.total");

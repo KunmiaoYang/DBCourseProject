@@ -98,11 +98,15 @@ public class Maintainance {
             Hotel hotel = room.getHotel();
             Account account = checkIn.getAccount();
             StringBuilder sb = new StringBuilder(String.format(FORMAT_BILL_CHECK_IN,
-                    hotel.getName(), room.getNumber(), room.getType(), room.getNightlyRate(),
-                    checkIn.getCheckInTime(), checkIn.getCheckOutTime()));
-            for(Service service: services)
+                    checkIn.getId(), hotel.getName(), room.getNumber(), room.getType(),
+                    room.getNightlyRate(), checkIn.getCheckInTime(), checkIn.getCheckOutTime()));
+            sb.append("\r\n").append(PROMPT_TABLE_HEADER_SERVICE);
+            for(Service service: services) {
+                Staff staff = service.getStaff();
+                String staffId = null == staff? "": String.valueOf(staff.getStaffId());
                 sb.append(String.format(FORMAT_BILL_SERVICE,
-                        service.getServiceType(), service.getPrice()));
+                        service.getServiceType(), service.getPrice(), staffId));
+            }
             sb.append("\r\n").append(String.format(FORMAT_BILL_TOTAL,
                     account.getPayMethod(), amount));
             return sb.toString();

@@ -539,7 +539,7 @@ public class Console {
 
     //region Report
     private void report(String[] args) {
-        if(args.length < 2) {
+        if(args.length < 3) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             return;
         }
@@ -566,7 +566,7 @@ public class Console {
                         reportByRole(args);
                         return;
                     case CMD_ATTR_STAY:
-                        reportByString(args, getOccupancyByRoomType(), PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY);
+                        reportByStay(args);
                         return;
                     default: out.println(ERROR_CONSOLE_INVALID_PARAMETER); return;
                 }
@@ -619,16 +619,45 @@ public class Console {
         try {
             Map<String, List<Staff>> report = getStaffsByRole();
             if(null == report) throw new NullPointerException();
-            out.println(PROMPT_TABLE_HEADER_STAFF);
+            out.println(PROMPT_TABLE_HEADER_STAFF_BY_ROLE);
             for(String role: report.keySet()) {
                 List<Staff> staffList = report.get(role);
                 for (Staff staff: staffList) {
                     if(null == staff) continue;
                     String hotelName = staff.getHotel().getName();
-                    out.println(String.format(FORMAT_PROMPT_TABLE_STAFF,
+                    out.println(String.format(FORMAT_PROMPT_TABLE_STAFF_BY_ROLE,
                             role, staff.getStaffId(), staff.getName(), staff.getAge(), hotelName,
                             staff.getDepartment(), staff.getPhoneNum(), staff.getAddress()));
                 }
+            }
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void reportByStay(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_KEY);
+        out.println(PROMPT_PARAMETER_KEY_CHECK_IN);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept further parameter and execute
+        try {
+            Integer checkInId = Integer.parseInt(br.readLine().trim());
+            CheckIn checkIn = CheckIn.getById(checkInId);
+            if(null == checkIn) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            out.println(PROMPT_TABLE_HEADER_STAFF_BY_STAY);
+            List<Staff> staffList = Report.getServingStaffs(checkIn);
+            if(null == staffList) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            for (Staff staff: staffList) {
+                if(null == staff) continue;
+                String hotelName = staff.getHotel().getName();
+                out.println(String.format(FORMAT_PROMPT_TABLE_STAFF_BY_STAY,
+                        staff.getStaffId(), staff.getName(), staff.getAge(), hotelName,
+                        staff.getDepartment(), staff.getTitle(), staff.getPhoneNum(), staff.getAddress()));
             }
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
