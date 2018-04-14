@@ -9,8 +9,10 @@ import model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static common.Constants.*;
+import static common.Report.*;
 
 public class Console {
     InputStream in;
@@ -183,7 +185,7 @@ public class Console {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             return;
         }
-        out.println(PROMPT_CREATE);
+        out.println(PROMPT_READ);
         switch (args[1].toLowerCase()) {
             case CMD_OBJECT_ROOM: readRoom(args); return;
             case CMD_OBJECT_BILL: readBill(args); return;
@@ -535,8 +537,73 @@ public class Console {
     }
     //endregion
 
+    //region Report
+    private void report(String[] args) {
+        if(args.length < 2) {
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            return;
+        }
+        switch (args[1].toLowerCase()) {
+            case CMD_ATTR_HOTEL:
+                reportByHotel(args);
+                return;
+            case CMD_ATTR_ROOM_TYPE:
+                reportByString(args, getOccupancyByRoomType(), PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY);
+                return;
+            case CMD_ATTR_DATE_RANGE:
+                reportByString(args, getOccupancyByDateRange(), PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY);
+                return;
+            case CMD_ATTR_CITY:
+                reportByString(args, getOccupancyByCity(), PROMPT_TABLE_HEADER_CITY_OCCUPY);
+                return;
+            default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+        }
+    }
+
+    private void reportByHotel(String[] args) {
+        // Accept further parameter and execute
+        try {
+            Map<Integer, Report.Occupancy> report = getOccupancyByHotel();
+            if(null == report) throw new NullPointerException();
+            out.println(PROMPT_TABLE_HEADER_HOTEL_OCCUPY);
+            for(Integer id: report.keySet()) {
+                Hotel hotel = Hotel.getById(id);
+                Occupancy occupancy = report.get(id);
+                if(null == hotel || null == occupancy) continue;
+                out.println(String.format(FORMAT_PROMPT_TABLE_HOTEL_OCCUPY,
+                        id, hotel.getName(), occupancy.occupancy, (int) (100*occupancy.percentage)));
+            }
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void reportByString(String[] args, Map<String, Report.Occupancy> report, String header) {
+        // Accept further parameter and execute
+        try {
+            if(null == report) throw new NullPointerException();
+            out.println(header);
+            for(String keyString: report.keySet()) {
+                Occupancy occupancy = report.get(keyString);
+                if(null == occupancy) continue;
+                out.println(String.format(FORMAT_PROMPT_TABLE_STRING_OCCUPY,
+                        keyString, occupancy.occupancy, (int) (100*occupancy.percentage)));
+            }
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+    //endregion
+
     private void assignRoom(String[] args) {
         // Print parameter detail
+        out.println(PROMPT_KEY);
         out.println(PROMPT_PARAMETER_ASSIGN);
         out.print(CONSOLE_MARKER_PARAMETER);
 
@@ -556,6 +623,7 @@ public class Console {
 
     private void releaseRoom(String[] args) {
         // Print parameter detail
+        out.println(PROMPT_KEY);
         out.println(PROMPT_PARAMETER_KEY_ROOM);
         out.print(CONSOLE_MARKER_PARAMETER);
 
@@ -581,11 +649,12 @@ public class Console {
             switch (command[0].toLowerCase()) {
                 case CMD_MENU: menu(command); break;
                 case CMD_CREATE: create(command); break;
-                case CMD_READ: read(command); break;
+                case CMD_CHECK: read(command); break;
                 case CMD_UPDATE: update(command); break;
                 case CMD_DELETE: delete(command); break;
                 case CMD_ASSIGN: assignRoom(command); break;
                 case CMD_RELEASE: releaseRoom(command); break;
+                case CMD_REPORT: report(command); break;
                 // TODO: add commands
                 default: menu(new String[0]);
             }

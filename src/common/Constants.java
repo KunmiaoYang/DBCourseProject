@@ -52,8 +52,7 @@ public class Constants {
     public static final String PROMPT_READ;
     public static final String PROMPT_UPDATE;
     public static final String PROMPT_DELETE;
-    public static final String PROMPT_ASSIGN;
-    public static final String PROMPT_RELEASE;
+    public static final String PROMPT_KEY;
 
     public static final String PROMPT_PARAMETER_KEY_HOTEL;
     public static final String PROMPT_PARAMETER_KEY_ROOM;
@@ -73,8 +72,8 @@ public class Constants {
     public static final String PROMPT_TABLE_HEADER_ROOM;
     public static final String PROMPT_TABLE_HEADER_HOTEL_OCCUPY;
     public static final String PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY;
-    public static final String PROMPT_TABLE_HEADER_CITY_OCCUPY;
     public static final String PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY;
+    public static final String PROMPT_TABLE_HEADER_CITY_OCCUPY;
     public static final String PROMPT_TABLE_HEADER_STAFF;
 
     public static final String FORMAT_PROMPT_TABLE_ROOM;
@@ -88,7 +87,8 @@ public class Constants {
     public static final String CMD_MENU = "menu";
     public static final String CMD_EXIT = "exit";
     public static final String CMD_CREATE = "enter";
-    public static final String CMD_READ = "check";
+    public static final String CMD_CHECK = "check";
+    public static final String CMD_REPORT = "report";
     public static final String CMD_UPDATE = "update";
     public static final String CMD_DELETE = "delete";
     public static final String CMD_ASSIGN = "assign";
@@ -103,8 +103,8 @@ public class Constants {
     public static final String CMD_OBJECT_BILL = "bill";
 
     public static final String CMD_ATTR_HOTEL = "hotel";
-    public static final String CMD_ATTR_ROOM_TYPE = "roomType";
-    public static final String CMD_ATTR_DATE_RANGE = "dateRange";
+    public static final String CMD_ATTR_ROOM_TYPE = "roomtype";
+    public static final String CMD_ATTR_DATE_RANGE = "daterange";
     public static final String CMD_ATTR_CITY = "city";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
@@ -151,8 +151,7 @@ public class Constants {
         PROMPT_READ = config.getString("prompt.read");
         PROMPT_UPDATE = config.getString("prompt.update");
         PROMPT_DELETE = config.getString("prompt.delete");
-        PROMPT_ASSIGN = config.getString("prompt.assign");
-        PROMPT_RELEASE = config.getString("prompt.release");
+        PROMPT_KEY = config.getString("prompt.key");
 
         PROMPT_PARAMETER_KEY_HOTEL = config.getString("prompt.parameter.key.hotel");
         PROMPT_PARAMETER_KEY_ROOM = config.getString("prompt.parameter.key.room");
@@ -173,8 +172,8 @@ public class Constants {
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
         PROMPT_TABLE_HEADER_HOTEL_OCCUPY = config.getString("prompt.table.header.hotelOccupy");
         PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY = config.getString("prompt.table.header.roomTypeOccupy");
-        PROMPT_TABLE_HEADER_CITY_OCCUPY = config.getString("prompt.table.header.cityOccupy");
         PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY = config.getString("prompt.table.header.dateRangeOccupy");
+        PROMPT_TABLE_HEADER_CITY_OCCUPY = config.getString("prompt.table.header.cityOccupy");
         PROMPT_TABLE_HEADER_STAFF = config.getString("prompt.table.header.staff");
 
         FORMAT_PROMPT_TABLE_ROOM = config.getString("format.prompt.table.room");
