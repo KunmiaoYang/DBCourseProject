@@ -11,7 +11,7 @@ CREATE TABLE hotel (
 
 DROP TABLE IF EXISTS staff;
 CREATE TABLE staff (
-  staffId INT NOT NULL,
+  staff_id INT NOT NULL,
   name VARCHAR(45) NOT NULL,
   age INT NOT NULL,
   job_title VARCHAR(45) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE staff (
   hotel_id INT NOT NULL,
   phone VARCHAR(45) NULL,
   address VARCHAR(45) NULL,
-  PRIMARY KEY (staffId));
+  PRIMARY KEY (staff_id));
     
 DROP TABLE IF EXISTS room;
 CREATE TABLE room (
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS service_record ;
 CREATE TABLE service_record (
   service_id INT NOT NULL AUTO_INCREMENT,
   service_type VARCHAR(45) NOT NULL,
-  staffId INT NULL,
+  staff_id INT NULL,
   checkin_id INT NOT NULL,
   PRIMARY KEY (service_id));
 
@@ -113,7 +113,7 @@ INSERT INTO hotel(hotel_id,hotel_name, city, street_address, hotel_phone_number)
 (0004,'Hotel D', 'Raleigh', '28 GHW St , Raleigh NC 32', '920');
 
 #done
-INSERT INTO staff(staffId, name, age, job_title, department, hotel_id, phone, address) VALUES
+INSERT INTO staff(staff_id, name, age, job_title, department, hotel_id, phone, address) VALUES
 (100, 'Mary', 40, 'Manager', 'Management', 0001, '654', '90 ABC St , Raleigh NC 27'),
 (101, 'John', 45, 'Manager', 'Management', 0002, '564', '798 XYZ St , Rochester NY 54'),
 (102, 'Carol', 55, 'Manager', 'Management', 0003, '546', '351 MH St , Greensboro NC 27'),
@@ -168,7 +168,7 @@ INSERT INTO service_type(service_type, fee)VALUES
 ('special requests', 20);
 
 #done
-INSERT INTO service_record(service_id, service_type, staffId, checkin_id)VALUES
+INSERT INTO service_record(service_id, service_type, staff_id, checkin_id)VALUES
 (1, 'dry cleaning', 100, 1),
 (2, 'gyms', 100, 1),
 (3, 'gyms', 101, 2),
