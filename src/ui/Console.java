@@ -189,6 +189,7 @@ public class Console {
         switch (args[1].toLowerCase()) {
             case CMD_OBJECT_ROOM: readRoom(args); return;
             case CMD_OBJECT_BILL: readBill(args); return;
+            case CMD_OBJECT_REVENUE: readRevenue(args); return;
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
@@ -237,6 +238,30 @@ public class Console {
             if(null == checkIn) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             Maintainance.Bill bill = Maintainance.generateBill(checkIn);
             out.println(bill);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+
+    }
+
+    private void readRevenue(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_PARAMETER_REVENUE);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 3);
+            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0].trim()));
+            if(null == hotel) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            LocalDate startDate = LocalDate.parse(parameters[1].trim()),
+                    endDate = LocalDate.parse(parameters[2].trim());
+            float revenue = Report.getRevenue(hotel, startDate, endDate);
+            out.println(String.format(FORMAT_PROMPT_REVENUE,
+                    hotel.getId(), hotel.getName(), startDate.toString(), endDate.toString(), revenue));
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
             System.err.println(e.getMessage());

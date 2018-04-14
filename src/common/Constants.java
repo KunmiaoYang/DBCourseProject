@@ -69,6 +69,7 @@ public class Constants {
     public static final String PROMPT_PARAMETER_SERVICE;
     public static final String PROMPT_PARAMETER_ASSIGN;
     public static final String PROMPT_PARAMETER_BILL;
+    public static final String PROMPT_PARAMETER_REVENUE;
     public static final String PROMPT_CONDITION_ROOM;
     public static final String PROMPT_TABLE_HEADER_ROOM;
     public static final String PROMPT_TABLE_HEADER_SERVICE;
@@ -84,6 +85,7 @@ public class Constants {
     public static final String FORMAT_PROMPT_TABLE_STRING_OCCUPY;
     public static final String FORMAT_PROMPT_TABLE_STAFF_BY_ROLE;
     public static final String FORMAT_PROMPT_TABLE_STAFF_BY_STAY;
+    public static final String FORMAT_PROMPT_REVENUE;
     public static final String FORMAT_BILL_CHECK_IN;
     public static final String FORMAT_BILL_SERVICE;
     public static final String FORMAT_BILL_TOTAL;
@@ -105,6 +107,7 @@ public class Constants {
     public static final String CMD_OBJECT_ACCOUNT = "account";
     public static final String CMD_OBJECT_SERVICE = "service";
     public static final String CMD_OBJECT_BILL = "bill";
+    public static final String CMD_OBJECT_REVENUE = "revenue";
     public static final String CMD_OBJECT_OCCUPY = "occupy";
 
     public static final String CMD_ATTR_HOTEL = "hotel";
@@ -175,6 +178,7 @@ public class Constants {
         PROMPT_PARAMETER_SERVICE = config.getString("prompt.parameter.service");
         PROMPT_PARAMETER_ASSIGN = config.getString("prompt.parameter.assign");
         PROMPT_PARAMETER_BILL = config.getString("prompt.parameter.bill");
+        PROMPT_PARAMETER_REVENUE = config.getString("prompt.parameter.revenue");
         PROMPT_CONDITION_ROOM = config.getString("prompt.condition.room");
 
         PROMPT_TABLE_HEADER_ROOM = config.getString("prompt.table.header.room");
@@ -191,6 +195,7 @@ public class Constants {
         FORMAT_PROMPT_TABLE_STRING_OCCUPY = config.getString("format.prompt.table.stringOccupy");
         FORMAT_PROMPT_TABLE_STAFF_BY_ROLE = config.getString("format.prompt.table.staff.role");
         FORMAT_PROMPT_TABLE_STAFF_BY_STAY = config.getString("format.prompt.table.staff.stay");
+        FORMAT_PROMPT_REVENUE = config.getString("format.prompt.revenue");
         FORMAT_BILL_CHECK_IN = config.getString("format.bill.checkin");
         FORMAT_BILL_SERVICE = config.getString("format.bill.service");
         FORMAT_BILL_TOTAL = config.getString("format.bill.total");
