@@ -93,6 +93,7 @@ public class Constants {
     public static final String CMD_DELETE = "delete";
     public static final String CMD_ASSIGN = "assign";
     public static final String CMD_RELEASE = "release";
+
     public static final String CMD_OBJECT_HOTEL = "hotel";
     public static final String CMD_OBJECT_ROOM = "room";
     public static final String CMD_OBJECT_STAFF = "staff";
@@ -100,6 +101,11 @@ public class Constants {
     public static final String CMD_OBJECT_ACCOUNT = "account";
     public static final String CMD_OBJECT_SERVICE = "service";
     public static final String CMD_OBJECT_BILL = "bill";
+
+    public static final String CMD_ATTR_HOTEL = "hotel";
+    public static final String CMD_ATTR_ROOM_TYPE = "roomType";
+    public static final String CMD_ATTR_DATE_RANGE = "dateRange";
+    public static final String CMD_ATTR_CITY = "city";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
