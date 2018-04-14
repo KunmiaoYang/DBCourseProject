@@ -66,7 +66,7 @@ CREATE TABLE checkin (
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer (
   customer_id INT NOT NULL,
-  serviceType VARCHAR(45) NOT NULL,
+  customer_name VARCHAR(45) NOT NULL,
   date_of_birth DATE NULL,
   phone VARCHAR(45) NULL,
   email VARCHAR(45) NULL,
@@ -123,7 +123,7 @@ INSERT INTO staff(staffId, serviceType, age, job_title, department, hotel_id, ph
 (106, 'Olivia', 27, 'Front Desk Staff', 'Management', 0004, '799', '325 PD St , Raleigh NC 27');
 
 #done
-INSERT INTO customer (customer_id, serviceType, date_of_birth, phone, email) VALUES
+INSERT INTO customer (customer_id, customer_name, date_of_birth, phone, email) VALUES
 (1001, 'David', '1980-01-30', '123', 'david@gmail.com'),
 (1002, 'Sarah', '1971-01-30', '456', 'sarah@gmail.com'),
 (1003, 'Joseph', '1987-01-30', '789', 'joseph@gmail.com'),
