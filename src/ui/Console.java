@@ -544,18 +544,32 @@ public class Console {
             return;
         }
         switch (args[1].toLowerCase()) {
-            case CMD_ATTR_HOTEL:
-                reportByHotel(args);
-                return;
-            case CMD_ATTR_ROOM_TYPE:
-                reportByString(args, getOccupancyByRoomType(), PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY);
-                return;
-            case CMD_ATTR_DATE_RANGE:
-                reportByString(args, getOccupancyByDateRange(), PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY);
-                return;
-            case CMD_ATTR_CITY:
-                reportByString(args, getOccupancyByCity(), PROMPT_TABLE_HEADER_CITY_OCCUPY);
-                return;
+            case CMD_OBJECT_OCCUPY:
+                switch (args[2].toLowerCase()) {
+                    case CMD_ATTR_HOTEL:
+                        reportByHotel(args);
+                        return;
+                    case CMD_ATTR_ROOM_TYPE:
+                        reportByString(args, getOccupancyByRoomType(), PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY);
+                        return;
+                    case CMD_ATTR_DATE_RANGE:
+                        reportByString(args, getOccupancyByDateRange(), PROMPT_TABLE_HEADER_DATE_RANGE_OCCUPY);
+                        return;
+                    case CMD_ATTR_CITY:
+                        reportByString(args, getOccupancyByCity(), PROMPT_TABLE_HEADER_CITY_OCCUPY);
+                        return;
+                    default: out.println(ERROR_CONSOLE_INVALID_PARAMETER); return;
+                }
+            case CMD_OBJECT_STAFF:
+                switch (args[2].toLowerCase()) {
+                    case CMD_ATTR_ROLE:
+                        reportByRole(args);
+                        return;
+                    case CMD_ATTR_STAY:
+                        reportByString(args, getOccupancyByRoomType(), PROMPT_TABLE_HEADER_ROOM_TYPE_OCCUPY);
+                        return;
+                    default: out.println(ERROR_CONSOLE_INVALID_PARAMETER); return;
+                }
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
@@ -591,6 +605,30 @@ public class Console {
                 if(null == occupancy) continue;
                 out.println(String.format(FORMAT_PROMPT_TABLE_STRING_OCCUPY,
                         keyString, occupancy.occupancy, (int) (100*occupancy.percentage)));
+            }
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void reportByRole(String[] args) {
+        // Accept further parameter and execute
+        try {
+            Map<String, List<Staff>> report = getStaffsByRole();
+            if(null == report) throw new NullPointerException();
+            out.println(PROMPT_TABLE_HEADER_STAFF);
+            for(String role: report.keySet()) {
+                List<Staff> staffList = report.get(role);
+                for (Staff staff: staffList) {
+                    if(null == staff) continue;
+                    String hotelName = staff.getHotel().getName();
+                    out.println(String.format(FORMAT_PROMPT_TABLE_STAFF,
+                            role, staff.getStaffId(), staff.getName(), staff.getAge(), hotelName,
+                            staff.getDepartment(), staff.getPhoneNum(), staff.getAddress()));
+                }
             }
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {

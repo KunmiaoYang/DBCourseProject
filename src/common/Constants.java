@@ -101,11 +101,14 @@ public class Constants {
     public static final String CMD_OBJECT_ACCOUNT = "account";
     public static final String CMD_OBJECT_SERVICE = "service";
     public static final String CMD_OBJECT_BILL = "bill";
+    public static final String CMD_OBJECT_OCCUPY = "occupy";
 
     public static final String CMD_ATTR_HOTEL = "hotel";
     public static final String CMD_ATTR_ROOM_TYPE = "roomtype";
     public static final String CMD_ATTR_DATE_RANGE = "daterange";
     public static final String CMD_ATTR_CITY = "city";
+    public static final String CMD_ATTR_ROLE = "role";
+    public static final String CMD_ATTR_STAY = "stay";
     static{
         ResourceBundle config = ResourceBundle.getBundle("config");
         ResourceBundle account = ResourceBundle.getBundle("account");
