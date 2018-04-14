@@ -12,7 +12,7 @@ CREATE TABLE hotel (
 DROP TABLE IF EXISTS staff;
 CREATE TABLE staff (
   staffId INT NOT NULL,
-  serviceType VARCHAR(45) NOT NULL,
+  name VARCHAR(45) NOT NULL,
   age INT NOT NULL,
   job_title VARCHAR(45) NOT NULL,
   department VARCHAR(45) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE checkin (
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer (
   customer_id INT NOT NULL,
-  customer_name VARCHAR(45) NOT NULL,
+  name VARCHAR(45) NOT NULL,
   date_of_birth DATE NULL,
   phone VARCHAR(45) NULL,
   email VARCHAR(45) NULL,
@@ -113,7 +113,7 @@ INSERT INTO hotel(hotel_id,hotel_name, city, street_address, hotel_phone_number)
 (0004,'Hotel D', 'Raleigh', '28 GHW St , Raleigh NC 32', '920');
 
 #done
-INSERT INTO staff(staffId, serviceType, age, job_title, department, hotel_id, phone, address) VALUES
+INSERT INTO staff(staffId, name, age, job_title, department, hotel_id, phone, address) VALUES
 (100, 'Mary', 40, 'Manager', 'Management', 0001, '654', '90 ABC St , Raleigh NC 27'),
 (101, 'John', 45, 'Manager', 'Management', 0002, '564', '798 XYZ St , Rochester NY 54'),
 (102, 'Carol', 55, 'Manager', 'Management', 0003, '546', '351 MH St , Greensboro NC 27'),
@@ -123,7 +123,7 @@ INSERT INTO staff(staffId, serviceType, age, job_title, department, hotel_id, ph
 (106, 'Olivia', 27, 'Front Desk Staff', 'Management', 0004, '799', '325 PD St , Raleigh NC 27');
 
 #done
-INSERT INTO customer (customer_id, customer_name, date_of_birth, phone, email) VALUES
+INSERT INTO customer (customer_id, name, date_of_birth, phone, email) VALUES
 (1001, 'David', '1980-01-30', '123', 'david@gmail.com'),
 (1002, 'Sarah', '1971-01-30', '456', 'sarah@gmail.com'),
 (1003, 'Joseph', '1987-01-30', '789', 'joseph@gmail.com'),
