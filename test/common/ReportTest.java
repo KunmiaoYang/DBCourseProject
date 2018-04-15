@@ -157,7 +157,7 @@ public class ReportTest {
         assertNotNull(checkIn);
 
         float revenue = getRevenue(hotel1, LocalDate.of(2017, 5, 10), LocalDate.of(2017, 5, 13));
-        assertEquals(915, revenue, 0.0001);
+        assertEquals(915.25, revenue, 0.0001);
 
         revenue = getRevenue(hotel1, LocalDate.of(2017, 5, 11), LocalDate.of(2017, 5, 12));
         assertEquals(0, revenue, 0.0001);

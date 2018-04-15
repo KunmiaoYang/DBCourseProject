@@ -98,7 +98,7 @@ public class Maintainance {
             Hotel hotel = room.getHotel();
             Account account = checkIn.getAccount();
             StringBuilder sb = new StringBuilder(String.format(FORMAT_BILL_CHECK_IN,
-                    checkIn.getCustomer().getId(), checkIn.getId(), hotel.getName(),
+                    checkIn.getId(), checkIn.getCustomer().getId(), hotel.getName(),
                     room.getNumber(), room.getType(), room.getNightlyRate(),
                     checkIn.getCheckInTime(), checkIn.getCheckOutTime()));
             sb.append("\r\n").append(PROMPT_TABLE_HEADER_SERVICE);
