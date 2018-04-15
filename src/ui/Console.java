@@ -521,7 +521,7 @@ public class Console {
         // Accept further parameter and execute
         try {
             String[] parameters = br.readLine().split(",");
-            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0]));
+            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0].trim()));
             if(null == hotel) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             InfoProcess.remove(hotel);
             out.println(PROMPT_STATUS_SUCCESS);
@@ -541,7 +541,7 @@ public class Console {
         // Accept further parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 2);
-            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            Room room = Room.getById(Integer.parseInt(parameters[0].trim()), Integer.parseInt(parameters[1]));
             if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             InfoProcess.remove(room);
             out.println(PROMPT_STATUS_SUCCESS);
@@ -561,7 +561,7 @@ public class Console {
         // Accept further parameter and execute
         try {
             String[] parameters = br.readLine().split(",");
-            Staff staff = Staff.getById(Integer.parseInt(parameters[0]));
+            Staff staff = Staff.getById(Integer.parseInt(parameters[0].trim()));
             if(null == staff) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             InfoProcess.remove(staff);
             out.println(PROMPT_STATUS_SUCCESS);
@@ -581,7 +581,7 @@ public class Console {
         // Accept further parameter and execute
         try {
             String[] parameters = br.readLine().split(",");
-            Customer customer = Customer.getById(Integer.parseInt(parameters[0]));
+            Customer customer = Customer.getById(Integer.parseInt(parameters[0].trim()));
             if(null == customer) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             InfoProcess.remove(customer);
             out.println(PROMPT_STATUS_SUCCESS);
@@ -601,7 +601,7 @@ public class Console {
         // Accept further parameter and execute
         try {
             String[] parameters = br.readLine().split(",");
-            Account account = Account.getById(Integer.parseInt(parameters[0]));
+            Account account = Account.getById(Integer.parseInt(parameters[0].trim()));
             if(null == account) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             InfoProcess.remove(account);
             out.println(PROMPT_STATUS_SUCCESS);
