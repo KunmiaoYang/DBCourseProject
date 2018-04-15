@@ -239,3 +239,8 @@ UPDATE
   GROUP BY checkin_id) AS service
   ON C.checkin_id=service.checkin_id
 SET C.amount=DATEDIFF(C.checkout_time, C.checkin_time)*rate.nightly_rate+service.tot_price;
+
+# Update discount
+UPDATE checkin AS C INNER JOIN account AS A ON C.account_id = A.account_id
+SET C.amount = C.amount * 0.95
+WHERE A.payment_method = 'hotel credit';
