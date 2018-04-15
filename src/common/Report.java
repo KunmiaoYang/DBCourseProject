@@ -11,6 +11,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  *
@@ -73,21 +74,36 @@ public class Report {
         }
         return report;
     }
-    public static Map<String, Occupancy> getOccupancyByDateRange() {
-        Map<String, Occupancy> report = new HashMap<>();
+    public static TreeMap<String, Occupancy> getOccupancyByDateRange() {
+        TreeMap<String, Occupancy> report = new TreeMap<>();
         try {
-            ResultSet resultSet = database.getStatement().executeQuery(
-                    "SELECT DATE(checkin_time) AS date," +
-                            " COUNT(*) AS occupancy," +
-                            " COUNT(*)/total AS percentage" +
-                            " FROM checkin," +
-                            " (SELECT COUNT(*) AS total FROM room) AS roomCount" +
-                            " GROUP BY date;");
+            // Query total room count
+            ResultSet resultSet = database.getStatement().executeQuery("SELECT COUNT(*) AS total FROM room;");
+            resultSet.next();
+            int totalRoom = resultSet.getInt("total");
+            resultSet.close();
+
+            // Query occupancy
+            Map<LocalDate, Integer> countMap = new HashMap<>();
+            resultSet = database.getStatement().executeQuery(
+                    "SELECT DATE(checkin_time) AS start_date," +
+                            " DATE(checkout_time) AS end_date" +
+                            " FROM checkin;");
             while (resultSet.next()) {
-                report.put(resultSet.getString("date"),
-                        new Occupancy(resultSet.getInt("occupancy"), resultSet.getFloat("percentage")));
+                String buff = resultSet.getString("end_date");
+                LocalDate endDate = null == buff ? LocalDate.now() : LocalDate.parse(buff);
+                for(LocalDate date = LocalDate.parse(resultSet.getString("start_date"));
+                        !date.isAfter(endDate); date = date.plusDays(1))
+                    countMap.put(date, countMap.getOrDefault(date, 0) + 1);
             }
             resultSet.close();
+
+            // Generate report
+            for (LocalDate date: countMap.keySet()) {
+                int occupyCount = countMap.get(date);
+                report.put(date.toString(),
+                        new Occupancy(occupyCount, occupyCount/(float)totalRoom));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
