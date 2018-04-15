@@ -162,7 +162,7 @@ public class Report {
                     " AND DATE(checkin_time) >= '" + start.toString() +"'" +
                     " AND DATE (checkout_time) <= '" + end.toString() + "'" +
                     " AND hotel_id = " + hotel.getId() + ";");
-            if(resultSet.next()) return resultSet.getInt("revenue");
+            if(resultSet.next()) return resultSet.getFloat("revenue");
         } catch (SQLException e) {
             e.printStackTrace();
         }

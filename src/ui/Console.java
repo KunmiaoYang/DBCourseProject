@@ -168,7 +168,7 @@ public class Console {
             String[] parameters = br.readLine().split(",", 4);
             Staff staff = "".equals(parameters[3].trim())?
                     null : Staff.getById(Integer.parseInt(parameters[3].trim()));
-            Room room = Room.getById(Integer.parseInt(parameters[1]), Integer.parseInt(parameters[2]));
+            Room room = Room.getById(Integer.parseInt(parameters[1].trim()), Integer.parseInt(parameters[2].trim()));
             if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             Maintainance.createService(parameters[0].trim()                     // Service Type
                     , CheckIn.getByRoom(room)                                   // Check in
@@ -351,7 +351,7 @@ public class Console {
         // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 5);
-            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0]));
+            Hotel hotel = Hotel.getById(Integer.parseInt(parameters[0].trim()));
             if(null == hotel) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             if(!"".equals(parameters[1].trim())) hotel.setName(parameters[1].trim());
             if(!"".equals(parameters[2].trim())) hotel.setCity(parameters[2].trim());
@@ -376,7 +376,7 @@ public class Console {
         // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 3);
-            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            Room room = Room.getById(Integer.parseInt(parameters[0].trim()), Integer.parseInt(parameters[1].trim()));
             if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             if(!"".equals(parameters[2].trim())) room.setType(parameters[2].trim());
             InfoProcess.update(room);
@@ -398,7 +398,7 @@ public class Console {
         // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 8);
-            Staff staff = Staff.getById(Integer.parseInt(parameters[1]));
+            Staff staff = Staff.getById(Integer.parseInt(parameters[1].trim()));
             if(null == staff) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             if(!"".equals(parameters[0].trim())) staff.setHotel(Hotel.getById(Integer.parseInt(parameters[0].trim())));
             if(!"".equals(parameters[2].trim())) staff.setAge(Integer.parseInt(parameters[2].trim()));
@@ -426,7 +426,7 @@ public class Console {
         // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 5);
-            Customer customer = Customer.getById(Integer.parseInt(parameters[0]));
+            Customer customer = Customer.getById(Integer.parseInt(parameters[0].trim()));
             if(null == customer) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             if(!"".equals(parameters[1].trim())) customer.setName(parameters[1].trim());
             if(!"".equals(parameters[2].trim())) customer.setPhone(parameters[2].trim());
@@ -451,7 +451,7 @@ public class Console {
         // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 6);
-            Account account = Account.getById(Integer.parseInt(parameters[0]));
+            Account account = Account.getById(Integer.parseInt(parameters[0].trim()));
             if(null == account) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             String payMethod = parameters[3].trim().toLowerCase();
             if(!"".equals(parameters[1].trim())) account.setCustomer(Customer.getById(Integer.parseInt(parameters[1].trim())));
@@ -479,7 +479,7 @@ public class Console {
         // Accept parameter and execute
         try {
             String[] parameters = br.readLine().split(",", 4);
-            Service service = Service.getById(Integer.parseInt(parameters[0]));
+            Service service = Service.getById(Integer.parseInt(parameters[0].trim()));
             if(null == service) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             if(!"".equals(parameters[1].trim())) service.setServiceType(parameters[1].trim());
             if(!"".equals(parameters[2].trim())) service.setCheckIn(CheckIn.getById(Integer.parseInt(parameters[2].trim())));

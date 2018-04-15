@@ -86,7 +86,7 @@ public class CheckIn extends Model {
             String checkOutTime = resultSet.getString("checkout_time");
             if(null != checkOutTime) checkIn.setCheckOutTime(LocalDateTime.parse(checkOutTime.split("\\.")[0], DATE_TIME_FORMATTER));
             checkIn.setNumGuest(resultSet.getInt("guest_num"));
-            if(null != resultSet.getObject("amount")) checkIn.setAmount((float) resultSet.getInt("amount"));
+            if(null != resultSet.getObject("amount")) checkIn.setAmount(resultSet.getFloat("amount"));
             else checkIn.setAmount(null);
             resultSet.close();
             checkIn.setRoom(Room.getById(hotelId, roomNumber));
