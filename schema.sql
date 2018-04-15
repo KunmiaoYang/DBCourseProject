@@ -63,7 +63,7 @@ CREATE TABLE checkin (
   guest_num INT NOT NULL,
   customer_id INT NOT NULL,
   account_id INT,
-  amount INT NULL,
+  amount FLOAT NULL,
   PRIMARY KEY (checkin_id),
   CHECK(guest_num>=0 AND amount>=0));
 
