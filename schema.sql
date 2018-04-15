@@ -108,6 +108,41 @@ ADD FOREIGN KEY (account_id) REFERENCES account(account_id);
 
 SET foreign_key_checks=1;
 
+delimiter //
+
+CREATE TRIGGER trig_staff_check BEFORE INSERT ON staff 
+FOR EACH ROW 
+BEGIN 
+IF NEW.age<=0 THEN 
+SIGNAL SQLSTATE '45000' 
+SET MESSAGE_TEXT='age violation';
+END IF; 
+END
+//
+
+CREATE TRIGGER trig_staff_check BEFORE INSERT ON room_type 
+FOR EACH ROW 
+BEGIN 
+IF (NEW.max_occupancy<=0 AND NEW.nightly_rate<0) THEN 
+SIGNAL SQLSTATE '45000' 
+SET MESSAGE_TEXT='value violation';
+END IF; 
+END
+//
+
+CREATE TRIGGER trig_staff_check BEFORE INSERT ON service_type 
+FOR EACH ROW 
+BEGIN 
+IF NEW.fee<0 THEN 
+SIGNAL SQLSTATE '45000' 
+SET MESSAGE_TEXT='fee violation';
+END IF; 
+END
+//
+
+
+delimiter ;
+
 
 #done
 INSERT INTO hotel(hotel_id,hotel_name, city, street_address, hotel_phone_number) VALUES 
