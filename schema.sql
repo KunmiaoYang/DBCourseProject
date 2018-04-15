@@ -110,6 +110,8 @@ SET foreign_key_checks=1;
 
 delimiter //
 
+DROP TRIGGER trig_staff_check;
+
 CREATE TRIGGER trig_staff_check BEFORE INSERT ON staff 
 FOR EACH ROW 
 BEGIN 
@@ -120,7 +122,9 @@ END IF;
 END
 //
 
-CREATE TRIGGER trig_staff_check BEFORE INSERT ON room_type 
+DROP TRIGGER trig_room_type_check;
+
+CREATE TRIGGER trig_room_type_check BEFORE INSERT ON room_type 
 FOR EACH ROW 
 BEGIN 
 IF (NEW.max_occupancy<=0 AND NEW.nightly_rate<0) THEN 
@@ -130,7 +134,9 @@ END IF;
 END
 //
 
-CREATE TRIGGER trig_staff_check BEFORE INSERT ON service_type 
+DROP TRIGGER trig_service_type_check;
+
+CREATE TRIGGER trig_service_type_check BEFORE INSERT ON service_type 
 FOR EACH ROW 
 BEGIN 
 IF NEW.fee<0 THEN 
