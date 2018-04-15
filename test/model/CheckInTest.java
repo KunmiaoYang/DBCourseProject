@@ -151,7 +151,7 @@ public class CheckInTest {
     }
 
     @Test
-    public void testCheckOut() throws Exception {
+    public void testCalculateBill() throws Exception {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
@@ -159,7 +159,6 @@ public class CheckInTest {
         assertNotNull(staff);
         Room r = c.getRoom();
         assertNotNull(r);
-        assertFalse(r.availability);
         assertNull(c.getAmount());
         new Service("gyms", c, null);
         new Service("dry cleaning", c, staff);
@@ -168,13 +167,12 @@ public class CheckInTest {
         c.update();
         c.calculateBill();
         Float amount = c.getAmount();
-        assertTrue(r.availability);
         assertNotNull(amount);
         assertEquals(451, amount.intValue());
     }
 
     @Test
-    public void testDiscountCheckOut() throws Exception {
+    public void testDiscountCalculateBill() throws Exception {
         initObject();
         CheckIn c = CheckIn.getById(123);
         assertNotNull(c);
@@ -182,7 +180,6 @@ public class CheckInTest {
         assertNotNull(staff);
         Room r = c.getRoom();
         assertNotNull(r);
-        assertFalse(r.availability);
         c.setAccount(Account.getById(2));
         c.update();
         assertNull(c.getAmount());
@@ -191,7 +188,6 @@ public class CheckInTest {
         c.update();
         c.calculateBill();
         Float amount = c.getAmount();
-        assertTrue(r.availability);
         assertNotNull(amount);
         assertEquals(399, amount.intValue());
     }

@@ -97,8 +97,6 @@ public class Constants {
     public static final String CMD_REPORT = "report";
     public static final String CMD_UPDATE = "update";
     public static final String CMD_DELETE = "delete";
-    public static final String CMD_ASSIGN = "assign";
-    public static final String CMD_RELEASE = "release";
 
     public static final String CMD_OBJECT_HOTEL = "hotel";
     public static final String CMD_OBJECT_ROOM = "room";
@@ -108,6 +106,8 @@ public class Constants {
     public static final String CMD_OBJECT_SERVICE = "service";
     public static final String CMD_OBJECT_BILL = "bill";
     public static final String CMD_OBJECT_REVENUE = "revenue";
+    public static final String CMD_OBJECT_CHECK_IN = "in";
+    public static final String CMD_OBJECT_CHECK_OUT = "out";
     public static final String CMD_OBJECT_OCCUPY = "occupy";
 
     public static final String CMD_ATTR_HOTEL = "hotel";

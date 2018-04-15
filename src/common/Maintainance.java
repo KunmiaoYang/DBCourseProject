@@ -30,20 +30,20 @@ public class Maintainance {
         checkIn.calculateBill();
         return new Bill(checkIn, checkIn.getAmount(), checkIn.getAllServices());
     }
-    public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws SQLException {
+    public static CheckIn checkIn(LocalDateTime checkInTime, Customer customer, Account account, Room room, int numGuest) throws Exception {
         Connection connection = Model.getDatabase().getConnection();
         try {
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
+            CheckIn checkIn = new CheckIn(checkInTime, customer, account, room, numGuest);
             InfoProcess.assignRoom(room, numGuest);
-            return new CheckIn(checkInTime, customer, account, room, numGuest);
+            return checkIn;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             connection.rollback();
+            throw e;
         } finally {
             connection.setAutoCommit(true);
         }
-        return null;
     }
     public static Bill checkOut(CheckIn checkIn, Account account) throws Exception {
         if(checkIn.getRoom().isAvailability()) throw new Exception(ERROR_CHECK_OUT_AVAILABLE_ROOM);

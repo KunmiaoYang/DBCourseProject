@@ -8,6 +8,7 @@ import model.*;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -179,8 +180,8 @@ public class Console {
     }
     //endregion
 
-    //region Read
-    private void read(String[] args) {
+    //region Check
+    private void check(String[] args) {
         if(args.length < 2) {
             out.println(ERROR_CONSOLE_INVALID_PARAMETER);
             return;
@@ -190,6 +191,8 @@ public class Console {
             case CMD_OBJECT_ROOM: readRoom(args); return;
             case CMD_OBJECT_BILL: readBill(args); return;
             case CMD_OBJECT_REVENUE: readRevenue(args); return;
+            case CMD_OBJECT_CHECK_IN: checkInRoom(args); break;
+            case CMD_OBJECT_CHECK_OUT: checkOutRoom(args); break;
             default: out.println(ERROR_CONSOLE_INVALID_PARAMETER);
         }
     }
@@ -222,6 +225,52 @@ public class Console {
             out.println(PROMPT_STATUS_FAIL);
         }
 
+    }
+
+    private void checkInRoom(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_KEY);
+        out.println(PROMPT_PARAMETER_ASSIGN);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 5);
+            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            Customer customer = Customer.getById(Integer.parseInt(parameters[3]));
+            if(null == room || null == customer) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            Account account = ("".equals(parameters[4].trim())) ?
+                    customer.getDefaultAccount() : Account.getById(Integer.parseInt(parameters[4]));
+            if(null == account) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            Maintainance.checkIn(LocalDateTime.now(), customer, account, room, Integer.parseInt(parameters[2]));
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
+    }
+
+    private void checkOutRoom(String[] args) {
+        // Print parameter detail
+        out.println(PROMPT_KEY);
+        out.println(PROMPT_PARAMETER_KEY_ROOM);
+        out.print(CONSOLE_MARKER_PARAMETER);
+
+        // Accept further parameter and execute
+        try {
+            String[] parameters = br.readLine().split(",", 2);
+            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            CheckIn checkIn = CheckIn.getByRoom(room);
+            if(null == checkIn) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
+            Maintainance.checkOut(checkIn, null);
+            out.println(PROMPT_STATUS_SUCCESS);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
+            out.println(PROMPT_STATUS_FAIL);
+        }
     }
 
     private void readBill(String[] args) {
@@ -693,46 +742,6 @@ public class Console {
     }
     //endregion
 
-    private void assignRoom(String[] args) {
-        // Print parameter detail
-        out.println(PROMPT_KEY);
-        out.println(PROMPT_PARAMETER_ASSIGN);
-        out.print(CONSOLE_MARKER_PARAMETER);
-
-        // Accept further parameter and execute
-        try {
-            String[] parameters = br.readLine().split(",", 3);
-            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
-            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
-            InfoProcess.assignRoom(room, Integer.parseInt(parameters[2]));
-            out.println(PROMPT_STATUS_SUCCESS);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
-            out.println(PROMPT_STATUS_FAIL);
-        }
-    }
-
-    private void releaseRoom(String[] args) {
-        // Print parameter detail
-        out.println(PROMPT_KEY);
-        out.println(PROMPT_PARAMETER_KEY_ROOM);
-        out.print(CONSOLE_MARKER_PARAMETER);
-
-        // Accept further parameter and execute
-        try {
-            String[] parameters = br.readLine().split(",", 2);
-            Room room = Room.getById(Integer.parseInt(parameters[0]), Integer.parseInt(parameters[1]));
-            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
-            InfoProcess.releaseRoom(room);
-            out.println(PROMPT_STATUS_SUCCESS);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            out.println(ERROR_CONSOLE_INVALID_PARAMETER);
-            out.println(PROMPT_STATUS_FAIL);
-        }
-    }
-
     private void launch() throws IOException {
         menu(new String[0]);
         out.print(CONSOLE_MARKER_COMMAND);
@@ -741,11 +750,9 @@ public class Console {
             switch (command[0].toLowerCase()) {
                 case CMD_MENU: menu(command); break;
                 case CMD_CREATE: create(command); break;
-                case CMD_CHECK: read(command); break;
+                case CMD_CHECK: check(command); break;
                 case CMD_UPDATE: update(command); break;
                 case CMD_DELETE: delete(command); break;
-                case CMD_ASSIGN: assignRoom(command); break;
-                case CMD_RELEASE: releaseRoom(command); break;
                 case CMD_REPORT: report(command); break;
                 // TODO: add commands
                 default: menu(new String[0]);

@@ -122,10 +122,6 @@ public class CheckIn extends Model {
      * Calculate bill amount
      */
     public void calculateBill() throws SQLException {
-        // Reset room availability
-        room.setAvailability(true);
-        room.update();
-
         // Calculate and set the amount
         try {
             ResultSet resultSet = database.getStatement().executeQuery(
