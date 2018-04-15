@@ -155,7 +155,6 @@ public class ReportTest {
 
         CheckIn checkIn = CheckIn.getById(2);
         assertNotNull(checkIn);
-        checkIn.calculateBill();
 
         float revenue = getRevenue(hotel1, LocalDate.of(2017, 5, 10), LocalDate.of(2017, 5, 13));
         assertEquals(915, revenue, 0.0001);
