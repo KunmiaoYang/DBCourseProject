@@ -19,7 +19,8 @@ CREATE TABLE staff (
   hotel_id INT NOT NULL,
   phone VARCHAR(45) NULL,
   address VARCHAR(45) NULL,
-  PRIMARY KEY (staff_id));
+  PRIMARY KEY (staff_id),
+  CHECK(age>=0));
     
 DROP TABLE IF EXISTS room;
 CREATE TABLE room (
@@ -34,7 +35,8 @@ CREATE TABLE room_type (
   room_type VARCHAR(45) NOT NULL,
   max_occupancy INT NOT NULL,
   nightly_rate INT NOT NULL,
-  PRIMARY KEY (room_type));
+  PRIMARY KEY (room_type),
+  CHECK(max_occupancy>=0 AND nightly_rate>=0));
 
 DROP TABLE IF EXISTS service_record ;
 CREATE TABLE service_record (
@@ -48,7 +50,8 @@ DROP TABLE IF EXISTS service_type ;
 CREATE TABLE service_type (
   service_type VARCHAR(45) NOT NULL,
   fee INT NOT NULL,
-  PRIMARY KEY (service_type));
+  PRIMARY KEY (service_type),
+  CHECK(fee>=0));
 
 DROP TABLE IF EXISTS checkin;
 CREATE TABLE checkin (
@@ -61,7 +64,8 @@ CREATE TABLE checkin (
   customer_id INT NOT NULL,
   account_id INT,
   amount INT NULL,
-  PRIMARY KEY (checkin_id));
+  PRIMARY KEY (checkin_id),
+  CHECK(guest_num>=0 AND amount>=0));
 
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer (
