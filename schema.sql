@@ -110,7 +110,7 @@ SET foreign_key_checks=1;
 
 delimiter //
 
-DROP TRIGGER trig_staff_check;
+DROP TRIGGER IF EXISTS trig_staff_check;
 
 CREATE TRIGGER trig_staff_check BEFORE INSERT ON staff 
 FOR EACH ROW 
@@ -122,7 +122,7 @@ END IF;
 END
 //
 
-DROP TRIGGER trig_room_type_check;
+DROP TRIGGER IF EXISTS trig_room_type_check;
 
 CREATE TRIGGER trig_room_type_check BEFORE INSERT ON room_type 
 FOR EACH ROW 
@@ -134,7 +134,7 @@ END IF;
 END
 //
 
-DROP TRIGGER trig_service_type_check;
+DROP TRIGGER IF EXISTS trig_service_type_check;
 
 CREATE TRIGGER trig_service_type_check BEFORE INSERT ON service_type 
 FOR EACH ROW 
