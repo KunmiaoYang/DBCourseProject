@@ -165,11 +165,13 @@ public class Console {
 
         // Accept parameter and execute
         try {
-            String[] parameters = br.readLine().split(",", 3);
-            Staff staff = "".equals(parameters[2].trim())?
-                    null : Staff.getById(Integer.parseInt(parameters[2].trim()));
+            String[] parameters = br.readLine().split(",", 4);
+            Staff staff = "".equals(parameters[3].trim())?
+                    null : Staff.getById(Integer.parseInt(parameters[3].trim()));
+            Room room = Room.getById(Integer.parseInt(parameters[1]), Integer.parseInt(parameters[2]));
+            if(null == room) throw new Exception(ERROR_CONSOLE_INVALID_KEY);
             Maintainance.createService(parameters[0].trim()                     // Service Type
-                    , CheckIn.getById(Integer.parseInt(parameters[1].trim()))   // Check in
+                    , CheckIn.getByRoom(room)                                   // Check in
                     , staff);                                                   // Staff
             out.println(PROMPT_STATUS_SUCCESS);
         } catch (Exception e) {
